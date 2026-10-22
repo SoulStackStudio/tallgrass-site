@@ -1,0 +1,69 @@
+[
+ {
+  "version": "0.51.1",
+  "date": "2026-10-23",
+  "title": "Raid Eggs every raid",
+  "notes": [
+   "Raid Eggs on every raid, won or lost: 1 to 5 by YOUR damage (1 egg, 2 from 10,000, 3 from 20,000, 4 from 35,000 and 5 from 50,000).",
+   "Master Ball: any raid where your damage reaches 50,000 gives a Master Ball, every time, win or lose. Look for it on the last step of the egg meter.",
+   "Beat the boss with your party for the bonus on top: money, Rare Candy, its Candy, Bounty Tickets (and a Mega raid’s Mega Stone).",
+   "Day Care: a new filter shows only Pokémon that can breed with the one already in the pen (thanks Kredithai!).",
+   "Wonder Trade is now always with real players: throw a Pokémon into the pool and get a random one back from another trainer.",
+   "Wonder Trade: spare Shinies and other specials can go in the pool now (you always keep your best one).",
+   "Mart: you can now sell spare Poké Balls and Great Balls (thanks foxelina!).",
+   "Settings: new Hardware acceleration switch, turn it off if the game crashes on your PC.",
+   "Updates now download by themselves in the background, so you’re always on the latest version."
+  ],
+  "changes": [
+   "Shiny, Umbral and Prismana Pokémon are rarer now (3× in the wild, 2× from eggs), so every one you find really means something.",
+   "One 5★ raid boss at a time: a new Legendary or Mythical every day at midnight UTC.",
+   "Every raid uses its Raid Pass, won or lost (you always get eggs now). Still 10 free passes a day.",
+   "The top-damage Master Ball is gone: the 50,000 damage Master Ball replaces it.",
+   "Wild legendaries are rarer now: Raids are the place to farm them."
+  ],
+  "fixes": [
+   "Raid results: each Pokémon’s damage now adds up to Your damage exactly.",
+   "Starting raids back to back could replay the same fight: every raid is a new battle now.",
+   "Fixed the game only showing part of the screen on some multi-monitor setups.",
+   "Fixed speed skip sometimes crediting fewer fights than it skipped (thanks angethemessager!).",
+   "Classic layout: the folded window now reaches every screen edge, and edges are less magnetic (a maximised window drags back easily).",
+   "Catch rules: New looks now means looks you’ve never had, so it stops catching Pokémon you evolved or traded away."
+  ]
+ },
+ {
+  "version": "0.51.0",
+  "date": "2026-10-23",
+  "title": "Raids 2.0",
+  "notes": [
+   "Raids 2.0: your own raid boss with its own HP. Eight bosses are up at once: four 5★ Legendaries, a 5★ Mythical, a Mega raid, a 3★ and a 1★ raid. Each stays for 2 days, then the next one takes its spot, and every boss comes back later.",
+   "Raid Passes: 10 free every day (new ones at midnight UTC). One pass = one raid. If your party doesn’t beat the boss, you get the pass back.",
+   "Raid party: you + 3 helpers. Trainers near your level who raided the same boss lately help with their own squad (friends first), and a Raid Ranger fills any empty spot. Beat the boss’s HP together inside one battle to win.",
+   "Raid Eggs: win and you get 1 to 5 Raid Eggs by YOUR damage: 1 egg, 2 from 10,000, 3 from 20,000, 4 from 35,000 and 5 from 50,000. Every egg rolls its own Shiny, Umbral, Prismana and perfect IV chances. Hatch them at the Day Care.",
+   "Mega raids: the first win while one is up gives you its Mega Stone. Top damage in your party (with a helper) on your first win of the day gives a Master Ball.",
+   "The raid screen shows how many eggs your squad should get and whether your party can win, and the battle shows your helpers and your egg meter live."
+  ],
+  "changes": [
+   "Wild Legendaries are rarer now (about a third as common) and only roam once you have 3 badges: Raids are the place to farm them.",
+   "Raid Eggs of the same kind stack in the Egg basket, so lots of them never crowd it.",
+   "Raid Eggs you earned in the old shared raids can still be claimed on the raid screen."
+  ],
+  "fixes": [
+   "Classic layout: the folded window now reaches every screen edge, and edges are less magnetic (a maximised window drags back easily).",
+   "Catch rules: New looks now means looks you’ve never had, so it stops catching Pokémon you evolved or traded away."
+  ]
+ },
+ {
+  "version": "0.50.0",
+  "date": "2026-10-22",
+  "title": "Trainers board and close-ups",
+  "notes": [
+   "Trainers board: Friends → Trainers lists every trainer in Tallgrass. Search anyone by name or friend code and sort by catches, finds, hatches, Shinies, Umbrals, Prismanas, perfect IVs, Pokédex or playtime. Click a trainer for their full card.",
+   "Where they came from: a Pokémon’s Summary tab shows where and when it was caught (island, date, ball), the egg it hatched from, and its original trainer if it came from a trade.",
+   "Close-ups: click a Pokémon’s picture in Party & PC for a big view, with front/back and pixel/HD."
+  ],
+  "changes": [
+   "The Pokémon picture in Party & PC is bigger when there’s room."
+  ],
+  "fixes": []
+ }
+]

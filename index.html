@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tallgrass: the idle Pokémon hunt for your desktop</title>
+<meta name="description" content="Tallgrass is a free, fan-made idle Pokémon hunt that lives in the corner of your screen. Your trainer walks the route, battles and catches while you work, watch or play. Raids, Day Care eggs, trades with friends and 1,025 Pokémon to find.">
+<meta name="theme-color" content="#14161f">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/icon-32.png">
+<link rel="apple-touch-icon" href="assets/img/icon-180.png">
+<link rel="manifest" href="site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tallgrass">
+<meta property="og:title" content="Tallgrass: the idle Pokémon hunt for your desktop">
+<meta property="og:description" content="Your trainer hunts, battles and catches in the corner of your screen while you do anything else. Free, fan-made, Windows + Mac.">
+<meta property="og:image" content="https://soulstackstudio.github.io/tallgrass-site/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Tallgrass: a trainer and Eevee walking a pixel route, with the game's raid screen">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tallgrass: the idle Pokémon hunt for your desktop">
+<meta name="twitter:description" content="Your trainer hunts, battles and catches in the corner of your screen while you do anything else. Free, fan-made, Windows + Mac.">
+<meta name="twitter:image" content="https://soulstackstudio.github.io/tallgrass-site/assets/img/og.png">
+<link rel="preload" href="assets/fonts/luckiestguy.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/fredoka.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script src="js/config.js" defer></script>
+<script src="js/app.js" defer></script>
+</head>
+<body class="is-gated">
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- =================== THE GATE (PIN / closed / loading) =================== -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="scene scene--gate" aria-hidden="true">
+    <div class="sky"><div class="stars"></div><div class="moon"></div></div>
+    <div class="layer hills"><div class="strip"></div></div>
+    <div class="layer trees"><div class="strip"></div></div>
+    <div class="layer ground"><div class="strip"></div></div>
+    <div class="layer grass grass--back"><div class="strip"></div></div>
+    <div class="layer grass grass--front"><div class="strip"></div></div>
+  </div>
+
+  <div class="gate__card" id="gate-card">
+    <div class="wordmark wordmark--sm" aria-hidden="true"><span>Tall</span><span>grass</span></div>
+
+    <!-- loading -->
+    <section class="gate__pane" data-pane="loading">
+      <h1 class="sr-only" id="gate-title">Tallgrass</h1>
+      <div class="ball ball--idle" aria-hidden="true"></div>
+      <p class="gate__lead">Walking up the route&hellip;</p>
+    </section>
+
+    <!-- PIN -->
+    <section class="gate__pane" data-pane="pin" hidden>
+      <div class="ballstage" aria-hidden="true">
+        <div class="ball" id="ball"></div>
+        <div class="ball-stars" id="ball-stars"></div>
+        <div class="ball-shadow"></div>
+      </div>
+      <h2 class="gate__title">A wild <em>Tallgrass</em> appeared!</h2>
+      <p class="gate__lead">Enter the trainer PIN to catch it.</p>
+      <form class="pin" id="pin-form" autocomplete="off" novalidate>
+        <label class="sr-only" for="pin-input">Trainer PIN, 4 to 6 digits</label>
+        <div class="pin__slots" id="pin-slots">
+          <input id="pin-input" class="pin__input" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" enterkeyhint="go" spellcheck="false" aria-describedby="pin-msg">
+          <span></span><span></span><span></span><span></span><span class="opt"></span><span class="opt"></span>
+        </div>
+        <button class="btn btn--yellow btn--big" id="pin-go" type="submit">
+          <img class="px" src="assets/sprites/poke_ball.png" alt="" width="16" height="32" style="--w:16;--h:16;--f:0"> Throw!
+        </button>
+      </form>
+      <p class="pin__msg" id="pin-msg" role="status" aria-live="polite"></p>
+      <p class="gate__help">No PIN? Ask a friend, or grab it in the <a class="link" data-discord href="#">Glowbugs TV Discord</a>.</p>
+    </section>
+
+    <!-- closed -->
+    <section class="gate__pane" data-pane="closed" hidden>
+      <div class="snorlax" aria-hidden="true">
+        <img class="px" src="assets/sprites/snorlax.png" alt="" width="64" height="64">
+        <span class="zzz"><i>Z</i><i>z</i><i>z</i></span>
+      </div>
+      <h2 class="gate__title">A Snorlax is blocking the path!</h2>
+      <p class="gate__lead" id="closed-msg">Downloads are closed right now. Pop into the Discord and we'll let you know the moment the route opens again.</p>
+      <a class="btn btn--discord btn--big" data-discord href="#">
+        <img class="px" src="assets/icons/friends.png" alt="" width="22" height="12" style="--w:22;--h:12"> Join the Discord
+      </a>
+    </section>
+
+    <!-- can't reach -->
+    <section class="gate__pane" data-pane="error" hidden>
+      <div class="ball ball--idle" aria-hidden="true"></div>
+      <h2 class="gate__title">The route's foggy</h2>
+      <p class="gate__lead">Couldn't reach Tallgrass just now. Check your connection and try again.</p>
+      <button class="btn btn--yellow btn--big" id="retry" type="button">Try again</button>
+    </section>
+  </div>
+  <div class="gate__curtain" aria-hidden="true"></div>
+</div>
+
+<!-- =================== THE SITE =================== -->
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#top" aria-label="Tallgrass home">
+    <img src="assets/img/icon-192.png" alt="" width="32" height="32">
+    <span class="wordmark wordmark--nav"><span>Tall</span><span>grass</span></span>
+  </a>
+  <nav class="nav__links" aria-label="Sections">
+    <a href="#trailer">Trailer</a>
+    <a href="#features">Features</a>
+    <a href="#notes">Patch notes</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <a class="btn btn--yellow btn--sm" href="#download">
+    <img class="px" src="assets/icons/download.png" alt="" width="11" height="11" style="--w:11;--h:11"> Download
+  </a>
+</header>
+
+<main id="main">
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="scene scene--hero" aria-hidden="true">
+      <div class="sky"><div class="stars"></div><div class="moon"></div></div>
+      <div class="layer hills"><div class="strip"></div></div>
+      <div class="layer trees"><div class="strip"></div></div>
+      <div class="layer ground"><div class="strip"></div></div>
+      <div class="walkers">
+        <div class="buddy"></div>
+        <div class="trainer"></div>
+      </div>
+      <div class="wilds" id="wilds"></div>
+      <div class="layer grass grass--back"><div class="strip"></div></div>
+      <div class="layer grass grass--front"><div class="strip"></div></div>
+    </div>
+
+    <div class="hero__inner">
+      <div class="hero__copy">
+        <p class="kicker"><img class="px" src="assets/icons/grass.png" alt="" width="16" height="14" style="--w:16;--h:14"> Free &middot; Windows &amp; Mac &middot; <span data-ver>v0.51.1</span></p>
+        <h1 class="wordmark wordmark--hero"><span>Tall</span><span>grass</span></h1>
+        <p class="hero__tag">The Pokémon hunt that plays itself in the corner of your screen.</p>
+        <p class="hero__sub">Your trainer walks the route, battles and catches on their own while you work, watch or game. Look over now and then for Shiny call-outs, Raid bosses and a basket full of eggs.</p>
+        <div class="hero__cta">
+          <a class="btn btn--yellow btn--big" href="#download">
+            <img class="px" src="assets/icons/download.png" alt="" width="11" height="11" style="--w:11;--h:11"> Download free
+          </a>
+          <a class="btn btn--ghost btn--big" href="#trailer" id="hero-trailer">
+            <img class="px" src="assets/icons/play.png" alt="" width="11" height="11" style="--w:11;--h:11"> Watch the trailer
+          </a>
+        </div>
+      </div>
+
+      <figure class="phone" id="trailer">
+        <div class="phone__screen">
+          <video id="trailer-video" src="assets/video/trailer.mp4" poster="assets/video/trailer-poster.webp" preload="none" playsinline controls width="720" height="1280" aria-label="Tallgrass trailer"></video>
+          <button class="phone__play" id="trailer-play" type="button" aria-label="Play the trailer">
+            <span class="phone__playicon"></span><span>Play trailer</span>
+          </button>
+        </div>
+        <figcaption class="sr-only">Tallgrass trailer, 54 seconds</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats" aria-label="Tallgrass at a glance">
+    <div class="stat"><img class="px" src="assets/icons/pokedex.png" alt="" width="22" height="22" style="--w:22;--h:22"><b>1,025</b><span>Pokémon to find</span></div>
+    <div class="stat"><img class="px" src="assets/icons/grass.png" alt="" width="16" height="14" style="--w:16;--h:14"><b>8</b><span>islands to roam</span></div>
+    <div class="stat"><span class="stat__trio"><img class="px" src="assets/icons/star.png" alt="" width="10" height="9" style="--w:10;--h:9"><img class="px" src="assets/icons/umbral.png" alt="" width="11" height="11" style="--w:11;--h:11"><img class="px" src="assets/icons/prismana.png" alt="" width="11" height="11" style="--w:11;--h:11"></span><b>3</b><span>kinds of rare</span></div>
+    <div class="stat"><img class="px" src="assets/icons/download.png" alt="" width="11" height="11" style="--w:11;--h:11"><b>&infin;</b><span>free updates, automatic</span></div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section how" aria-labelledby="how-title">
+    <h2 class="h2" id="how-title">Set it, forget it, <em>find something amazing</em></h2>
+    <ol class="how__steps">
+      <li class="panel">
+        <span class="how__num">1</span>
+        <img class="px how__icon" src="assets/icons/mini.png" alt="" width="16" height="16" style="--w:16;--h:16">
+        <h3>Park it on your screen</h3>
+        <p>Open the big window, or shrink it to a little route strip above your taskbar. It stays out of your way.</p>
+      </li>
+      <li class="panel">
+        <span class="how__num">2</span>
+        <img class="px how__icon" src="assets/icons/clock.png" alt="" width="16" height="16" style="--w:16;--h:16">
+        <h3>It hunts for you</h3>
+        <p>Your trainer battles and throws balls on their own. Wild Pokémon even stack up while the game is closed, so coming back means a big Rush.</p>
+      </li>
+      <li class="panel">
+        <span class="how__num">3</span>
+        <img class="px how__icon" src="assets/icons/exclaim.png" alt="" width="5" height="10" style="--w:5;--h:10">
+        <h3>Look over for the good bits</h3>
+        <p>A Shiny call-out rings, a Raid is ready, 20 eggs want hatching. Jump in, then get back to your day.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" id="features" aria-labelledby="features-title">
+    <h2 class="h2" id="features-title">Everything in the tall grass</h2>
+    <div class="features">
+      <article class="feature panel feature--wide">
+        <img class="px feature__icon" src="assets/icons/raid_pass.png" alt="" width="16" height="12" style="--w:16;--h:12">
+        <h3>Raids 2.0</h3>
+        <p>Eight bosses up at once: Legendaries, a Mythical, a Mega raid and more. Bring your best squad, team up with real trainers near your level, and earn Raid Eggs on every raid, won or lost. Hit 50,000 damage for a Master Ball.</p>
+        <span class="tag tag--new">New in 0.51</span>
+      </article>
+      <article class="feature panel">
+        <img class="px feature__icon" src="assets/icons/pokedex.png" alt="" width="22" height="22" style="--w:22;--h:22">
+        <h3>All 1,025 Pokémon</h3>
+        <p>Every species across eight islands, plus Megas, regional forms and Alphas. Fill the Pokédex and your stamp book.</p>
+      </article>
+      <article class="feature panel">
+        <img class="px feature__icon" src="assets/icons/prismana.png" alt="" width="11" height="11" style="--w:11;--h:11">
+        <h3>Shiny, Umbral, Prismana</h3>
+        <p>Three tiers of rare. The shadowy Umbral and the rainbow Prismana are ones you won't find anywhere else.</p>
+      </article>
+      <article class="feature panel">
+        <img class="px feature__icon" src="assets/icons/egg.png" alt="" width="12" height="15" style="--w:12;--h:15">
+        <h3>Day Care breeding</h3>
+        <p>Pair them up, fill the egg basket and hatch for perfect IVs and rare looks. A Hearth Pokémon keeps the eggs warm.</p>
+      </article>
+      <article class="feature panel">
+        <img class="px feature__icon" src="assets/icons/friends.png" alt="" width="22" height="12" style="--w:22;--h:12">
+        <h3>Friends &amp; trades</h3>
+        <p>Add friends by code, trade one-on-one, or throw a spare into Wonder Trade and get a surprise from another trainer.</p>
+      </article>
+      <article class="feature panel">
+        <img class="px feature__icon" src="assets/icons/heart.png" alt="" width="16" height="16" style="--w:16;--h:16">
+        <h3>Buddy Pokémon</h3>
+        <p>Pick a Buddy to walk behind you on the route. It finds Candy and items, and earns hearts all the way to Best Buddy.</p>
+      </article>
+      <article class="feature panel">
+        <img class="px feature__icon" src="assets/icons/ribbon_champion_gold.png" alt="" width="16" height="16" style="--w:16;--h:16">
+        <h3>Trainer profiles</h3>
+        <p>Your trainer card with ribbons, titles and favourite Pokémon. Climb the Trainers board and visit your friends' PCs.</p>
+      </article>
+      <article class="feature panel">
+        <img class="px feature__icon" src="assets/icons/grid.png" alt="" width="11" height="11" style="--w:11;--h:11">
+        <h3>Classic or Modular</h3>
+        <p>One big window with tabs, or floating windows you place anywhere. Switch any time in Settings.</p>
+      </article>
+      <article class="feature panel">
+        <img class="px feature__icon" src="assets/icons/download.png" alt="" width="11" height="11" style="--w:11;--h:11">
+        <h3>Updates itself</h3>
+        <p>New versions download in the background. Download once and you're always on the latest.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- RARITY -->
+  <section class="section rarity" aria-labelledby="rare-title">
+    <h2 class="h2" id="rare-title">The three kinds of <em>rare</em></h2>
+    <div class="rarity__cards">
+      <figure class="rare rare--shiny">
+        <img src="assets/shots/hatch-shiny.webp" alt="A Shiny Eevee hatching from an egg" width="560" height="318" loading="lazy">
+        <figcaption><img class="px" src="assets/icons/star.png" alt="" width="10" height="9" style="--w:10;--h:9"><b>Shiny</b><span>The classic. A different colour, a call-out you can't miss.</span></figcaption>
+      </figure>
+      <figure class="rare rare--umbral">
+        <img src="assets/shots/hatch-umbral.webp" alt="An Umbral Gible hatching from an egg" width="560" height="318" loading="lazy">
+        <figcaption><img class="px" src="assets/icons/umbral.png" alt="" width="11" height="11" style="--w:11;--h:11"><b>Umbral</b><span>Shadow-dark and rarer than Shiny.</span></figcaption>
+      </figure>
+      <figure class="rare rare--prismana">
+        <img src="assets/shots/hatch-prismana.webp" alt="A Prismana Dratini hatching from an egg" width="560" height="318" loading="lazy">
+        <figcaption><img class="px" src="assets/icons/prismana.png" alt="" width="11" height="11" style="--w:11;--h:11"><b>Prismana</b><span>Rainbow-bright and the rarest of all.</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="section" id="gallery" aria-labelledby="gallery-title">
+    <h2 class="h2" id="gallery-title">Take a look around</h2>
+    <div class="gallery" id="gallery-grid">
+      <button class="shot shot--wide" data-full="assets/shots/raids-1600.webp" data-cap="Raids 2.0 in the Classic layout: pick a boss, build a squad, see your expected damage.">
+        <img src="assets/shots/raids-800.webp" alt="The Raids screen in the Classic layout" width="800" height="454" loading="lazy"><span>Raids 2.0</span></button>
+      <button class="shot" data-full="assets/shots/battle-1600.webp" data-cap="A raid battle with helpers. Modular windows float on your desktop over the route strip.">
+        <img src="assets/shots/battle-800.webp" alt="A raid battle against Pawmot" width="800" height="658" loading="lazy"><span>Raid battle</span></button>
+      <button class="shot" data-full="assets/shots/raid-won-1600.webp" data-cap="Raid won: your damage, the egg meter and a Master Ball.">
+        <img src="assets/shots/raid-won-800.webp" alt="Raid won screen against Palkia" width="800" height="658" loading="lazy"><span>Raid won</span></button>
+      <button class="shot" data-full="assets/shots/pc-1600.webp" data-cap="Party &amp; PC: search, filter and inspect every Pokémon you've caught.">
+        <img src="assets/shots/pc-800.webp" alt="Party and PC screen" width="800" height="565" loading="lazy"><span>Party &amp; PC</span></button>
+      <button class="shot shot--wide" data-full="assets/shots/daycare-1600.webp" data-cap="The Day Care: breeding pens, a basket of eggs and the Hearth.">
+        <img src="assets/shots/daycare-800.webp" alt="The Day Care with breeding pens and an egg basket" width="800" height="422" loading="lazy"><span>Day Care</span></button>
+      <button class="shot" data-full="assets/shots/trainer-1600.webp" data-cap="Your trainer card, ribbons and lifetime stats.">
+        <img src="assets/shots/trainer-800.webp" alt="Trainer card with ribbons" width="800" height="565" loading="lazy"><span>Trainer card</span></button>
+      <button class="shot" data-full="assets/shots/stamps-1600.webp" data-cap="The stamp book: one page per island, a stamp for every find.">
+        <img src="assets/shots/stamps-800.webp" alt="The stamp book" width="800" height="499" loading="lazy"><span>Stamp book</span></button>
+      <button class="shot" data-full="assets/shots/game-corner-1600.webp" data-cap="The Game Corner: capsules full of trainer styles and decorations.">
+        <img src="assets/shots/game-corner-800.webp" alt="The Game Corner capsule machine" width="800" height="627" loading="lazy"><span>Game Corner</span></button>
+      <button class="shot shot--wide" data-full="assets/shots/wonder-1600.webp" data-cap="Wonder Trade: send a spare, get a surprise from another trainer.">
+        <img src="assets/shots/wonder-800.webp" alt="Wonder Trade screen" width="800" height="448" loading="lazy"><span>Wonder Trade</span></button>
+    </div>
+  </section>
+
+  <!-- PATCH NOTES -->
+  <section class="section" id="notes" aria-labelledby="notes-title">
+    <h2 class="h2" id="notes-title">What's new</h2>
+    <div class="notes panel" id="notes-panel">
+      <div class="notes__head">
+        <img class="px" src="assets/icons/folder.png" alt="" width="11" height="11" style="--w:11;--h:11">
+        <h3 id="notes-heading">Patch notes</h3>
+        <div class="notes__versions" id="notes-versions" role="tablist" aria-label="Version"></div>
+      </div>
+      <div class="notes__body" id="notes-body">
+        <p class="muted">Loading the latest notes&hellip;</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section class="section download" id="download" aria-labelledby="dl-title">
+    <h2 class="h2" id="dl-title">Download Tallgrass</h2>
+    <p class="download__sub">Free, no account needed. <span id="dl-version">Version 0.51.1</span>. It updates itself after this.</p>
+    <p class="download__phone" id="phone-note" hidden>
+      <img class="px" src="assets/icons/warn.png" alt="" width="13" height="12" style="--w:13;--h:12">
+      You're on a phone. Tallgrass is a Windows and Mac game, so open this page on your computer to download it.
+    </p>
+    <div class="dl">
+      <article class="dl__card panel" id="dl-win" data-os="win">
+        <span class="dl__rec">Recommended for you</span>
+        <div class="dl__os"><span class="oslogo oslogo--win" aria-hidden="true"><i></i><i></i><i></i><i></i></span><h3>Windows</h3></div>
+        <p class="dl__meta"><span data-win-size>169 MB</span> &middot; Windows 10 or 11 &middot; zip</p>
+        <a class="btn btn--yellow btn--big btn--block" id="dl-win-btn" href="#" rel="noopener">
+          <img class="px" src="assets/icons/download.png" alt="" width="11" height="11" style="--w:11;--h:11"> Download for Windows
+        </a>
+        <ol class="steps">
+          <li>Unzip it anywhere you like (right-click &rarr; <b>Extract All</b>).</li>
+          <li>Open the folder and double-click <b>Tallgrass.exe</b>. No install needed.</li>
+          <li>If Windows says "Windows protected your PC", click <b>More info</b> &rarr; <b>Run anyway</b>. It's just because the game isn't from a big publisher.</li>
+        </ol>
+      </article>
+      <article class="dl__card panel" id="dl-mac" data-os="mac">
+        <span class="dl__rec">Recommended for you</span>
+        <div class="dl__os"><span class="oslogo oslogo--mac" aria-hidden="true"></span><h3>Mac</h3></div>
+        <p class="dl__meta"><span data-mac-size>142 MB</span> &middot; Apple Silicon (M1&ndash;M4) &middot; zip</p>
+        <a class="btn btn--yellow btn--big btn--block" id="dl-mac-btn" href="#" rel="noopener">
+          <img class="px" src="assets/icons/download.png" alt="" width="11" height="11" style="--w:11;--h:11"> Download for Mac
+        </a>
+        <ol class="steps">
+          <li>Unzip, then drag <b>Tallgrass.app</b> into <b>Applications</b>.</li>
+          <li>It's not from the App Store, so the first time only, open <b>Terminal</b>, paste this and press Enter:
+            <div class="cmd"><code id="mac-cmd">xattr -cr /Applications/Tallgrass.app &amp;&amp; codesign --force --deep --sign - /Applications/Tallgrass.app</code><button class="cmd__copy" type="button" id="mac-copy">Copy</button></div>
+          </li>
+          <li>Open Tallgrass from Applications. After that it opens normally.</li>
+        </ol>
+      </article>
+    </div>
+    <p class="download__foot muted">Your save lives on your computer and carries over every update. Wild Pokémon keep stacking up while the game is closed.</p>
+  </section>
+
+  <!-- DISCORD -->
+  <section class="section">
+    <div class="discord panel">
+      <div class="discord__art" aria-hidden="true">
+        <img class="px" src="assets/sprites/pikachu.png" alt="" width="64" height="64">
+        <img class="px" src="assets/sprites/eevee.png" alt="" width="64" height="64">
+      </div>
+      <div class="discord__copy">
+        <h2 class="h2 h2--left">Hunt with the crew</h2>
+        <p>Show off your Prismanas, find trade partners, raid together, and tell us what to build next. Half the features in the patch notes came from players' ideas.</p>
+      </div>
+      <a class="btn btn--discord btn--big" data-discord href="#">
+        <img class="px" src="assets/icons/friends.png" alt="" width="22" height="12" style="--w:22;--h:12"> Join the Discord
+      </a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq" id="faq" aria-labelledby="faq-title">
+    <h2 class="h2" id="faq-title">Questions</h2>
+    <div class="faq__list">
+      <details class="panel"><summary>Is it really free?</summary>
+        <p>Yes. Tallgrass is a free fan project, with no ads and nothing to buy. Everything in the game is earned by playing.</p></details>
+      <details class="panel"><summary>Windows says it's from an unknown publisher. Is that OK?</summary>
+        <p>That warning shows for any game that isn't signed by a big company. Click <b>More info</b> then <b>Run anyway</b>. You only need to do it once.</p></details>
+      <details class="panel"><summary>Will it slow my PC down?</summary>
+        <p>It's made to idle all day next to whatever you're doing. If it ever crashes or stutters, turn off <b>Hardware acceleration</b> in Settings.</p></details>
+      <details class="panel"><summary>Does it need the internet?</summary>
+        <p>The hunt works offline. Friends, trades, Wonder Trade, Raid helpers and the Trainers board need you online.</p></details>
+      <details class="panel"><summary>How do updates work?</summary>
+        <p>New versions download in the background while you play. When one is ready you'll see it up top, and one click restarts you on it. Your save carries over.</p></details>
+      <details class="panel"><summary>Where is my save?</summary>
+        <p>On your computer. On Windows it's <code>%APPDATA%\Glowbugs Hunt\save.json</code>. Back it up any time.</p></details>
+      <details class="panel"><summary>Intel Mac, Linux, phone?</summary>
+        <p>Right now it's Windows 10/11 and Apple Silicon Macs (M1 and newer). Ask in the Discord if you'd like another platform.</p></details>
+      <details class="panel"><summary>Is this an official Pokémon game?</summary>
+        <p>No. It's a fan-made game, free and not for sale, and not affiliated with Nintendo, Game Freak, Creatures or The Pokémon Company.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__route" aria-hidden="true"></div>
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <img src="assets/img/icon-192.png" alt="" width="40" height="40">
+      <span class="wordmark wordmark--nav"><span>Tall</span><span>grass</span></span>
+    </div>
+    <p>A free, fan-made game by Glowbugs TV. Not affiliated with, endorsed or sponsored by Nintendo, Game Freak, Creatures Inc. or The Pokémon Company. Pokémon and all related names and sprites are trademarks of their respective owners.</p>
+    <p class="footer__links"><a data-discord href="#">Discord</a> &middot; <a href="#download">Download</a> &middot; <a href="#faq">FAQ</a></p>
+  </div>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Screenshot">
+  <form method="dialog"><button class="lightbox__close" aria-label="Close">
+    <img class="px" src="assets/icons/cross.png" alt="" width="11" height="11" style="--w:11;--h:11;transform:rotate(45deg)"></button></form>
+  <img id="lightbox-img" alt="">
+  <p id="lightbox-cap"></p>
+</dialog>
+
+<noscript><div class="noscript">Tallgrass needs JavaScript turned on to show the download.</div></noscript>
+</body>
+</html>
