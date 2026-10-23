@@ -1,5 +1,31 @@
 [
  {
+  "version": "0.51.2",
+  "date": "2026-10-23",
+  "notes": [
+   "Settings: a Close game button that saves and quits.",
+   "Mart: sell spare held items, role items, evolution items and Mega Stones from Bag & Sell (thanks foxelina and hypergon!). Held and evolution items sell for a quarter of the Mart price, Mega Stones for $2,000 and legendary items (Red Orb, Mewtwonite…) for $5,000. Items your Pokémon are holding stay on them, and big sales ask first.",
+   "Branching evolutions are your pick now: Eevee, Tyrogue, Wurmple, Slowpoke, Kirlia, Snorunt, Nincada and the rest never evolve on their own. When one is ready, the PC shows its arrow and the Evolution tab lets you choose."
+  ],
+  "changes": [
+   "Online is much lighter on the server: the game checks in less often when you’re away from it, so friends, trades and raids stay up for everyone.",
+   "Raids need the online connection now, so every raid is saved on the server. If raids are taking a break, the raid screen says so."
+  ],
+  "fixes": [
+   "Raids start much faster, and show a loading screen instead of looking stuck.",
+   "Friends: the PC and gift buttons no longer vanish when the server is busy, and a friend’s PC shows a loading screen (and Try again) instead of staying empty.",
+   "Update required: the card now links our Discord.",
+   "Islands: sleeping Legends now say what wakes them. Since 0.51 wild Legendaries need 3 Gym badges as well as the island’s own, and the card only said “beat the Gym” (thanks kiki, doctor and truffle!).",
+   "Battle Tower and trainer battles: the type badge now changes with each Pokémon the foe sends out (a Dratini showed the first Pokémon’s Steel / Dragon, thanks legragon!).",
+   "PC search: “mega” now finds your Mega Stone holders only, not every Pokémon that knows Mega Drain or Megahorn (thanks iwrecked22!).",
+   "Classic layout: clicking your Buddy in the scene plays with it instead of grabbing the window (thanks hypergon!).",
+   "Settings: in the Classic layout the strip Size is greyed out with a note (Classic has no strip: drag the window’s edges to size it, thanks sato!).",
+   "Friends: adding a friend while the server is busy now says so, instead of “No trainer with that code”.",
+   "Night Market: a Pokémon from a newer version of the game now waits safely in your market mail until you update.",
+   "Eggs: a hatched baby waiting for its reveal no longer levels up or evolves before you see it (bred Eevees came out as Espeon or Umbreon)."
+  ]
+ },
+ {
   "version": "0.51.1",
   "date": "2026-10-23",
   "title": "Raid Eggs every raid",
@@ -51,19 +77,5 @@
    "Classic layout: the folded window now reaches every screen edge, and edges are less magnetic (a maximised window drags back easily).",
    "Catch rules: New looks now means looks you’ve never had, so it stops catching Pokémon you evolved or traded away."
   ]
- },
- {
-  "version": "0.50.0",
-  "date": "2026-10-22",
-  "title": "Trainers board and close-ups",
-  "notes": [
-   "Trainers board: Friends → Trainers lists every trainer in Tallgrass. Search anyone by name or friend code and sort by catches, finds, hatches, Shinies, Umbrals, Prismanas, perfect IVs, Pokédex or playtime. Click a trainer for their full card.",
-   "Where they came from: a Pokémon’s Summary tab shows where and when it was caught (island, date, ball), the egg it hatched from, and its original trainer if it came from a trade.",
-   "Close-ups: click a Pokémon’s picture in Party & PC for a big view, with front/back and pixel/HD."
-  ],
-  "changes": [
-   "The Pokémon picture in Party & PC is bigger when there’s room."
-  ],
-  "fixes": []
  }
 ]
