@@ -1,5 +1,38 @@
 [
  {
+  "version": "0.53.1",
+  "date": "2026-10-24",
+  "title": "Buddies, candies and fixes",
+  "notes": [
+   "Family Candy: every evolution family has its own Candy now, a wrapped sweet in that family’s colours, Pokémon GO style. You’ll see it in the Lab, on power-ups and when your Buddy finds some (thanks biomega9!).",
+   "Compare before you swap: with a full party, a Pokémon’s card has Swap in… Pick who makes room and see both side by side: every stat as it fights, the total and IVs, with the difference on each line (thanks jordanh_!).",
+   "Poké Ball auto-sell: Catch rules → Auto-sell spare balls. Pick how many of each ball to keep; balls you find above that sell at once for the Mart’s buy-back price. What you buy at the Mart always stays, and it never sells below your auto-buy number (thanks funloock!).",
+   "See how many trainers are online right now (Friends tab).",
+   "Classic layout: when the banner has room, your whole team walks behind your trainer, Buddy first (thanks funloock!).",
+   "Re-trading: a Pokémon you got in a trade can be traded again 14 days after it arrived (it used to be once ever). Trade levels, the daily limit and the fee still apply. Its card says when it can go again (thanks steevenss!)."
+  ],
+  "changes": [
+   "Buddy hearts are per Pokémon now, like Pokémon GO: each Pokémon earns up to 6 hearts a day. You can swap Buddy 3 times a day (going back to one you had today is free); the pips on Change show what’s left (thanks para82!).",
+   "Gift pop-ups: never more than one at a time (“3 gifts waiting”), none once you’ve opened today’s gifts (the Inbox says when they open again), Later means no gift pop-ups until tomorrow, and a gift never pops up twice.",
+   "Holding an item: the PC and party filter (Show → Holding an item, now near the top) and the search words item / holding also find Pokémon holding a Mega Stone or orb (thanks para82!).",
+   "The same message never stacks on screen: it shows once.",
+   "What you missed only shows after you were really away: your whole PC idle for 15 minutes (or the screen locked), not while you were busy on another monitor. Once per time away (thanks to everyone who reported it!)."
+  ],
+  "fixes": [
+   "Pokémon past their evolution level now evolve on their own everywhere: when caught, out of the Day Care and in the PC (Shiny, Umbral, Prismana and Perfect ones still wait for you) (thanks sgblaziken and .__.kiki.__.!).",
+   "The money on the top bar drops the moment you buy something (it used to wait for the fight on screen to finish).",
+   "Wonder Trade: the Wonder Trade it! button is always on screen now, even in a small window (the card shrinks to fit) (thanks hypergon1370!).",
+   "Professor’s Lab: the Pokémon no longer shake across the screen at some window sizes (thanks iwrecked22!).",
+   "Slots: the bet you picked is clearly lit now (thanks sato0007!).",
+   "Modular layout: an opened panel sits over the Poké Ball menu again, and the menu tucks in when a panel opens.",
+   "Always on top off: when the game is behind other windows, one click on the tray icon brings it straight back (it used to hide it first) (thanks lordyamoshi!).",
+   "Login with Discord: the rest of your screen stays clickable while the browser login is open, and the game steps back so the browser can come to the front (thanks _saltbae_!).",
+   "Founders who had the game open during the launch reset see their Founder pick without restarting.",
+   "An account that started fresh after the launch reset could stay locked out of gifts and trades: it unlocks by itself now.",
+   "Testers: linking Discord never quietly starts a new account any more. If your old guest login is gone from this PC, the login card says so before anything happens and shows your old account’s id, so the team can move your Founder reward and friends."
+  ]
+ },
+ {
   "version": "0.53.0",
   "date": "2026-10-24",
   "title": "Welcome to the full launch!",
@@ -39,43 +72,6 @@
    "Tower: the end of a run now opens over the Tower page, with your recruits on pages that fit and the Claim button always in view, so you can always pick the one to take home (thanks erkumo!).",
    "PC: long names no longer push the nickname button, gender and favourite star off the card on smaller screens. The name shortens with “…” and shows in full when you point at it (thanks erkumo!).",
    "Eggs: the egg call and the badge on the menu go away the moment you hatch, instead of staying until the battle on the strip finished (thanks sato0007!)."
-  ]
- },
- {
-  "version": "0.52.0",
-  "date": "2026-10-23",
-  "title": "Raid parties",
-  "notes": [
-   "Raid parties: invite up to 3 friends from the raid screen. Once they join you stay together until someone leaves, so you can sit and raid all day.",
-   "One boss, shared HP: every member adds their share of the boss’s HP (the old HP bar is back, one segment each). Everyone hits once a round; a round ends when everyone has hit, or after 5 minutes. The HP carries over, so a raid never runs away. Solo works too: it just takes more hits.",
-   "A Raid Pass is only used when the boss is beaten. Raid Eggs come from your own damage, and the top damager in a party wins the crown, an extra Raid Egg and more money.",
-   "Buy extra Raid Passes with Glimmer (60 each, up to 10 a day). Still 10 free passes a day, and up to 20 raid bosses a day.",
-   "Log in with Discord: your online account (friend code, friends, gifts, raids) now belongs to your Discord, so it can’t get lost: log in again and your friend code and friends are still yours (your save stays on your PC, as before). Already playing? Link Discord once when the game asks (or Settings → Online → Link) and you keep everything.",
-   "Friends: Send all sends today’s gift to every friend who hasn’t had one from you yet, and Claim all in the Inbox opens every gift you can today in one go (thanks para82 and dumpling4516!).",
-   "Always on top is a setting now: unpin Tallgrass (Settings, or the little pin on the strip) and other windows can come in front of it. Click the game or its tray icon to bring it back (thanks dumpling4516 and jgstx!).",
-   "PC: sort by Rarest first (Prismana, Umbral, Shiny, Alpha, perfect IVs, then Legendary to common). In More → Auto-sort, the new pin keeps your boxes sorted, so new catches slot straight into place (thanks ouhgo and mantissamy!).",
-   "Catch list: add whole types and rarities, not just single Pokémon. “Every Psychic type” or “every Alpha” gets caught even when you own it already (thanks ouhgo!).",
-   "Master Balls: “my own rules” lets you combine conditions, like Legendary AND Prismana, Legendary AND Umbral, or a Legendary with 2 or more rarities (up to 3 rules, thanks oriannafarmgodgold!)."
-  ],
-  "changes": [
-   "Raid Rangers and helper ghosts are gone: your raid party is your real friends now.",
-   "Miss 2 rounds in a row and you leave the raid party, so nobody is kept waiting on a friend who stepped away.",
-   "Playing online starts with a Discord login now (no more guest accounts). Settings → Online shows who you’re logged in as, with Log out.",
-   "Day Care: while you’re away (game closed, hidden or no clicks for 10 minutes) it stops at 25 waiting eggs, plus 2 for each Basket lantern you own (up to 31). The egg call shows FULL; hatch some and it carries on. Raid, gift and event eggs never count and never stop.",
-   "Day Care: the odds tooltips (costume breeding too) now show the chance per egg, the bonus from the parents and about how long that takes on average (thanks sgblaziken!).",
-   "PC search: “mega” now shows every Pokémon that can Mega Evolve, with the ones holding their Mega Stone first. Moves like Mega Drain and Megahorn still don’t count; “megastone” shows only the holders (thanks iwrecked22!).",
-   "Battles play multi-turn moves like the real games: Rollout and Ice Ball keep rolling for 5 turns and get stronger every hit (twice as strong after Defense Curl); Outrage, Thrash, Petal Dance and Raging Fury rampage for 2–3 turns, then leave the user confused; Uproar lasts 3 turns and nobody can fall asleep; Skull Bash and Electro Shot raise their stat on the charging turn, and Electro Shot fires at once in the rain. Locked moves only use PP once. Raid battles fight exactly as before."
-  ],
-  "fixes": [
-   "A Task Manager close (or a slow start with Windows) could give you a brand-new online profile with a new friend code and no friends. Your login is now kept safely next to your save (thanks doctor_sex_defender and sgblaziken!).",
-   "If your save was ever online with a different account, the game now asks before going online instead of making a second profile.",
-   "Pokémon could disappear from the Pokédex after the game loaded an older backup of your save. Once caught, always counted (thanks terodon!).",
-   "Stamp book: blacked-out Pokémon no longer flicker when you turn a page.",
-   "Hatching lots of eggs at once now fits on screen (and pages if needed): the Nice! button is always there.",
-   "Classic layout: the full evolution line now fits in the Evolution tab, no scrolling.",
-   "Rollout now keeps going and gets stronger when you take over a battle yourself (it was a single weak hit, reported in the Battle Tower, thanks sato0007!).",
-   "Clicking the game with Discord, a browser or another app open on the same monitor: the strip and windows now always take the click (they could miss it until you moved the other app away, thanks dumpling4516 and jgstx!).",
-   "Catch rules: New species only catches species missing from your Pokédex; ones you evolved, traded or sent away stay registered (thanks sato0007!)."
   ]
  }
 ]
