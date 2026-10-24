@@ -102,7 +102,7 @@
     const order = L.order.map((region) => ({ region, k: r() })).sort((a, b) => a.k - b.k).map((x) => x.region)
     const list = order.map((region) => {
       const P = L.pools[region]
-      const pool = [...P.common, ...P.uncommon, ...P.uncommon, ...P.rare, ...P.rare, ...P.rare].filter((s) => !L.myth.includes(s))
+      const pool = [...P.common, ...P.uncommon, ...P.uncommon, ...P.rare, ...P.rare, ...P.rare].filter((s) => !L.myth.includes(s) && !(L.skip || []).includes(s)) // v0.53.3: the game's ADDED_0533 stay out of outbreaks
       return { region, slug: pool[Math.floor(r() * pool.length)] || P.common[0] }
     })
     const cos = costumeOutbreak(L, w)
