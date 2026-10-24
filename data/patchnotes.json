@@ -1,5 +1,29 @@
 [
  {
+  "version": "0.53.3",
+  "date": "2026-10-24",
+  "title": "Hotfix: online, Wonder Trade and new finds",
+  "notes": [
+   "Pokémon that couldn’t be found anywhere now live on the islands: Scatterbug and Flabébé (Town), Spewpa and Furfrou (Beach), Vivillon, Minior, Alcremie and Florges (Sky), and Ogerpon as a Legendary on Pyre."
+  ],
+  "changes": [
+   "The online count and your friends’ online dots are back and much lighter on the server. They update every couple of minutes.",
+   "Wonder Trade never sends you away empty-handed: when nothing in the pool fits you yet, your Pokémon goes in anyway and a Pokémon comes back to your PC as soon as another trainer trades (you get a note).",
+   "Tower: Give up asks first, so a misclick can’t end your run (thanks ziemia and sim0100!).",
+   "Favourite Pokémon (the star) never go to the Professor: not by auto-send, Send duplicates or a multi-select, and they can’t be released or Wonder Traded until you unfavourite them (thanks Racx!)."
+  ],
+  "fixes": [
+   "Wonder Trade said “Nothing for you in the pool right now” for everyone since the launch (thanks iwrecked22 and erkumo!).",
+   "Events badge: stamps and bounties waiting to be collected show on their tab again, and opening Events goes straight to them (thanks sato0007!).",
+   "Windows on a second monitor stay there: after a restart, or a monitor that was asleep, they come back on the monitor you left them on instead of the main one (thanks zeckyboy!).",
+   "Log in with Discord: while the login card is up, the rest of your screen (and your other monitors) stays clickable, so the browser login can always be finished (thanks akacmr and ahlizah!).",
+   "Use all monitors no longer hides the Windows taskbar (thanks showahei!).",
+   "Wild Pokémon can drop held items again (they had stopped since the launch).",
+   "Wattrel and 8 other Pokémon no longer show a giant front sprite in battle (thanks BigBoss!).",
+   "Connection: a busy server no longer makes every game retry over and over."
+  ]
+ },
+ {
   "version": "0.53.2",
   "date": "2026-10-24",
   "title": "Codes, events and auto-teams",
@@ -48,26 +72,5 @@
    "An account that started fresh after the launch reset could stay locked out of gifts and trades: it unlocks by itself now.",
    "Testers: linking Discord never quietly starts a new account any more. If your old guest login is gone from this PC, the login card says so before anything happens and shows your old account’s id, so the team can move your Founder reward and friends."
   ]
- },
- {
-  "version": "0.53.0",
-  "date": "2026-10-24",
-  "title": "Welcome to the full launch!",
-  "notes": [
-   "Welcome to the full launch! Tallgrass is open to everyone in the Glowbugs Discord now. Log in with Discord (testers: link Discord to the account you already play on, so you keep your friends, friend code and Founder reward).",
-   "Every trainer starts a fresh adventure today: your name, friend code and friends stay, and your old save is kept in your save folder as save-pre-launch.json.",
-   "Every tester is a Founder: a Founder badge next to your name everywhere (friends, leaderboards, raid parties, trades), and a thank-you gift: pick any of the 27 starters as a Prismana with perfect IVs, the Founder Ribbon and your Founder number. Founder Pokémon stay with their trainer forever. Thank you for testing!",
-   "Also new since 0.51 (details below): raid parties with friends, the Discord login, Send all / Claim all gifts, PC Rarest first + Keep sorted, Catch list types and rarities, your own Master Ball rules, multi-turn moves, What you missed, the Ready to evolve filter, and lots of fixes."
-  ],
-  "changes": [
-   "A longer adventure: every island now has more bosses to beat before its Gym (6, 20, 50, 100, 140, 170, 200 and 220) and Pokémon level up a little slower, so each island gets its time to shine. The first islands are still quick; the full journey to the 8th badge is now about a week and a half of play.",
-   "Trade levels: trading grows with your friendship. New friends trade Common and Uncommon Pokémon (Trade Lv1). Lv2 adds Rare ones after 3 days as friends and 3 gifts opened between you; Lv3 adds Shiny, Alpha and Perfect after 7 days and 10 gifts; Lv4 adds Legendary, Mythical, Umbral and Prismana after 14 days and 20 gifts. Gifts both ways count. The hearts next to a friend’s name show your level: point at them to see what unlocks next.",
-   "Trading: 5 trades a day each (live trades and accepted offers), and you can receive a Pokémon once you’ve reached the island it lives on. Every trade has a small fee for the Pokémon you get, by rarity: $1,000, $10,000, $50,000 or $250,000. Locked Pokémon show a heart padlock with the level they need.",
-   "Wonder Trade and the Night Market bring you Pokémon from islands you’ve reached; Legendary, Mythical, Umbral and Prismana ones from your 5th badge.",
-   "Master Balls are rarer, so each one feels special: fewer from achievements and the Stamp book, wild Legendaries drop them less often, a Prismana sent to the Professor now gives a Big Nugget, and raids give at most one a day (still for a 50,000 hit).",
-   "Raids: everyone who helps still gets their Raid Eggs. The defeat bonus ($5,000, 2 Rare Candy, Candy and tickets) comes with 2,000 or more damage that counted.",
-   "Money and Rare Candy: Amulet Coin goes up to level 10, power-ups cost twice as much money (a good use for late-game savings), Legendaries pay less at the Professor, and Rare Candy drops a bit less often (every 30 Pokémon sent to the Professor = a Rare Candy)."
-  ],
-  "fixes": []
  }
 ]
