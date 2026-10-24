@@ -1,5 +1,38 @@
 [
  {
+  "version": "0.54.0",
+  "date": "2026-10-25",
+  "title": "Megas, breeding and terrains",
+  "notes": [
+   "Mega Evolution info: a \"Mega\" chip with its stone on the Pokémon card, the Hunt cards and in the PC (filter: Can Mega Evolve). Pokémon whose evolution can Mega Evolve say which one.",
+   "Day Care: both parents’ IVs side by side (green = higher than the other parent), and right-click a parent to open its full card.",
+   "Ditto knows Transform, and a Ditto with Imposter copies the foe the moment it comes in.",
+   "Terrains: Electric, Grassy, Psychic and Misty Surge (and Hadron Engine, Quark Drive, Seed Sower, Surge Surfer) now work in every battle except raids.",
+   "Catch rules: a Never send list of species (every copy stays), Living dex (your best one of each species stops evolving on its own) and Use evolution items (stones in your Bag are used by themselves). All off until you turn them on.",
+   "A Shiny, Void or Prismatic nanny hatches eggs a little faster (10%, 15%, 20%)."
+  ],
+  "changes": [
+   "Guarded now works like Sturdy: your Pokémon hangs on at 1 HP and still gets its move that turn.",
+   "Giant bosses that have no Gigantamax form are now called Dynamax; the Gigantamax look is for the real ones.",
+   "A Pokémon cries when you open its card. Natures show on the stats: the raised one green, the lowered one red.",
+   "PC filters: Evolves into a new Pokédex entry, Can still evolve, Fully evolved, Can Mega Evolve.",
+   "Move Tutor: show only Physical, Special or Status moves, or sort by them.",
+   "The big-spend question has a \"Don’t show again\" box (the bell next to your money in the Mart brings it back).",
+   "Your panel layout and monitor settings now stay put through updates.",
+   "Catch rules: Auto-evolve can be switched off. Pokémon then wait as Ready to evolve until you press Evolve.",
+   "Night Market: change your price without taking the listing down."
+  ],
+  "fixes": [
+   "When your last Pokémon and the foe faint on the same turn, the game now says so and your team rests at the Pokémon Center.",
+   "The Blue and Pink Wonder Card backgrounds had each other’s names.",
+   "The login card now shows the steps when Discord says your email isn’t verified.",
+   "Your Founder badge now shows on your own Trainer card too.",
+   "Players with lots of friends no longer drop offline.",
+   "Send all gifts now reaches every friend and tells you how many went out.",
+   "Thanks to dll5700 and iwrecked22 for the ideas, and to everyone who reported bugs in the Discord!"
+  ]
+ },
+ {
   "version": "0.53.6",
   "date": "2026-10-24",
   "title": "New names, steadier start",
@@ -33,27 +66,6 @@
    "If the game crashes, it reloads by itself, starts in safe mode after repeated crashes, and loads your backup save if the save can’t be read. Details go to crash.log in the game’s data folder, so you can send it to us.",
    "Clear look: the top bar now shows and works wherever you point on the strip (it could disappear before you reached Rush or Interrupt).",
    "Thanks to sato0007, k.pachec0 and zeckyboy for the reports!"
-  ]
- },
- {
-  "version": "0.53.4",
-  "date": "2026-10-24",
-  "title": "Favourite friends, PC tools and battle fixes",
-  "notes": [
-   "Favourite friends: star a friend on the Friends list and they always sit at the top, online or not, in every sort and in the raid invite list (thanks foxelina!).",
-   "PC: “Apply to all boxes” in the wallpaper picker, and one-click HD or Pixel sprites for every Pokémon on the box bar (thanks sato0007!).",
-   "Friendship evolutions: a Pokémon that becomes your Good Buddy can take its friendship evolution right away, at any level (Lv 20 still works too).",
-   "Settings: “Taskbar button & Alt-Tab” gives Tallgrass a taskbar button and an Alt-Tab entry (Windows)."
-  ],
-  "changes": [
-   "Wonder Trade takes any Pokémon now, except favourites. Your only one of a species asks first.",
-   "Wonder Trades a day: 5, plus 1 for every Gym badge.",
-   "The PC always has an empty box waiting at the end: there’s no box limit.",
-   "The Professor now pays a flat $100 for common and $150 for uncommon Pokémon (rares, legendaries and specials unchanged), so catching everything no longer beats picking your catches."
-  ],
-  "fixes": [
-   "Held items work in battles you fight yourself, including Tower floors: Leftovers, Shell Bell, Life Orb, Rocky Helmet, Loaded Dice, Focus Sash, Metronome and Light Clay (thanks jerichiolol!).",
-   "Squad weather (Rain Dance, Sunny Day, Sandstorm, Snowscape and Leader weather) now says so when it starts in auto battles and the Tower, so you can see it working (thanks jerichiolol!)."
   ]
  }
 ]
