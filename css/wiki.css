@@ -215,6 +215,74 @@ a.ty:hover { filter: brightness(1.15); }
 .calc-odds b, .calc-stats b { font-size: 20px; }
 .calc-odds .any { border-color: rgba(255, 216, 74, .5); }
 
+/* breeding calculator (Day Care page) */
+.w-calc [hidden] { display: none !important; }
+.spr--umbral.spr--prismana { filter: saturate(.2) brightness(.8) contrast(1.4) sepia(.6) hue-rotate(250deg) saturate(3.4) drop-shadow(0 0 4px rgba(170, 100, 255, .9)) drop-shadow(0 0 6px rgba(107, 224, 255, .7)); animation: prismv 6s linear infinite; }
+@keyframes prismv { 50% { filter: saturate(.2) brightness(.8) contrast(1.4) sepia(.6) hue-rotate(320deg) saturate(3.4) drop-shadow(0 0 4px rgba(255, 120, 200, .9)) drop-shadow(0 0 6px rgba(170, 100, 255, .7)); } }
+@media (prefers-reduced-motion: reduce) { .spr--umbral.spr--prismana { animation: none; } }
+.bc { display: grid; gap: 12px; }
+.bc .calc .w-in { width: 100%; min-width: 0; }
+.bc .calc label > span .calc-v { margin-left: 4px; }
+.bc-mode { display: flex; flex-wrap: wrap; gap: 6px; }
+.bc-seg, .bc-chip { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 10px; background: #181b27; border: 2px solid var(--line); color: var(--muted); font-weight: 600; font-size: 14px; cursor: pointer; user-select: none; }
+.bc-seg input, .bc-chip input, .bc-baby__one input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.bc-seg:focus-within, .bc-chip:focus-within, .bc-baby__one:focus-within { outline: 2px solid var(--lime); outline-offset: 2px; }
+.bc-seg.on { color: var(--ink); background: var(--lime); border-color: var(--lime); }
+.bc-seg .ic, .bc-chip .ic { height: 16px; image-rendering: pixelated; }
+.bc-chip { padding: 4px 9px; font-size: 13px; border-width: 1px; }
+.bc-chip.on { color: var(--text); border-color: var(--gold); background: rgba(255, 216, 74, .12); }
+.bc-chip--item.on { border-color: var(--lime); background: rgba(221, 243, 30, .1); }
+.bc-parents { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+.bc-par { margin: 0; min-width: 0; padding: 10px 12px 12px; border-radius: 12px; background: #181b27; border: 2px solid var(--line); display: grid; gap: 8px; }
+.bc-par legend { padding: 0 6px; font: 400 18px 'Luckiest Guy', sans-serif; letter-spacing: .03em; color: var(--gold); }
+.bc-par__top { display: flex; align-items: center; gap: 10px; }
+.bc-par__spr { flex: none; width: 64px; height: 64px; border-radius: 10px; background: #10121a; border: 1px solid var(--line); display: grid; place-items: center; }
+.bc-par__mon { flex: 1; min-width: 0; display: grid; gap: 4px; font-size: 13px; color: var(--muted); font-weight: 600; }
+.bc-par__mon .w-in { width: 100%; }
+.bc-chips, .bc-par__row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.bc-cos { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); font-weight: 600; }
+.bc-cos .w-in { max-width: 190px; }
+.bc-match { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; border: 2px solid; margin-bottom: 10px; }
+.bc-match.ok { border-color: rgba(123, 227, 138, .45); background: rgba(123, 227, 138, .08); }
+.bc-match.no { border-color: rgba(255, 122, 107, .5); background: rgba(255, 122, 107, .08); }
+.bc-match .ic { height: 20px; }
+.bc-baby { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.bc-baby > p { flex: 1 1 220px; margin: 0; }
+.bc-baby__one { position: relative; display: grid; justify-items: center; gap: 2px; min-width: 130px; max-width: 220px; padding: 8px 12px 10px; border-radius: 12px; background: radial-gradient(90% 80% at 50% 30%, rgba(221, 243, 30, .1), transparent 70%), #181b27; border: 2px solid var(--line); text-align: center; }
+.bc-baby__one > b { font: 400 20px 'Luckiest Guy', sans-serif; letter-spacing: .02em; }
+.bc-baby__one small { color: var(--muted); font-size: 12px; }
+.bc-baby__one em { font-style: normal; font-size: 12px; color: var(--gold); }
+.bc-baby__one.pick { cursor: pointer; }
+.bc-baby__one.on { border-color: var(--lime); }
+.bc-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.bc-tile { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 6px; padding: 9px 11px; border-radius: 10px; background: #181b27; border: 1px solid var(--line); }
+.bc-tile .ic { height: 16px; image-rendering: pixelated; }
+.bc-tile span { color: var(--muted); font-size: 13px; }
+.bc-tile b { grid-column: 1 / -1; font-size: 20px; font-variant-numeric: tabular-nums; }
+.bc-tile small { grid-column: 1 / -1; font-size: 13px; }
+.bc-tile em { grid-column: 1 / -1; font-style: normal; font-size: 12px; color: var(--muted); }
+.bc-tile.any { border-color: rgba(255, 216, 74, .5); }
+.bc-looks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.bc-look { display: grid; justify-items: center; gap: 1px; padding: 8px 6px 9px; border-radius: 10px; background: #11131c; border: 2px solid var(--line); text-align: center; line-height: 1.2; }
+.bc-look .spr { margin-bottom: 2px; }
+.bc-look span { font-size: 13px; font-weight: 700; }
+.bc-look b { font-size: 17px; font-variant-numeric: tabular-nums; }
+.bc-look small { font-size: 12px; color: var(--text); }
+.bc-look em { font-style: normal; font-size: 11px; color: var(--muted); }
+.bc-look.is-s { border-color: rgba(232, 176, 0, .55); }
+.bc-look.is-u { background: linear-gradient(180deg, rgba(138, 91, 208, .16), #11131c 70%); }
+.bc-look.is-p { box-shadow: inset 0 0 0 1px rgba(107, 224, 255, .45); }
+.bc-time { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.bc-time dt { display: flex; align-items: center; gap: 6px; }
+.bc-time dt .ic { height: 14px; }
+@media (max-width: 720px) {
+  .w-calc { padding: 12px; }
+  .bc-parents { grid-template-columns: 1fr; }
+  .bc-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bc-looks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bc-baby__one { min-width: 0; flex: 1 1 140px; }
+}
+
 /* live widgets */
 .wh-today { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 14px; margin: 18px 0 8px; }
 .lv-card { height: 100%; padding: 14px 16px; border-radius: 14px; background: radial-gradient(120% 140% at 0% 0%, rgba(162, 79, 125, .25), transparent 60%), #11131c; border: 2px solid var(--line); }

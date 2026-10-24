@@ -31,7 +31,7 @@
     const sheet = Math.floor(idx / S.per), at = idx % S.per
     const col = at % S.cols, row = Math.floor(at / S.cols)
     const url = `${ART}dex-${o.shiny ? 's-' : ''}${sheet}.webp`
-    const look = o.prismana ? ' spr--prismana' : o.umbral ? ' spr--umbral' : ''
+    const look = o.prismana && o.umbral ? ' spr--umbral spr--prismana' : o.prismana ? ' spr--prismana' : o.umbral ? ' spr--umbral' : ''
     return `<i class="spr${look}${o.cls ? ` ${o.cls}` : ''}" role="img" aria-label="${esc(o.alt || '')}" style="width:${size}px;height:${size}px;background-image:url('${url}');background-size:${S.cols * size}px auto;background-position:${-col * size}px ${-row * size}px"></i>`
   }
   function ispr(key, size = 24) {
@@ -191,7 +191,7 @@
     if (t.dataset.tfilter) refreshTable(t.dataset.tfilter)
     if (t.matches('[data-tg-amp]')) t.closest('.wk-main').classList.toggle('show-amp', t.checked)
     const calc = t.closest('.w-calc')
-    if (calc) runCalc(calc)
+    if (calc) runCalc(calc, t)
     if (t.closest('.dx-filters')) dexFilter()
     if (t.closest('.ab-tools')) abilitiesRefresh()
   }
@@ -293,7 +293,9 @@
     $$('a[data-page]', side).forEach((a) => a.classList.toggle('is-on', a.dataset.page === (parts[0] === 'pokemon' ? 'pokedex' : parts[0] === 'move' ? 'moves' : parts[0] === 'item' ? 'items' : parts[0] === 'ability' ? 'abilities' : parts[0] || '')))
     if (same && parts[0] === 'pokedex') { dexFromQuery(q); return }
     render(parts, q).then(() => {
-      if (!same) window.scrollTo({ top: Math.max(0, root.offsetTop - 70), behavior: 'auto' })
+      const at = q.get('at') && document.getElementById(q.get('at')) // #wiki/<page>?at=<heading id> (search / FAQ links to a section)
+      if (at) at.scrollIntoView({ block: 'start' })
+      else if (!same) window.scrollTo({ top: Math.max(0, root.offsetTop - 70), behavior: 'auto' })
       document.title = `${$('.wk-main h1')?.textContent || 'Wiki'} · Tallgrass Wiki`
     })
   }
@@ -747,11 +749,147 @@
         <label class="w-check"><input type="checkbox" name="perfect"> Perfect IVs</label>
         <label class="w-check"><input type="checkbox" name="alpha"> Alpha</label>
       </div><div class="calc-out"></div>`
-    }
+    } else if (k === 'breed') breedBuild(el)
     runCalc(el)
   }
-  function runCalc(el) {
-    const v = Object.fromEntries($$('[name]', el).map((i) => [i.name, i.type === 'checkbox' ? i.checked : i.value]))
+
+  // ---------------------------------------------------------------- Breeding calculator (Day Care page)
+  // Every number comes from TGCalc's breeding port (checked against the game's eggOdds / compat / nanny on every build)
+  const LOOKS3 = [['shiny', 'Shiny', 'star'], ['umbral', 'Void', 'umbral'], ['prismana', 'Prismatic', 'prismana']]
+  const lookLabel = (l) => [l.shiny && 'Shiny', l.umbral && 'Void', l.prismana && 'Prismatic'].filter(Boolean).join(' ') || 'Normal'
+  const pctA = (p) => (p >= 1 ? '100%' : p <= 0 ? '0%' : p >= 0.001 ? pctS(p, p >= 0.1 ? 1 : 2) : `${(p * 100).toFixed(Math.min(12, Math.ceil(-Math.log10(p * 100)) + 1)).replace(/0+$/, '')}%`)
+  const oneInA = (p) => (p >= 1 ? 'always' : p <= 0 ? 'never' : 1 / p < 10 ? `1 in ${+(1 / p).toFixed(2)}` : `1 in ${Math.round(1 / p).toLocaleString('en-US')}`)
+  const eggsA = (p, t) => { const e = C.eggsFor(p, t); return e === Infinity ? '–' : `${n(e)} egg${e === 1 ? '' : 's'}` }
+  const mins = (sec) => { const m = sec / 60; if (m < 1) return `${Math.max(1, Math.round(sec))}s`; if (m < 60) return `${+m.toFixed(m < 10 ? 1 : 0)} min`; const h = Math.floor(m / 60); return `${h}h ${String(Math.round(m % 60)).padStart(2, '0')}m` }
+  const breedRec = (m) => ({ s: m.s, fst: m.fst || m.s, t: m.t, bd: !!m.bd })
+  const costumesOf = (slug) => DEX.filter((x) => x.k === 'costume' && x.b === slug)
+  function breedBuild(el) {
+    const K = META.breed
+    const hw = Date.now() < K.halloweenEnd
+    if (!$('#dl-breed')) document.body.insertAdjacentHTML('beforeend', `<datalist id="dl-breed">${DEX.filter((m) => !m.k).map((m) => `<option value="${esc(m.nm)}">`).join('')}</datalist>`)
+    const par = (p, title, slug, on) => `<fieldset class="bc-par" data-par="${p}">
+        <legend>${title}</legend>
+        <div class="bc-par__top"><span class="bc-par__spr" data-pspr="${p}"></span>
+          <label class="bc-par__mon"><span>Species</span><input class="w-in" name="${p}_mon" list="dl-breed" value="${esc(BY.get(slug)?.nm || slug)}" placeholder="Search a Pokémon" autocomplete="off" aria-label="${title} species"></label></div>
+        <div class="bc-chips">${[...LOOKS3, ['perfect', 'Perfect', 'perfect'], ['alpha', 'Alpha', 'alpha']].map(([key, l, i2]) => `<label class="bc-chip${on.includes(key) ? ' on' : ''}"><input type="checkbox" name="${p}_${key}"${on.includes(key) ? ' checked' : ''}>${ic(i2)}<span>${l}</span></label>`).join('')}</div>
+        <div class="bc-par__row">
+          <label class="bc-cos" data-cos="${p}" hidden><span>Costume</span><select class="w-in" name="${p}_cos"></select></label>
+          <label class="bc-chip bc-chip--item"><input type="checkbox" name="${p}_knot">${ispr('destiny_knot', 20)}<span>Destiny Knot</span></label>
+        </div>
+      </fieldset>`
+    el.innerHTML = `<div class="bc">
+      <div class="bc-mode" role="radiogroup" aria-label="Egg">
+        <label class="bc-seg on"><input type="radio" name="mode" value="pair" checked>${ic('egg')}<span>Day Care pair</span></label>
+        <label class="bc-seg"><input type="radio" name="mode" value="cegg">${ic('fav')}<span>Costume Egg</span></label>
+      </div>
+      <div class="bc-parents">${par('a', 'Parent A', 'pikachu', ['shiny'])}${par('b', 'Parent B', 'ditto', ['umbral'])}</div>
+      <div class="bc-cegg calc" hidden><label>Costume <select class="w-in" name="cegg">${DEX.filter((m) => m.k === 'costume').map((m) => `<option value="${m.s}">${esc(m.nm)}</option>`).join('')}</select></label></div>
+      <div class="calc bc-opts">
+        <label>Your trainer rank <select class="w-in" name="rank">${META.ranks.map((r, i) => `<option value="${i}"${i === 4 ? ' selected' : ''}>${esc(r.name)} (${r.need}+ species)</option>`).join('')}</select></label>
+        <label><span>Shiny Charm <b class="calc-v" data-v="charm"></b></span><input type="range" name="charm" min="0" max="${META.charmMax}" value="0"></label>
+        <label>Odds event <select class="w-in" name="ev"><option value="1">None</option><option value="2">×2 Shiny event</option><option value="3">×3 Shiny event</option></select></label>
+        <label class="w-check bc-paironly"><input type="checkbox" name="islands"> Parents caught on different islands</label>
+      </div>
+      <div class="calc bc-opts bc-paironly">
+        <label>Egg warmer (Hearth / party) <select class="w-in" name="warm"><option value="1">None (×1)</option><option value="${K.warm.fire}">A Fire type (×${K.warm.fire})</option><option value="${K.warm.ability}">${esc(K.warm.abilities.join(' / '))} (×${K.warm.ability})</option></select></label>
+        <label><span>Sweet Scent <b class="calc-v" data-v="speed"></b></span><input type="range" name="speed" min="0" max="${K.encSecs.length - 1}" value="0"></label>
+        <label>Nanny <select class="w-in" name="nanny"><option value="">No nanny</option>${Object.keys(K.nanny).map((s) => `<option value="${s}">${esc(BY.get(s)?.nm || cap(s))} (${K.nanny[s]} min)</option>`).join('')}</select></label>
+        <label>Nanny's look <select class="w-in" name="nlook"><option value="">Normal</option>${K.nannyLook ? LOOKS3.map(([key, l]) => `<option value="${key}">${l} (−${Math.round((1 - K.nannyLook[key]) * 100)}%)</option>`).join('') : ''}</select></label>
+      </div>
+      </div><div class="calc-out"></div>
+      <p class="muted small">Per egg. Each look rolls on its own, so combinations multiply. ${hw ? `Until 1 Nov 2026 (UTC) a parent in a Halloween costume passes it on.` : 'Halloween costumes passed on until 1 Nov 2026 (UTC).'} The nanny only changes how fast eggs hatch, never what hatches.</p>`
+  }
+  function breedRun(el, v) {
+    const K = META.breed
+    const out = $('.calc-out', el)
+    const cegg = v.mode === 'cegg'
+    el.classList.toggle('bc--cegg', cegg)
+    $$('.bc-seg', el).forEach((s) => s.classList.toggle('on', $('input', s).checked))
+    $$('.bc-chip', el).forEach((s) => s.classList.toggle('on', $('input', s).checked))
+    $('.bc-parents', el).hidden = cegg
+    $('.bc-cegg', el).hidden = !cegg
+    $$('.bc-paironly', el).forEach((x) => { x.hidden = cegg })
+    const sv = $('[data-v="speed"]', el)
+    if (sv) sv.textContent = `Lv ${v.speed} · ${+K.encSecs[+v.speed || 0].toFixed(1)}s`
+    const hw = Date.now() < K.halloweenEnd
+    const boost = { shiny: +v.ev || 1, crystal: 1 }
+    const rank = +v.rank || 0, charm = +v.charm || 0
+    // the parents
+    const P = ['a', 'b'].map((p) => {
+      const m = monByName(v[`${p}_mon`])
+      const m2 = m && !m.k ? m : null
+      const box = $(`[data-cos="${p}"]`, el), sel = $('select', box)
+      const list = m2 ? costumesOf(m2.s) : []
+      if (sel.dataset.for !== (m2?.s || '')) {
+        sel.dataset.for = m2?.s || ''
+        sel.innerHTML = `<option value="">No costume</option>${list.map((c) => `<option value="${c.s}">${esc(c.nm)}${c.ce === 'halloween' ? ' (Halloween)' : ''}</option>`).join('')}`
+        sel.value = ''
+      }
+      box.hidden = !list.length
+      const cos = list.length ? sel.value : ''
+      const look = { shiny: !!v[`${p}_shiny`], umbral: !!v[`${p}_umbral`], prismana: !!v[`${p}_prismana`] }
+      const art = cos ? BY.idx.get(cos) : m2 ? BY.idx.get(m2.s) : -1
+      $(`[data-pspr="${p}"]`, el).innerHTML = spr(art, 64, { ...look, alt: m2?.nm || '' })
+      return m2 && { m: m2, cos, look, perfect: !!v[`${p}_perfect`], alpha: !!v[`${p}_alpha`], knot: !!v[`${p}_knot`] }
+    })
+    const tile = (i2, label, p, sub) => `<div class="bc-tile">${ic(i2)}<span>${label}</span><b>${pctA(p)}</b><small>${oneInA(p)}</small>${p > 0 && p < 1 ? `<em>50%: ${eggsA(p, 0.5)} · 90%: ${eggsA(p, 0.9)}</em>` : sub ? `<em>${sub}</em>` : ''}</div>`
+    const lookGrid = (L, art, nm) => `<div class="bc-looks">${L.list.map((x) => `<div class="bc-look${x.shiny ? ' is-s' : ''}${x.umbral ? ' is-u' : ''}${x.prismana ? ' is-p' : ''}">${spr(art, 64, { shiny: x.shiny, umbral: x.umbral, prismana: x.prismana, alt: `${lookLabel(x)} ${nm}` })}<span>${lookLabel(x)}</span><b>${pctA(x.p)}</b><small>${oneInA(x.p)}</small><em>${x.p >= 0.5 ? 'most eggs' : `90%: ${eggsA(x.p, 0.9)}`}</em></div>`).join('')}</div>`
+    const oddsHtml = (o, L) => `<div class="bc-tiles">${tile('star', 'Shiny', L.shiny)}${tile('umbral', 'Void', L.umbral)}${tile('prismana', 'Prismatic', L.prismana)}${tile('perfect', 'Perfect IVs', o.perfect, o.knot ? '×3 Destiny Knot' : '')}${tile('alpha', 'Alpha', o.alpha, o.alpha ? '' : cegg ? 'never from this egg' : 'needs an Alpha parent')}<div class="bc-tile any">${ic('burst')}<span>Any special look</span><b>${pctA(L.any)}</b><small>${oneInA(L.any)}</small>${L.any > 0 && L.any < 1 ? `<em>50%: ${eggsA(L.any, 0.5)} · 90%: ${eggsA(L.any, 0.9)}</em>` : ''}</div></div>`
+    if (cegg) {
+      const c = BY.get(v.cegg)
+      if (!c) { out.innerHTML = '<p class="muted">Pick a costume.</p>'; return }
+      const o = C.costumeEggOdds(K, { rank, charm })
+      const L = C.looks8(o, boost)
+      out.innerHTML = `<div class="bc-baby"><div class="bc-baby__one">${spr(BY.idx.get(c.s), 96, { alt: c.nm })}<b>${esc(c.nm)}</b><small>hatches from the Costume Egg</small></div>
+        <p class="muted small">A Costume Egg (from gifts and prizes) hatches the costume Pokémon itself, at Lv 5. It's ready at once and never takes a basket slot. Its looks use ${K.costumeEgg.k}× the egg odds; perfect IVs ${oneIn(o.perfect)}.</p></div>
+        <h4 class="w-h4">Chances per egg</h4>${oddsHtml(o, L)}<h4 class="w-h4">All 8 looks</h4>${lookGrid(L, BY.idx.get(c.s), c.nm)}`
+      return
+    }
+    if (!P[0] || !P[1]) { out.innerHTML = `<p class="muted">Pick ${!P[0] && !P[1] ? 'both parents' : `Parent ${P[0] ? 'B' : 'A'}`} from the list.</p>`; return }
+    const match = C.breedCompat(breedRec(P[0].m), breedRec(P[1].m))
+    const babies = C.breedBabies(breedRec(P[0].m), breedRec(P[1].m))
+    const o = C.eggOdds(K, { rank, charm, islands: !!v.islands, parents: P.map((p) => ({ ...p.look, perfect: p.perfect, alpha: p.alpha, knot: p.knot })) })
+    const L = C.looks8(o, boost)
+    const head = `<div class="bc-match ${match.ok ? 'ok' : 'no'}">${ic(match.ok ? 'heart' : 'warn')}<span><b>${match.ok ? (match.rate === 2 ? 'They get along great' : 'They get along') : 'No eggs'}</b> ${esc(match.why)}</span></div>`
+    if (!match.ok) { out.innerHTML = head; return }
+    // the baby (each non-Ditto parent equally likely) and the Halloween costume it can wear
+    const bsel = babies.includes(el.dataset.baby) ? el.dataset.baby : babies[0]
+    el.dataset.baby = bsel
+    const babyInfo = babies.map((s) => {
+      const fits = hw ? C.halloweenFits(K.costumes, P.map((p) => p.cos || null), s) : []
+      return { s, m: BY.get(s), fits }
+    })
+    const cosNote = (b) => {
+      const tried = P.filter((p) => p.cos)
+      if (!tried.length) return ''
+      if (b.fits.length) return `Wears ${b.fits.map((f) => `<b>${esc(BY.get(f)?.nm || f)}</b>`).join(' or ')}${b.fits.length > 1 ? ' (one of them, 50/50)' : ''}.`
+      if (!hw && tried.some((p) => K.costumes[p.cos]?.event === 'halloween')) return 'Halloween costumes stopped passing on after 31 Oct 2026.'
+      return tried.some((p) => K.costumes[p.cos]?.event === 'halloween') ? 'No costume of that line fits this baby: it hatches plain.' : 'Only Halloween costumes pass on: this baby hatches plain.'
+    }
+    const babyHtml = `<div class="bc-baby">${babyInfo.map((b) => `<label class="bc-baby__one${babies.length > 1 ? ' pick' : ''}${b.s === bsel ? ' on' : ''}">${babies.length > 1 ? `<input type="radio" name="baby" value="${b.s}"${b.s === bsel ? ' checked' : ''}>` : ''}${spr(BY.idx.get(b.fits[0] || b.s), 96, { alt: b.m?.nm || b.s })}<b>${esc(b.m?.nm || b.s)}</b><small>${babies.length > 1 ? `${pctS(1 / babies.length)} of eggs` : 'every egg'}</small>${cosNote(b) ? `<em>${cosNote(b)}</em>` : ''}</label>`).join('')}
+      <p class="muted small">${babies.length > 1 ? 'The baby is the first form of either parent\'s line (each parent half the time). Tap one to preview its looks.' : `The baby is always the first form of ${P.some((p) => p.m.s === 'ditto') ? 'the non-Ditto parent\'s' : 'the parents\''} line.`}</p></div>`
+    const cur = babyInfo.find((b) => b.s === bsel)
+    const art = BY.idx.get(cur.fits[0] || cur.s)
+    // hatch time
+    const sec = K.encSecs[+v.speed || 0]
+    const tierKey = { c: 'common', u: 'uncommon', r: 'rare', l: 'legendary', m: 'legendary' }[cur.m?.tr] || 'common'
+    const total = K.hatch[tierKey] || 30
+    const layEnc = Math.ceil(K.eggAt / match.rate)
+    const warmEnc = C.warmEncounters(total, +v.warm || 1)
+    const nan = v.nanny ? C.nannyMins(K, v.nanny, { shiny: v.nlook === 'shiny', umbral: v.nlook === 'umbral', prismana: v.nlook === 'prismana' }) : 0
+    const layMin = (layEnc * sec) / 60
+    const handsFree = nan ? Math.min(60 / layMin, 60 / nan) : 0
+    const hatchHtml = `<dl class="w-kv bc-time">
+      <div><dt>${ic('egg')} New egg</dt><dd>every <b>${layEnc}</b> encounters (${mins(layEnc * sec)})${match.rate === 2 ? ', same family = twice as fast' : ''}</dd></div>
+      <div><dt>${ic('clock')} Ready to hatch</dt><dd><b>${warmEnc}</b> encounters of warmth (${mins(warmEnc * sec)}) for a ${tierKey} baby (${total} warmth)</dd></div>
+      <div><dt>${ic('check')} Without a nanny</dt><dd>you open each egg as soon as it's ready: about <b>${mins((layEnc + warmEnc - 1) * sec)}</b> from an empty pen to a baby, then ${+(60 / layMin).toFixed(1)} eggs an hour</dd></div>
+      <div><dt>${ic('heart')} With ${nan ? `${esc(BY.get(v.nanny)?.nm || v.nanny)}${v.nlook ? ` (${LOOKS3.find((x) => x[0] === v.nlook)[1]})` : ''}` : 'a nanny'}</dt><dd>${nan ? `hatches one ready egg every <b>${+nan.toFixed(2)} min</b> of hunting: about <b>${+handsFree.toFixed(1)}</b> babies an hour from this pen, hands-free${60 / nan < 60 / layMin ? ' (the nanny is the bottleneck: eggs wait in the basket)' : ''}` : 'pick a nanny above to see its hands-free pace'}</dd></div>
+    </dl>`
+    out.innerHTML = `${head}${babyHtml}<h4 class="w-h4">Chances per egg</h4>${oddsHtml(o, L)}<h4 class="w-h4">All 8 looks <small class="muted">${esc(cur.m?.nm || '')}</small></h4>${lookGrid(L, art, cur.m?.nm || '')}<h4 class="w-h4">Hatch time</h4>${hatchHtml}
+      ${o.islands ? '<p class="muted small">Parents from different islands: base look odds doubled.</p>' : ''}`
+  }
+  function runCalc(el, t0) {
+    const v = Object.fromEntries($$('[name]', el).filter((i) => i.type !== 'radio' || i.checked).map((i) => [i.name, i.type === 'checkbox' ? i.checked : i.value]))
     const out = $('.calc-out', el)
     $$('[data-v]', el).forEach((s) => { s.textContent = s.dataset.v === 'hp' ? `${v.hp}%` : v[s.dataset.v] })
     const k = el.dataset.calc
@@ -796,6 +934,9 @@
     } else if (k === 'transfer') {
       const cash = C.transferCash(META.calc, v.tier, +v.lv || 1, +v.looks, v.perfect, v.alpha)
       out.innerHTML = `<div class="calc-odds"><div class="any"><span>The Professor pays</span><b>$${n(cash)}</b></div></div>`
+    } else if (k === 'breed') {
+      if (t0 && t0.name === 'baby') el.dataset.baby = t0.value
+      breedRun(el, v)
     }
   }
 

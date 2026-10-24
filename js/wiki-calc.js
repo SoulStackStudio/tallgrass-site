@@ -119,5 +119,81 @@
     return { window: w, start: w * ms, end: (w + 1) * ms, list }
   }
 
-  root.TGCalc = { catchChance, stats, expGain, expFor, transferCash, powerCost, seeded, raidBoss, outbreaks }
+  // ---- breeding (care.ts eggOdds / compat / firstForm / halloweenBaby, game.ts nannyMins; dice.ts rollLooks) ----
+  // K = META.breed. A parent = { shiny, umbral, prismana, perfect, alpha, knot } (knot = holds a Destiny Knot)
+  /** the chance (0..1) per egg of each look, Perfect IVs and Alpha. o = { rank, charm, islands (caught on different islands), parents } */
+  function eggOdds(K, o) {
+    const pair = o.parents
+    const r = K.ranks[o.rank]
+    const shinyOdds = r.shiny / (1 + K.charmK * (o.charm || 0))
+    const islands = pair.length === 2 && !!o.islands
+    const base = (shinyOdds * K.lookX.egg) / K.lookX.wild / (islands ? 2 : 1)
+    const inh = 1 / K.lookX.egg
+    const has = (f) => pair.filter(f).length
+    const knot = pair.some((c) => !!c.knot)
+    const perfect = (1 / r.perfect + has((c) => !!c.perfect) / K.inherit.perfect) * (knot ? 3 : 1)
+    return {
+      shiny: 1 / base + (inh * has((c) => !!c.shiny)) / K.inherit.shiny,
+      umbral: 1 / (base * K.umbralX) + (inh * has((c) => !!c.umbral)) / K.inherit.umbral,
+      prismana: 1 / (base * K.prismanaX) + (inh * has((c) => !!c.prismana)) / K.inherit.prismana,
+      perfect: Math.min(1, perfect), alpha: has((c) => !!c.alpha) / K.inherit.alpha, knot, islands,
+    }
+  }
+  /** a Costume Egg's odds (events.ts costumeEgg): K.costumeEgg.k × the egg base, perfect 1 in K.costumeEgg.perfect, never Alpha */
+  function costumeEggOdds(K, o) {
+    const odds = ((K.ranks[o.rank].shiny / (1 + K.charmK * (o.charm || 0))) * K.lookX.egg) / K.lookX.wild
+    const k = K.costumeEgg.k
+    return { shiny: k / odds, umbral: k / (odds * K.umbralX), prismana: k / (odds * K.prismanaX), perfect: 1 / K.costumeEgg.perfect, alpha: 0, knot: false, islands: false }
+  }
+  /** do two Pokémon get along? m = { s (slug), fst (first form), t (types), bd (its line can breed) } */
+  function breedCompat(a, b) {
+    if (!a.bd || !b.bd) return { ok: false, rate: 0, why: "Legendaries don't lay eggs." }
+    if (a.s === 'ditto' && b.s === 'ditto') return { ok: false, rate: 0, why: 'Two Ditto just copy each other. Pair Ditto with something else.' }
+    if (a.s === 'ditto' || b.s === 'ditto') return { ok: true, rate: 1, why: 'Ditto gets along with anyone.' }
+    if (a.fst === b.fst) return { ok: true, rate: 2, why: 'Same family: they get along great! Eggs come twice as fast.' }
+    const shared = a.t.filter((t) => b.t.includes(t))
+    if (shared.length) return { ok: true, rate: 1, why: `They share a type (${shared[0]}), so they get along.` }
+    return { ok: false, rate: 0, why: "They don't seem to like each other. Pair the same family, a shared type, or Ditto." }
+  }
+  /** the possible babies (sorted): the first form of a non-Ditto parent's line, each parent equally likely */
+  function breedBabies(a, b) { return [...new Set([a, b].filter((m) => m.s !== 'ditto').map((m) => m.fst))].sort() }
+  /** the costume of `costume`'s line that fits `baby` (the costume itself, or one that evolves into it), or null. CO = { slug: { base, evolvesTo } } */
+  function costumeFor(CO, costume, baby) {
+    for (let c = costume, n = 0; c && n < 6; n++) {
+      if (CO[c] && CO[c].base === baby) return c
+      c = Object.keys(CO).find((k) => CO[k].evolvesTo === c)
+    }
+    return null
+  }
+  /** the Halloween costumes a baby can wear from these parents' costumes (each equally likely; [] = a plain baby) */
+  function halloweenFits(CO, costumes, baby) {
+    return [...new Set(costumes.map((c) => (c && CO[c] && CO[c].event === 'halloween' ? costumeFor(CO, c, baby) : null)).filter(Boolean))].sort()
+  }
+  /** the chance of each of the 8 look combinations. p = eggOdds(); boost = an odds event { shiny, crystal } (1 = none) */
+  function looks8(p, boost) {
+    const sx = (boost && boost.shiny) || 1, cx = sx * ((boost && boost.crystal) || 1)
+    const s = Math.min(1, p.shiny * sx), u = Math.min(1, p.umbral * cx), q = Math.min(1, p.prismana * cx)
+    const out = []
+    for (let k = 0; k < 8; k++) {
+      const sh = !!(k & 1), um = !!(k & 2), pr = !!(k & 4)
+      out.push({ shiny: sh, umbral: um, prismana: pr, p: (sh ? s : 1 - s) * (um ? u : 1 - u) * (pr ? q : 1 - q) })
+    }
+    return { shiny: s, umbral: u, prismana: q, any: 1 - (1 - s) * (1 - u) * (1 - q), list: out }
+  }
+  /** eggs needed for a `target` (0..1) chance of at least one */
+  function eggsFor(p, target) { return p >= 1 ? 1 : p <= 0 ? Infinity : Math.max(1, Math.ceil(Math.log(1 - target) / Math.log(1 - p))) }
+  /** encounters of warmth an egg needs (it warms the encounter it's laid, then once per encounter; care.ts careTick) */
+  function warmEncounters(total, k) {
+    let left = total, n = 0
+    while (left > 0 && n < 10000) { left = Math.max(0, Math.round((left - k) * 10) / 10); n++ }
+    return n
+  }
+  /** minutes of hunting per egg the nanny hatches (0 = not a nanny); its best special look makes it faster */
+  function nannyMins(K, slug, look) {
+    const L = K.nannyLook || { shiny: 1, umbral: 1, prismana: 1 }
+    return (K.nanny[slug] || 0) * Math.min(1, look.shiny ? L.shiny : 1, look.umbral ? L.umbral : 1, look.prismana ? L.prismana : 1)
+  }
+
+  root.TGCalc = { catchChance, stats, expGain, expFor, transferCash, powerCost, seeded, raidBoss, outbreaks,
+    eggOdds, costumeEggOdds, breedCompat, breedBabies, costumeFor, halloweenFits, looks8, eggsFor, warmEncounters, nannyMins }
 })(typeof window !== 'undefined' ? window : globalThis)
