@@ -27,8 +27,11 @@
 <link rel="preload" href="assets/fonts/luckiestguy.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/fredoka.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/wiki.css">
 <script src="js/config.js" defer></script>
 <script src="js/app.js" defer></script>
+<script src="js/wiki-calc.js" defer></script>
+<script src="js/wiki.js" defer></script>
 </head>
 <body class="is-gated">
 <a class="skip" href="#main">Skip to content</a>
@@ -112,6 +115,7 @@
     <a href="#features">Features</a>
     <a href="#notes">Patch notes</a>
     <a href="#faq">FAQ</a>
+    <a class="nav__wikilink" href="#wiki">Wiki</a>
   </nav>
   <a class="btn btn--yellow btn--sm" href="#download">
     <img class="px" src="assets/icons/download.png" alt="" width="11" height="11" style="--w:11;--h:11"> Download
@@ -119,6 +123,9 @@
 </header>
 
 <main id="main">
+  <!-- WIKI (js/wiki.js): replaces the sections below while the address ends in #wiki… -->
+  <div class="wiki" id="wiki" hidden></div>
+
   <!-- HERO -->
   <section class="hero" id="top">
     <div class="scene scene--hero" aria-hidden="true">
@@ -246,6 +253,30 @@
         <h3>Updates itself</h3>
         <p>New versions download in the background. Download once and you're always on the latest.</p>
       </article>
+    </div>
+  </section>
+
+  <!-- WIKI TEASER -->
+  <section class="section wiki-teaser" id="wiki-teaser" aria-labelledby="wt-title">
+    <h2 class="h2" id="wt-title">The Tallgrass <em>Wiki</em></h2>
+    <p class="wt-sub" data-wcount>Every Pokémon, stat and odd in the game, straight from its code.</p>
+    <div class="wt-box panel">
+      <div class="wt-search" role="search">
+        <label class="sr-only" for="wt-q">Search the wiki</label>
+        <input id="wt-q" type="search" placeholder="Search Pokémon, moves, items, mechanics… (press /)" autocomplete="off" spellcheck="false" aria-controls="wt-results" aria-expanded="false">
+        <div class="wk-results" id="wt-results" role="listbox" hidden></div>
+      </div>
+      <nav class="wt-tiles" aria-label="Popular wiki pages">
+        <a href="#wiki/pokedex"><img class="ic" src="assets/wiki/i/pokedex.png" alt=""> Pokédex</a>
+        <a href="#wiki/guide"><img class="ic" src="assets/wiki/i/grass.png" alt=""> Beginner guide</a>
+        <a href="#wiki/looks"><img class="ic" src="assets/wiki/i/star.png" alt=""> Shiny &amp; rare odds</a>
+        <a href="#wiki/catching"><img class="ic" src="assets/wiki/i/caught.png" alt=""> Catching</a>
+        <a href="#wiki/islands"><img class="ic" src="assets/wiki/i/grass.png" alt=""> Islands</a>
+        <a href="#wiki/raids"><img class="ic" src="assets/wiki/i/raid_pass.png" alt=""> Raids</a>
+        <a href="#wiki/daycare"><img class="ic" src="assets/wiki/i/egg.png" alt=""> Day Care</a>
+        <a href="#wiki/items"><img class="ic" src="assets/wiki/i/held.png" alt=""> Items &amp; Mart</a>
+      </nav>
+      <a class="btn btn--yellow wt-cta" href="#wiki"><img class="px" src="assets/icons/pokedex.png" alt="" width="22" height="22" style="--w:22;--h:22;--s:1"> Open the wiki</a>
     </div>
   </section>
 
@@ -398,7 +429,7 @@
       <span class="wordmark wordmark--nav"><span>Tall</span><span>grass</span></span>
     </div>
     <p>A free, fan-made game by Glowbugs TV. Not affiliated with, endorsed or sponsored by Nintendo, Game Freak, Creatures Inc. or The Pokémon Company. Pokémon and all related names and sprites are trademarks of their respective owners.</p>
-    <p class="footer__links"><a data-discord href="#">Discord</a> &middot; <a href="#download">Download</a> &middot; <a href="#faq">FAQ</a></p>
+    <p class="footer__links"><a data-discord href="#">Discord</a> &middot; <a href="#download">Download</a> &middot; <a href="#wiki">Wiki</a> &middot; <a href="#faq">FAQ</a></p>
   </div>
 </footer>
 
