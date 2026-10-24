@@ -1,5 +1,26 @@
 [
  {
+  "version": "0.53.4",
+  "date": "2026-10-24",
+  "title": "Favourite friends, PC tools and battle fixes",
+  "notes": [
+   "Favourite friends: star a friend on the Friends list and they always sit at the top, online or not, in every sort and in the raid invite list (thanks foxelina!).",
+   "PC: “Apply to all boxes” in the wallpaper picker, and one-click HD or Pixel sprites for every Pokémon on the box bar (thanks sato0007!).",
+   "Friendship evolutions: a Pokémon that becomes your Good Buddy can take its friendship evolution right away, at any level (Lv 20 still works too).",
+   "Settings: “Taskbar button & Alt-Tab” gives Tallgrass a taskbar button and an Alt-Tab entry (Windows)."
+  ],
+  "changes": [
+   "Wonder Trade takes any Pokémon now, except favourites. Your only one of a species asks first.",
+   "Wonder Trades a day: 5, plus 1 for every Gym badge.",
+   "The PC always has an empty box waiting at the end: there’s no box limit.",
+   "The Professor now pays a flat $100 for common and $150 for uncommon Pokémon (rares, legendaries and specials unchanged), so catching everything no longer beats picking your catches."
+  ],
+  "fixes": [
+   "Held items work in battles you fight yourself, including Tower floors: Leftovers, Shell Bell, Life Orb, Rocky Helmet, Loaded Dice, Focus Sash, Metronome and Light Clay (thanks jerichiolol!).",
+   "Squad weather (Rain Dance, Sunny Day, Sandstorm, Snowscape and Leader weather) now says so when it starts in auto battles and the Tower, so you can see it working (thanks jerichiolol!)."
+  ]
+ },
+ {
   "version": "0.53.3",
   "date": "2026-10-24",
   "title": "Hotfix: online, Wonder Trade and new finds",
@@ -38,39 +59,6 @@
   "fixes": [
    "Clamperl: after one Clamperl became a Huntail, the Gorebyss branch stayed locked. Every Clamperl can now pick Huntail or Gorebyss (after a trade, or with a Linking Cord, which asks which one). Every other branching line was checked too (thanks erkumo!).",
    "Poké Ball menu: at Size 1.25× or 1.5×, or on a second monitor, the menu could open past the edge of the screen and couldn’t be clicked. It now always opens inside the screen it’s on, on every side, and panels stay clear of the taskbar (thanks jigen_98!)."
-  ]
- },
- {
-  "version": "0.53.1",
-  "date": "2026-10-24",
-  "title": "Buddies, candies and fixes",
-  "notes": [
-   "Family Candy: every evolution family has its own Candy now, a wrapped sweet in that family’s colours, Pokémon GO style. You’ll see it in the Lab, on power-ups and when your Buddy finds some (thanks biomega9!).",
-   "Compare before you swap: with a full party, a Pokémon’s card has Swap in… Pick who makes room and see both side by side: every stat as it fights, the total and IVs, with the difference on each line (thanks jordanh_!).",
-   "Poké Ball auto-sell: Catch rules → Auto-sell spare balls. Pick how many of each ball to keep; balls you find above that sell at once for the Mart’s buy-back price. What you buy at the Mart always stays, and it never sells below your auto-buy number (thanks funloock!).",
-   "See how many trainers are online right now (Friends tab).",
-   "Classic layout: when the banner has room, your whole team walks behind your trainer, Buddy first (thanks funloock!).",
-   "Re-trading: a Pokémon you got in a trade can be traded again 14 days after it arrived (it used to be once ever). Trade levels, the daily limit and the fee still apply. Its card says when it can go again (thanks steevenss!)."
-  ],
-  "changes": [
-   "Buddy hearts are per Pokémon now, like Pokémon GO: each Pokémon earns up to 6 hearts a day. You can swap Buddy 3 times a day (going back to one you had today is free); the pips on Change show what’s left (thanks para82!).",
-   "Gift pop-ups: never more than one at a time (“3 gifts waiting”), none once you’ve opened today’s gifts (the Inbox says when they open again), Later means no gift pop-ups until tomorrow, and a gift never pops up twice.",
-   "Holding an item: the PC and party filter (Show → Holding an item, now near the top) and the search words item / holding also find Pokémon holding a Mega Stone or orb (thanks para82!).",
-   "The same message never stacks on screen: it shows once.",
-   "What you missed only shows after you were really away: your whole PC idle for 15 minutes (or the screen locked), not while you were busy on another monitor. Once per time away (thanks to everyone who reported it!)."
-  ],
-  "fixes": [
-   "Pokémon past their evolution level now evolve on their own everywhere: when caught, out of the Day Care and in the PC (Shiny, Umbral, Prismana and Perfect ones still wait for you) (thanks sgblaziken and .__.kiki.__.!).",
-   "The money on the top bar drops the moment you buy something (it used to wait for the fight on screen to finish).",
-   "Wonder Trade: the Wonder Trade it! button is always on screen now, even in a small window (the card shrinks to fit) (thanks hypergon1370!).",
-   "Professor’s Lab: the Pokémon no longer shake across the screen at some window sizes (thanks iwrecked22!).",
-   "Slots: the bet you picked is clearly lit now (thanks sato0007!).",
-   "Modular layout: an opened panel sits over the Poké Ball menu again, and the menu tucks in when a panel opens.",
-   "Always on top off: when the game is behind other windows, one click on the tray icon brings it straight back (it used to hide it first) (thanks lordyamoshi!).",
-   "Login with Discord: the rest of your screen stays clickable while the browser login is open, and the game steps back so the browser can come to the front (thanks _saltbae_!).",
-   "Founders who had the game open during the launch reset see their Founder pick without restarting.",
-   "An account that started fresh after the launch reset could stay locked out of gifts and trades: it unlocks by itself now.",
-   "Testers: linking Discord never quietly starts a new account any more. If your old guest login is gone from this PC, the login card says so before anything happens and shows your old account’s id, so the team can move your Founder reward and friends."
   ]
  }
 ]
