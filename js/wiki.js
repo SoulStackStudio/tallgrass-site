@@ -510,7 +510,7 @@
       <header class="mp-head">
         <div class="mp-art" data-idx="${idx}">
           <div class="mp-art__stage">${spr(idx, 192, { alt: m.nm })}</div>
-          <div class="mp-looks" role="group" aria-label="Look">${[['n', 'Normal', ''], ['s', 'Shiny', 'star'], ['u', 'Umbral', 'umbral'], ['p', 'Prismana', 'prismana']].map(([k, l, i2], j) => `<button type="button" data-look="${k}" aria-pressed="${j === 0}">${i2 ? ic(i2) : ''}${l}</button>`).join('')}</div>
+          <div class="mp-looks" role="group" aria-label="Look">${[['n', 'Normal', ''], ['s', 'Shiny', 'star'], ['u', 'Void', 'umbral'], ['p', 'Prismatic', 'prismana']].map(([k, l, i2], j) => `<button type="button" data-look="${k}" aria-pressed="${j === 0}">${i2 ? ic(i2) : ''}${l}</button>`).join('')}</div>
         </div>
         <div class="mp-id">
           <p class="mp-no">${m.k ? (m.k === 'costume' ? 'Costume' : `${cap(m.k === 'mega' ? 'Mega' : m.k)} form`) + (base ? ` of <a class="link" href="#wiki/pokemon/${base.s}">${esc(base.nm)}</a>` : '') : `#${String(m.n).padStart(4, '0')} · Gen ${genOf(m.n)}`}</p>
@@ -718,7 +718,7 @@
         ${fixed ? '' : `<label>Pokémon ${monPicker('mon', 'pikachu')}</label>`}
         <label>HP left <span class="calc-v" data-v="hp"></span><input type="range" name="hp" min="1" max="100" value="100"></label>
         <label>Status <select class="w-in" name="st"><option value="none">None</option><option value="slp">Asleep / frozen (×${META.status.slp})</option><option value="par">Other status (×${META.status.par})</option></select></label>
-        <label>Look <select class="w-in" name="look"><option value="">Normal / Shiny</option><option value="u">Umbral</option><option value="p">Prismana</option><option value="up">Umbral Prismana</option></select></label>
+        <label>Look <select class="w-in" name="look"><option value="">Normal / Shiny</option><option value="u">Void</option><option value="p">Prismatic</option><option value="up">Void Prismatic</option></select></label>
         <label>Catching Charm <span class="calc-v" data-v="charm"></span><input type="range" name="charm" min="0" max="${META.catcherMax}" value="0"></label>
         <label>Foe level <input class="w-in" type="number" name="lv" min="1" max="100" value="20"></label>
         <label class="w-check"><input type="checkbox" name="cond"> Special balls' condition met</label>
@@ -737,13 +737,13 @@
         <label>Level <input class="w-in" type="number" name="lv" min="1" max="100" value="50"></label>
         <label>IVs <select class="w-in" name="iv"><option value="31">All 31 (perfect)</option><option value="25">All 25</option><option value="15" selected>All 15</option><option value="0">All 0</option></select></label>
         <label>Nature <select class="w-in" name="nat">${META.natures.map((x, i) => `<option value="${i}">${x[0]}${x[1] !== x[2] ? ` (+${x[1]} −${x[2]})` : ''}</option>`).join('')}</select></label>
-        <label>Look <select class="w-in" name="look"><option value="">Normal / Shiny</option><option value="u">Umbral</option><option value="p">Prismana</option><option value="up">Umbral Prismana</option></select></label>
+        <label>Look <select class="w-in" name="look"><option value="">Normal / Shiny</option><option value="u">Void</option><option value="p">Prismatic</option><option value="up">Void Prismatic</option></select></label>
       </div><div class="calc-out"></div><p class="muted small">Stats before power multipliers (rarity, Shiny, Alpha, Perfect, Power-ups, role, squad) and held items.</p>`
     } else if (k === 'transfer') {
       el.innerHTML = `<div class="calc">
         <label>Rarity <select class="w-in" name="tier"><option value="common">Common</option><option value="uncommon">Uncommon</option><option value="rare">Rare</option><option value="legendary">Legendary</option></select></label>
         <label>Level <input class="w-in" type="number" name="lv" min="1" max="100" value="30"></label>
-        <label>Special looks <select class="w-in" name="looks"><option value="0">None</option><option value="1">One (Shiny, Umbral or Prismana)</option><option value="2">Two</option><option value="3">All three</option></select></label>
+        <label>Special looks <select class="w-in" name="looks"><option value="0">None</option><option value="1">One (Shiny, Void or Prismatic)</option><option value="2">Two</option><option value="3">All three</option></select></label>
         <label class="w-check"><input type="checkbox" name="perfect"> Perfect IVs</label>
         <label class="w-check"><input type="checkbox" name="alpha"> Alpha</label>
       </div><div class="calc-out"></div>`
@@ -785,7 +785,7 @@
       if (v.ctx === 'e' || v.ctx === 'e2') s = s * 2 / 3 / (v.ctx === 'e2' ? 2 : 1)
       const ps = ev / s, pu = ev / (s * META.umbralX), pp = ev / (s * META.prismanaX)
       const any = 1 - (1 - ps) * (1 - pu) * (1 - pp)
-      out.innerHTML = `<div class="calc-odds">${[['star', 'Shiny', ps], ['umbral', 'Umbral', pu], ['prismana', 'Prismana', pp], ['perfect', 'Perfect IVs', v.ctx.startsWith('e') ? null : 1 / r.perfect]].map(([i2, l, p]) => p == null ? '' : `<div>${ic(i2)}<span>${l}</span><b>${oneIn(p)}</b></div>`).join('')}<div class="any"><span>Any special look</span><b>${oneIn(any)}</b></div></div>${v.ctx.startsWith('e') ? '<p class="muted small">Eggs: plus a bonus per parent that has the look; perfect IVs use the rank odds plus perfect parents (×3 with a Destiny Knot).</p>' : ''}`
+      out.innerHTML = `<div class="calc-odds">${[['star', 'Shiny', ps], ['umbral', 'Void', pu], ['prismana', 'Prismatic', pp], ['perfect', 'Perfect IVs', v.ctx.startsWith('e') ? null : 1 / r.perfect]].map(([i2, l, p]) => p == null ? '' : `<div>${ic(i2)}<span>${l}</span><b>${oneIn(p)}</b></div>`).join('')}<div class="any"><span>Any special look</span><b>${oneIn(any)}</b></div></div>${v.ctx.startsWith('e') ? '<p class="muted small">Eggs: plus a bonus per parent that has the look; perfect IVs use the rank odds plus perfect parents (×3 with a Destiny Knot).</p>' : ''}`
     } else if (k === 'stats') {
       const m = monByName(v.mon)
       if (!m) { out.innerHTML = '<p class="muted">Pick a Pokémon.</p>'; return }
