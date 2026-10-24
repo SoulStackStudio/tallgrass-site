@@ -1,5 +1,22 @@
 [
  {
+  "version": "0.53.2",
+  "date": "2026-10-24",
+  "title": "Codes, events and auto-teams",
+  "notes": [
+   "Redeem codes: Settings → Redeem a code. Codes from the Tallgrass team (Discord, streams, events) give a reward; each trainer can use a code once.",
+   "Events: when the Tallgrass team runs an event (better Shiny odds, double EXP or money, a special Mass Outbreak, a Raid Hour with bonus eggs) a banner at the top of your screen shows it with a countdown. Event outbreaks show in Events → Outbreaks for everyone who can reach that island.",
+   "Gifts from the Tallgrass team arrive as a gift card; a Pokémon from one wears an Event ribbon.",
+   "Auto-team for this island: the AUTO button under your party builds the best team from your whole PC for the island you’re on (its Gym and its wild Pokémon: type matchups, levels, Power and IVs). You see it first and confirm before anything moves; Founder Pokémon stay unless you say so, and your Buddy stays (thanks foxelina!).",
+   "Legendaries and bosses can wait for you: Catch rules → Legendaries / Bosses → call me first. A Legendary waits two minutes so you can battle it yourself (your team still never knocks out a Pokémon it’s protecting); a boss waits so you can set up your team first (Fight! or Team first). Default is auto, as before (thanks sato0007!)."
+  ],
+  "changes": [],
+  "fixes": [
+   "Clamperl: after one Clamperl became a Huntail, the Gorebyss branch stayed locked. Every Clamperl can now pick Huntail or Gorebyss (after a trade, or with a Linking Cord, which asks which one). Every other branching line was checked too (thanks erkumo!).",
+   "Poké Ball menu: at Size 1.25× or 1.5×, or on a second monitor, the menu could open past the edge of the screen and couldn’t be clicked. It now always opens inside the screen it’s on, on every side, and panels stay clear of the taskbar (thanks jigen_98!)."
+  ]
+ },
+ {
   "version": "0.53.1",
   "date": "2026-10-24",
   "title": "Buddies, candies and fixes",
@@ -52,26 +69,5 @@
    "Money and Rare Candy: Amulet Coin goes up to level 10, power-ups cost twice as much money (a good use for late-game savings), Legendaries pay less at the Professor, and Rare Candy drops a bit less often (every 30 Pokémon sent to the Professor = a Rare Candy)."
   ],
   "fixes": []
- },
- {
-  "version": "0.52.1",
-  "date": "2026-10-23",
-  "title": "What you missed",
-  "notes": [
-   "What you missed: come back after 5 minutes or more without touching the game and a card shows everything special your team did meanwhile: Shiny, Umbral, Prismana, Alpha and Legendary catches, eggs the Nanny hatched, raid results, bosses, drops and badges. One click on Got it and you’re back (thanks terodon!).",
-   "Ready to evolve: a new filter in the PC and the party picker (Show → Ready to evolve), and the search word “ready”. It finds everything that can evolve right now: at its level, waiting for your pick, or with its stone in your Bag. Party cards get the green evolve arrow too (thanks para82!)."
-  ],
-  "changes": [
-   "Your catch rules always win now: anything a rule always catches (your Catch list, Legendaries, new species, Shiny and other looks, perfect IVs) is never knocked out. Your team leaves it at 1 HP and throws instead; if the balls run out, it gets away rather than fainting. Catch everything still lets your team finish the rest (thanks sato0007 and foxelina!).",
-   "A new badge no longer stops the hunt: the badge screen carries on by itself after 20 seconds (5 if you’re away). Pick Fly there or Stay right on it and the game remembers it for the next island. Point at the card to hold it (thanks dumpling4516 and sato0007!).",
-   "Start a new game is much harder to press by accident: it lists exactly what you’d lose (Pokémon, Pokédex, items, money, badges), then you type RESET or hold the red button for 3 seconds. Esc or a click outside cancels (thanks kxrciixd!).",
-   "Silvally is Legendary now, like Type: Null. The Mega, Primal, Origin and fusion forms of Legendaries count as Legendary too (thanks donpe!)."
-  ],
-  "fixes": [
-   "Bosses on the strip no longer poke out over the top or slide under the bar above it: big bosses and big Legendaries are sized to fit inside the strip (thanks iwrecked22!).",
-   "Tower: the end of a run now opens over the Tower page, with your recruits on pages that fit and the Claim button always in view, so you can always pick the one to take home (thanks erkumo!).",
-   "PC: long names no longer push the nickname button, gender and favourite star off the card on smaller screens. The name shortens with “…” and shows in full when you point at it (thanks erkumo!).",
-   "Eggs: the egg call and the badge on the menu go away the moment you hatch, instead of staying until the battle on the strip finished (thanks sato0007!)."
-  ]
  }
 ]
