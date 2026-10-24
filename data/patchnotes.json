@@ -1,5 +1,26 @@
 [
  {
+  "version": "0.54.2",
+  "date": "2026-10-25",
+  "title": "Battle fixes and PC helpers",
+  "notes": [
+   "Suggested items: the new ITEMS button next to AUTO under your party gives your team the held items from your Bag that suit each one. You see the swaps first; it never takes an item from another Pokémon.",
+   "Drag a whole box: in the PC’s Boxes list, drag a box onto another to move it there with all its Pokémon.",
+   "Pokédex: Registered and Seen now filter the Pokédex, and Looks shows which Shiny, Void and Prismatic looks of each species you’ve registered."
+  ],
+  "changes": [
+   "Sending to the Professor (Send duplicates and Select → Send) lists what goes with each one’s nature and IVs, best IVs first.",
+   "Selecting several Pokémon in the PC: the card on the right shows the last one you picked.",
+   "The badge screen closes by itself after 8 seconds (or when you click), so the hunt never waits. Fly there / Stay still decides what happens.",
+   "In battle, a wild Pokémon’s look is written next to its IVs, and the row of looks under it is labelled “In your PC”. Moves show their priority."
+  ],
+  "fixes": [
+   "Heavy Slam and Heat Crash now hit by weight (heavier user, more power) instead of 1–2 damage.",
+   "Fire Spin, Wrap, Whirlpool, sandstorm, burn and poison no longer hurt anyone after the battle is already won or lost. A trap also ends when the Pokémon that set it leaves.",
+   "Whirlpool, Fire Spin, Wrap, Bind, Sand Tomb, Infestation, Magma Storm and Thunder Cage have their move descriptions."
+  ]
+ },
+ {
   "version": "0.54.1",
   "date": "2026-10-25",
   "title": "Small fixes",
@@ -48,20 +69,6 @@
    "Players with lots of friends no longer drop offline.",
    "Send all gifts now reaches every friend and tells you how many went out.",
    "Thanks to dll5700 and iwrecked22 for the ideas, and to everyone who reported bugs in the Discord!"
-  ]
- },
- {
-  "version": "0.53.6",
-  "date": "2026-10-24",
-  "title": "New names, steadier start",
-  "notes": [
-   "Umbral is now called Void and Prismana is now called Prismatic (same looks, same odds)."
-  ],
-  "changes": [
-   "Lighter on the server: live updates only connect when you need them (Friends, trades, battles and raid parties). Everything else still arrives as before."
-  ],
-  "fixes": [
-   "If your graphics driver crashes while Tallgrass starts, the game now turns graphics acceleration off and opens again by itself. You can turn it back on in Settings."
   ]
  }
 ]
