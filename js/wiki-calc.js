@@ -63,6 +63,9 @@
 
   /** what the Professor pays for one Pokémon: cash (items are listed on the page) */
   function transferCash(K, tier, level, looks, perfect, alpha) {
+    // v0.53.4: a plain common / uncommon (no special look, not perfect, not Alpha) pays a flat price at any level
+    const flat = K.plainCash && K.plainCash[tier]
+    if (!looks && !perfect && !alpha && flat != null) return flat
     return Math.round(level * K.transferPer * K.transferTier[tier] * (looks ? 5 * looks : 1) * (perfect ? 3 : 1) * (alpha ? 2 : 1))
   }
 
