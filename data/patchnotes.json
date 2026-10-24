@@ -1,5 +1,41 @@
 [
  {
+  "version": "0.53.6",
+  "date": "2026-10-24",
+  "title": "New names, steadier start",
+  "notes": [
+   "Umbral is now called Void and Prismana is now called Prismatic (same looks, same odds)."
+  ],
+  "changes": [
+   "Lighter on the server: live updates only connect when you need them (Friends, trades, battles and raid parties). Everything else still arrives as before."
+  ],
+  "fixes": [
+   "If your graphics driver crashes while Tallgrass starts, the game now turns graphics acceleration off and opens again by itself. You can turn it back on in Settings."
+  ]
+ },
+ {
+  "version": "0.53.5",
+  "date": "2026-10-24",
+  "title": "Battle and saving fixes",
+  "notes": [
+   "Abilities: Beast Boost, Moxie, Chilling Neigh and Grim Neigh raise a stat after a knockout, and many more abilities now work in battle: Regenerator, Natural Cure, Mold Breaker, Scrappy, Pixilate and friends, Disguise, Download, Intrepid Sword, Weak Armor, Justified, Gale Wings and others. Auto battles now show when an ability kicks in.",
+   "U-turn, Volt Switch and Flip Turn now switch out after the hit: you pick who comes in when you battle yourself, and auto battles send in the best match.",
+   "Milcery evolves into Alcremie: become Good Buddies, or reach Lv 20."
+  ],
+  "changes": [
+   "Bosses (and the Gym battles they unlock) are now fought while the game is hidden, just like when it’s on screen. With Bosses set to call you first, the boss waits for you, and the Welcome back card lists what happened.",
+   "Tower: the end screen and the recruit, reward and new move cards wait a moment before taking clicks, so a quick click after a battle can’t skip them. The end screen picks your best recruit, and it asks before you leave a Legendary, Ultra Beast or special recruit behind.",
+   "The hunt pauses while “Update required” is showing."
+  ],
+  "fixes": [
+   "Your lead’s Intimidate now works from the very first turn of auto battles.",
+   "Closing the game, Quit, updating and restarting now wait for your latest catches to be saved first, including when Windows shuts down.",
+   "If the game crashes, it reloads by itself, starts in safe mode after repeated crashes, and loads your backup save if the save can’t be read. Details go to crash.log in the game’s data folder, so you can send it to us.",
+   "Clear look: the top bar now shows and works wherever you point on the strip (it could disappear before you reached Rush or Interrupt).",
+   "Thanks to sato0007, k.pachec0 and zeckyboy for the reports!"
+  ]
+ },
+ {
   "version": "0.53.4",
   "date": "2026-10-24",
   "title": "Favourite friends, PC tools and battle fixes",
@@ -18,47 +54,6 @@
   "fixes": [
    "Held items work in battles you fight yourself, including Tower floors: Leftovers, Shell Bell, Life Orb, Rocky Helmet, Loaded Dice, Focus Sash, Metronome and Light Clay (thanks jerichiolol!).",
    "Squad weather (Rain Dance, Sunny Day, Sandstorm, Snowscape and Leader weather) now says so when it starts in auto battles and the Tower, so you can see it working (thanks jerichiolol!)."
-  ]
- },
- {
-  "version": "0.53.3",
-  "date": "2026-10-24",
-  "title": "Hotfix: online, Wonder Trade and new finds",
-  "notes": [
-   "Pokémon that couldn’t be found anywhere now live on the islands: Scatterbug and Flabébé (Town), Spewpa and Furfrou (Beach), Vivillon, Minior, Alcremie and Florges (Sky), and Ogerpon as a Legendary on Pyre."
-  ],
-  "changes": [
-   "The online count and your friends’ online dots are back and much lighter on the server. They update every couple of minutes.",
-   "Wonder Trade never sends you away empty-handed: when nothing in the pool fits you yet, your Pokémon goes in anyway and a Pokémon comes back to your PC as soon as another trainer trades (you get a note).",
-   "Tower: Give up asks first, so a misclick can’t end your run (thanks ziemia and sim0100!).",
-   "Favourite Pokémon (the star) never go to the Professor: not by auto-send, Send duplicates or a multi-select, and they can’t be released or Wonder Traded until you unfavourite them (thanks Racx!)."
-  ],
-  "fixes": [
-   "Wonder Trade said “Nothing for you in the pool right now” for everyone since the launch (thanks iwrecked22 and erkumo!).",
-   "Events badge: stamps and bounties waiting to be collected show on their tab again, and opening Events goes straight to them (thanks sato0007!).",
-   "Windows on a second monitor stay there: after a restart, or a monitor that was asleep, they come back on the monitor you left them on instead of the main one (thanks zeckyboy!).",
-   "Log in with Discord: while the login card is up, the rest of your screen (and your other monitors) stays clickable, so the browser login can always be finished (thanks akacmr and ahlizah!).",
-   "Use all monitors no longer hides the Windows taskbar (thanks showahei!).",
-   "Wild Pokémon can drop held items again (they had stopped since the launch).",
-   "Wattrel and 8 other Pokémon no longer show a giant front sprite in battle (thanks BigBoss!).",
-   "Connection: a busy server no longer makes every game retry over and over."
-  ]
- },
- {
-  "version": "0.53.2",
-  "date": "2026-10-24",
-  "title": "Codes, events and auto-teams",
-  "notes": [
-   "Redeem codes: Settings → Redeem a code. Codes from the Tallgrass team (Discord, streams, events) give a reward; each trainer can use a code once.",
-   "Events: when the Tallgrass team runs an event (better Shiny odds, double EXP or money, a special Mass Outbreak, a Raid Hour with bonus eggs) a banner at the top of your screen shows it with a countdown. Event outbreaks show in Events → Outbreaks for everyone who can reach that island.",
-   "Gifts from the Tallgrass team arrive as a gift card; a Pokémon from one wears an Event ribbon.",
-   "Auto-team for this island: the AUTO button under your party builds the best team from your whole PC for the island you’re on (its Gym and its wild Pokémon: type matchups, levels, Power and IVs). You see it first and confirm before anything moves; Founder Pokémon stay unless you say so, and your Buddy stays (thanks foxelina!).",
-   "Legendaries and bosses can wait for you: Catch rules → Legendaries / Bosses → call me first. A Legendary waits two minutes so you can battle it yourself (your team still never knocks out a Pokémon it’s protecting); a boss waits so you can set up your team first (Fight! or Team first). Default is auto, as before (thanks sato0007!)."
-  ],
-  "changes": [],
-  "fixes": [
-   "Clamperl: after one Clamperl became a Huntail, the Gorebyss branch stayed locked. Every Clamperl can now pick Huntail or Gorebyss (after a trade, or with a Linking Cord, which asks which one). Every other branching line was checked too (thanks erkumo!).",
-   "Poké Ball menu: at Size 1.25× or 1.5×, or on a second monitor, the menu could open past the edge of the screen and couldn’t be clicked. It now always opens inside the screen it’s on, on every side, and panels stay clear of the taskbar (thanks jigen_98!)."
   ]
  }
 ]
