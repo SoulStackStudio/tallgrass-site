@@ -1,5 +1,23 @@
 [
  {
+  "version": "0.54.1",
+  "date": "2026-10-25",
+  "title": "Small fixes",
+  "notes": [],
+  "changes": [
+   "Battles end after 10 turns in which neither side can land a hit: a wild Pokémon flees (no loss, the hunt goes on); Gyms and the Tower count it as out of turns.",
+   "Rare Candy says why it stops at your level cap, and which Gym raises it.",
+   "Your save now keeps hourly and daily backups (Settings → Help → Backups).",
+   "Progress is always saved before an update.",
+   "The game always stays on screen; tray menu → Reset position."
+  ],
+  "fixes": [
+   "Fixed a hatching issue.",
+   "The egg hatch screens no longer stop you from using or closing your other windows while they are open.",
+   "Party cards no longer stretch tall."
+  ]
+ },
+ {
   "version": "0.54.0",
   "date": "2026-10-25",
   "title": "Megas, breeding and terrains",
@@ -44,28 +62,6 @@
   ],
   "fixes": [
    "If your graphics driver crashes while Tallgrass starts, the game now turns graphics acceleration off and opens again by itself. You can turn it back on in Settings."
-  ]
- },
- {
-  "version": "0.53.5",
-  "date": "2026-10-24",
-  "title": "Battle and saving fixes",
-  "notes": [
-   "Abilities: Beast Boost, Moxie, Chilling Neigh and Grim Neigh raise a stat after a knockout, and many more abilities now work in battle: Regenerator, Natural Cure, Mold Breaker, Scrappy, Pixilate and friends, Disguise, Download, Intrepid Sword, Weak Armor, Justified, Gale Wings and others. Auto battles now show when an ability kicks in.",
-   "U-turn, Volt Switch and Flip Turn now switch out after the hit: you pick who comes in when you battle yourself, and auto battles send in the best match.",
-   "Milcery evolves into Alcremie: become Good Buddies, or reach Lv 20."
-  ],
-  "changes": [
-   "Bosses (and the Gym battles they unlock) are now fought while the game is hidden, just like when it’s on screen. With Bosses set to call you first, the boss waits for you, and the Welcome back card lists what happened.",
-   "Tower: the end screen and the recruit, reward and new move cards wait a moment before taking clicks, so a quick click after a battle can’t skip them. The end screen picks your best recruit, and it asks before you leave a Legendary, Ultra Beast or special recruit behind.",
-   "The hunt pauses while “Update required” is showing."
-  ],
-  "fixes": [
-   "Your lead’s Intimidate now works from the very first turn of auto battles.",
-   "Closing the game, Quit, updating and restarting now wait for your latest catches to be saved first, including when Windows shuts down.",
-   "If the game crashes, it reloads by itself, starts in safe mode after repeated crashes, and loads your backup save if the save can’t be read. Details go to crash.log in the game’s data folder, so you can send it to us.",
-   "Clear look: the top bar now shows and works wherever you point on the strip (it could disappear before you reached Rush or Interrupt).",
-   "Thanks to sato0007, k.pachec0 and zeckyboy for the reports!"
   ]
  }
 ]
