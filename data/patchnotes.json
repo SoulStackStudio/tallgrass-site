@@ -1,5 +1,22 @@
 [
  {
+  "version": "0.55.0",
+  "date": "2026-10-25",
+  "title": "One device at a time",
+  "notes": [
+   "One device at a time: if your account is already playing on another device, Tallgrass shows “Playing on another device”. Press Play here to carry on where you are, and the other device pauses with the same card until you press Play here on it. When you come back to a device, its catch-up only counts the time nothing else was playing.",
+   "New moves: Stone Axe (Kleavor can learn it) leaves pointed stones that hurt every Pokémon that comes in on the other side. Blood Moon (Ursaluna, from the Move Tutor) can’t be used twice in a row."
+  ],
+  "changes": [
+   "Raid invites only list friends who can raid (5 badges). A small line under the list says how many can’t raid yet.",
+   "The Shiny, Void and Prismatic odds on screen include a running odds event, for example “1 in 190 (2× event)”.",
+   "Battle Tower: a Pokémon that evolves is offered its new form’s moves, including the ones it learns at Lv 1 or below its evolution level (Swampert: Earthquake and Hammer Arm, Volcarona: Heat Wave).",
+   "Ruin abilities (Wo-Chien, Chien-Pao, Ting-Lu, Chi-Yu) say what they weaken when they come in.",
+   "Protosynthesis and Quark Drive work like in the main games: in harsh sunlight or Electric Terrain they raise the Pokémon’s highest stat (Speed by 50%, the others by 30%), say so in battle, and wear off when the sun or terrain ends. Not in raids."
+  ],
+  "fixes": []
+ },
+ {
   "version": "0.54.5",
   "date": "2026-10-25",
   "title": "Fixes and Show on Discord",
@@ -46,29 +63,6 @@
    "Fixed “Use all monitors” making the game invisible and the PC slow. If spreading over your monitors doesn’t work, the game now goes back to your main monitor on its own, and tray menu → Reset position always brings it back.",
    "Evolving a Pokémon no longer sends another Pokémon of the same species to the Professor.",
    "The Pokédex no longer says “Seen 0×” for a Pokémon you have registered."
-  ]
- },
- {
-  "version": "0.54.3",
-  "date": "2026-10-25",
-  "title": "Quality of life",
-  "notes": [
-   "Updates: the update downloads by itself and the card shows its progress, then one button: Restart to update. Your save comes with you. No need to close the game yourself.",
-   "Bosses: the next boss counter shows on the island’s Pokédex chip and in Islands. Once an island’s Pokédex is complete, its bosses come every 20 encounters instead of 35.",
-   "Shiny and crystal odds events now count for eggs laid in the Day Care too."
-  ],
-  "changes": [
-   "Catch list: each species can cover its whole family (the evolve-arrow button next to it in the list), so listing Beldum can also catch Metang and Metagross.",
-   "PC: sort by IVs from high to low or low to high, and search “iv<20” or “<20%” for low IVs.",
-   "The Tower shows each floor’s stat boost (“Tower boost +X% stats”): foes keep getting stronger past Lv 100.",
-   "The Shiny passive is now called “Shiny bonus” (same effect). “Lucky” only means Lucky trades.",
-   "Legendary and Mythical Pokémon have their own icons.",
-   "The Trainers board shows each trainer’s card frame.",
-   "Pokémon taken out of the Day Care wait until their next level to evolve on their own (or press Evolve), so breeding parents stay as they are."
-  ],
-  "fixes": [
-   "A catch you throw yourself no longer shows up in the log before the ball stops wobbling.",
-   "The hatch screen keeps the name of the Pokémon that hatched, even if you rename it while the screen is open."
   ]
  }
 ]
