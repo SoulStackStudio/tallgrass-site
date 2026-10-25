@@ -409,3 +409,9 @@ code { font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace; font-siz
   .layer .strip { animation: none !important; }
   .gate.is-open { transform: none; opacity: 0; }
 }
+
+/* browser play (0.55.0) */
+.dl-web { margin-top: 20px; padding: 22px 26px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+.dl-web h3 { margin: 0 0 8px; display: flex; align-items: center; gap: 10px; }
+.dl-web p { margin: 0 0 6px; } .dl-web code { font-size: .9em; }
+@media (max-width: 860px) { .dl-web { grid-template-columns: 1fr; justify-items: start; } }
