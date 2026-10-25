@@ -1,5 +1,36 @@
 [
  {
+  "version": "0.56.1",
+  "date": "2026-10-25",
+  "title": "Cloud save fix",
+  "notes": [],
+  "changes": [],
+  "fixes": [
+   "Fixed the game freezing on 0.56.0 right after the welcome-back card closed (nothing could be clicked).",
+   "The welcome-back catch-up is faster when your PC holds thousands of Pokémon."
+  ]
+ },
+ {
+  "version": "0.56.0",
+  "date": "2026-10-25",
+  "title": "Cloud save",
+  "notes": [
+   "Cloud save: your save now lives on your Discord account. Log in on any device (your PC, a Mac, the browser) and it’s your game, right where you left it. No more Export and Import to move it.",
+   "Two saves? If you’ve been playing on two devices (for example a PC and the browser), the first time you log in Tallgrass shows both side by side, with their Pokédex, Pokémon, money, badges and playtime, and you pick the one to keep playing. The other one is kept as a backup on your account. When one of them is brand new, Tallgrass keeps the bigger one by itself and tells you.",
+   "Play here now brings your newest save over from the other device before the hunt goes on.",
+   "New install? Log in and Tallgrass offers to load the save on your account, or start fresh.",
+   "F11 makes the Classic window full screen. F11 or Esc puts it back where it was."
+  ],
+  "changes": [
+   "A small cloud in the corner of the scene shows whether your save is on your account (saved, saving, offline, or two saves to pick from). Hover it for details, click it for Cloud save.",
+   "Settings → Help → Cloud save: save now, and play one of the older copies your account keeps (the last few, one a day for a week, and any save you set aside). The save you were playing is kept as a backup.",
+   "Pokémon you traded, Wonder Traded or sold since an older copy was saved stay with their new trainers when you load that copy.",
+   "Offline play works as before: your save goes to your account when Tallgrass is back online.",
+   "Your save’s backups on this device stay as they were. Export / Import in the browser is still there for a copy of your own."
+  ],
+  "fixes": []
+ },
+ {
   "version": "0.55.0",
   "date": "2026-10-25",
   "title": "One device at a time",
@@ -15,54 +46,5 @@
    "Protosynthesis and Quark Drive work like in the main games: in harsh sunlight or Electric Terrain they raise the Pokémon’s highest stat (Speed by 50%, the others by 30%), say so in battle, and wear off when the sun or terrain ends. Not in raids."
   ],
   "fixes": []
- },
- {
-  "version": "0.54.5",
-  "date": "2026-10-25",
-  "title": "Fixes and Show on Discord",
-  "notes": [
-   "Show on Discord: your Discord profile shows what you’re up to (the island you hunt on, the Tower floor or a raid), and for a few minutes after a Shiny, Void, Prismatic or Legendary catch, that Pokémon. Needs the Discord app open. Settings → Show on Discord turns it off.",
-   "Shiny and crystal odds events now also boost rare looks in the Tower (Route and Den floors).",
-   "Friend gifts: open up to 20 a day (was 10)."
-  ],
-  "changes": [
-   "Self-Destruct and Explosion make the user faint, like in the main games (Damp stops them). In raids, a Pokémon that uses one is out for the rest of that raid. Your auto team keeps them for when it’s low on HP.",
-   "Updates: before the game restarts into a new version by itself, a notice counts down (Restart now / Not now). An update that’s required restarts on its own when you’re away, and your team’s hunting while it waited is played when the game comes back.",
-   "Rush shows its charges and when the next one comes back, on the strip and the Rush button.",
-   "Day Care: each parent shows its nature, and the help (?) has quick answers about Ditto, the Destiny Knot (two don’t stack), the Everstone, and how Shiny, Void, Prismatic and Alpha pass down.",
-   "Alpha bosses say how to get them: beat them and they may join you (they can’t be caught with balls).",
-   "Night Market: if your account is too new to sell, it says how long until selling opens.",
-   "Raid parties: Leave party is a clear button, invites show how long they last, and the invite list has a search (name or friend code) with online friends first.",
-   "Trainers board: trainers with the same number always keep the same order, and your own row always shows (with your place) even outside the top 100.",
-   "Favourites can’t go on the Night Market or in a trade until you unstar them, like the Professor and Wonder Trade."
-  ],
-  "fixes": [
-   "Fixed favourites sometimes going to the Professor along with an extra copy of the same Pokémon.",
-   "The login card (for example, logged in with a Discord account that hasn’t joined the Glowbugs Discord) now has Use another Discord, Log out and Close game, so you’re never stuck on it.",
-   "Friend battles now use the team you have when the battle runs, not the one from when the challenge was sent.",
-   "The raid card on start no longer says you have 10 passes after you used them all today.",
-   "Fixed the Join the Discord link."
-  ]
- },
- {
-  "version": "0.54.4",
-  "date": "2026-10-25",
-  "title": "Fixes and the Skill book",
-  "notes": [
-   "Skill book: every Signature Leader skill and every Ability in one place, with what they do and which Pokémon have them. Open it with the Skills button in the Pokédex.",
-   "Everstone: a Day Care parent holding one passes its nature to every baby. The Day Care explains what the Everstone and the Destiny Knot do.",
-   "Change look: the outfit button on your own trainer card takes you straight to your outfits."
-  ],
-  "changes": [
-   "Event Pokémon (gifts from the Tallgrass team) have an \"E\" tag next to their name.",
-   "Pokémon with Power-ups, your Buddy and Pokémon with a nickname or Move Tutor moves are never sent to the Professor as duplicates.",
-   "Gigaton Hammer can’t be used twice in a row, like in the main games.",
-   "You can’t throw a ball while a wild Pokémon is up in the air, underground or underwater (Bounce, Fly, Dig, Dive). Wait for it to come back."
-  ],
-  "fixes": [
-   "Fixed “Use all monitors” making the game invisible and the PC slow. If spreading over your monitors doesn’t work, the game now goes back to your main monitor on its own, and tray menu → Reset position always brings it back.",
-   "Evolving a Pokémon no longer sends another Pokémon of the same species to the Professor.",
-   "The Pokédex no longer says “Seen 0×” for a Pokémon you have registered."
-  ]
  }
 ]
