@@ -1,5 +1,26 @@
 [
  {
+  "version": "0.54.4",
+  "date": "2026-10-25",
+  "title": "Fixes and the Skill book",
+  "notes": [
+   "Skill book: every Signature Leader skill and every Ability in one place, with what they do and which Pokémon have them. Open it with the Skills button in the Pokédex.",
+   "Everstone: a Day Care parent holding one passes its nature to every baby. The Day Care explains what the Everstone and the Destiny Knot do.",
+   "Change look: the outfit button on your own trainer card takes you straight to your outfits."
+  ],
+  "changes": [
+   "Event Pokémon (gifts from the Tallgrass team) have an \"E\" tag next to their name.",
+   "Pokémon with Power-ups, your Buddy and Pokémon with a nickname or Move Tutor moves are never sent to the Professor as duplicates.",
+   "Gigaton Hammer can’t be used twice in a row, like in the main games.",
+   "You can’t throw a ball while a wild Pokémon is up in the air, underground or underwater (Bounce, Fly, Dig, Dive). Wait for it to come back."
+  ],
+  "fixes": [
+   "Fixed “Use all monitors” making the game invisible and the PC slow. If spreading over your monitors doesn’t work, the game now goes back to your main monitor on its own, and tray menu → Reset position always brings it back.",
+   "Evolving a Pokémon no longer sends another Pokémon of the same species to the Professor.",
+   "The Pokédex no longer says “Seen 0×” for a Pokémon you have registered."
+  ]
+ },
+ {
   "version": "0.54.3",
   "date": "2026-10-25",
   "title": "Quality of life",
@@ -41,24 +62,6 @@
    "Heavy Slam and Heat Crash now hit by weight (heavier user, more power) instead of 1–2 damage.",
    "Fire Spin, Wrap, Whirlpool, sandstorm, burn and poison no longer hurt anyone after the battle is already won or lost. A trap also ends when the Pokémon that set it leaves.",
    "Whirlpool, Fire Spin, Wrap, Bind, Sand Tomb, Infestation, Magma Storm and Thunder Cage have their move descriptions."
-  ]
- },
- {
-  "version": "0.54.1",
-  "date": "2026-10-25",
-  "title": "Small fixes",
-  "notes": [],
-  "changes": [
-   "Battles end after 10 turns in which neither side can land a hit: a wild Pokémon flees (no loss, the hunt goes on); Gyms and the Tower count it as out of turns.",
-   "Rare Candy says why it stops at your level cap, and which Gym raises it.",
-   "Your save now keeps hourly and daily backups (Settings → Help → Backups).",
-   "Progress is always saved before an update.",
-   "The game always stays on screen; tray menu → Reset position."
-  ],
-  "fixes": [
-   "Fixed a hatching issue.",
-   "The egg hatch screens no longer stop you from using or closing your other windows while they are open.",
-   "Party cards no longer stretch tall."
   ]
  }
 ]

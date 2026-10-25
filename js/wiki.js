@@ -775,6 +775,7 @@
         <div class="bc-par__row">
           <label class="bc-cos" data-cos="${p}" hidden><span>Costume</span><select class="w-in" name="${p}_cos"></select></label>
           <label class="bc-chip bc-chip--item"><input type="checkbox" name="${p}_knot">${ispr('destiny_knot', 20)}<span>Destiny Knot</span></label>
+          <label class="bc-chip bc-chip--item"><input type="checkbox" name="${p}_ever">${ispr('everstone', 20)}<span>Everstone</span></label>
         </div>
       </fieldset>`
     el.innerHTML = `<div class="bc">
@@ -830,7 +831,7 @@
       const look = { shiny: !!v[`${p}_shiny`], umbral: !!v[`${p}_umbral`], prismana: !!v[`${p}_prismana`] }
       const art = cos ? BY.idx.get(cos) : m2 ? BY.idx.get(m2.s) : -1
       $(`[data-pspr="${p}"]`, el).innerHTML = spr(art, 64, { ...look, alt: m2?.nm || '' })
-      return m2 && { m: m2, cos, look, perfect: !!v[`${p}_perfect`], alpha: !!v[`${p}_alpha`], knot: !!v[`${p}_knot`] }
+      return m2 && { m: m2, cos, look, perfect: !!v[`${p}_perfect`], alpha: !!v[`${p}_alpha`], knot: !!v[`${p}_knot`], everstone: !!v[`${p}_ever`] }
     })
     const tile = (i2, label, p, sub) => `<div class="bc-tile">${ic(i2)}<span>${label}</span><b>${pctA(p)}</b><small>${oneInA(p)}</small>${p > 0 && p < 1 ? `<em>50%: ${eggsA(p, 0.5)} · 90%: ${eggsA(p, 0.9)}</em>` : sub ? `<em>${sub}</em>` : ''}</div>`
     const lookGrid = (L, art, nm) => `<div class="bc-looks">${L.list.map((x) => `<div class="bc-look${x.shiny ? ' is-s' : ''}${x.umbral ? ' is-u' : ''}${x.prismana ? ' is-p' : ''}">${spr(art, 64, { shiny: x.shiny, umbral: x.umbral, prismana: x.prismana, alt: `${lookLabel(x)} ${nm}` })}<span>${lookLabel(x)}</span><b>${pctA(x.p)}</b><small>${oneInA(x.p)}</small><em>${x.p >= 0.5 ? 'most eggs' : `90%: ${eggsA(x.p, 0.9)}`}</em></div>`).join('')}</div>`
@@ -848,7 +849,7 @@
     if (!P[0] || !P[1]) { out.innerHTML = `<p class="muted">Pick ${!P[0] && !P[1] ? 'both parents' : `Parent ${P[0] ? 'B' : 'A'}`} from the list.</p>`; return }
     const match = C.breedCompat(breedRec(P[0].m), breedRec(P[1].m))
     const babies = C.breedBabies(breedRec(P[0].m), breedRec(P[1].m))
-    const o = C.eggOdds(K, { rank, charm, islands: !!v.islands, parents: P.map((p) => ({ ...p.look, perfect: p.perfect, alpha: p.alpha, knot: p.knot })) })
+    const o = C.eggOdds(K, { rank, charm, islands: !!v.islands, parents: P.map((p) => ({ ...p.look, perfect: p.perfect, alpha: p.alpha, knot: p.knot, everstone: p.everstone })) })
     const L = C.looks8(o, boost)
     const head = `<div class="bc-match ${match.ok ? 'ok' : 'no'}">${ic(match.ok ? 'heart' : 'warn')}<span><b>${match.ok ? (match.rate === 2 ? 'They get along great' : 'They get along') : 'No eggs'}</b> ${esc(match.why)}</span></div>`
     if (!match.ok) { out.innerHTML = head; return }
@@ -886,7 +887,8 @@
       <div><dt>${ic('heart')} With ${nan ? `${esc(BY.get(v.nanny)?.nm || v.nanny)}${v.nlook ? ` (${LOOKS3.find((x) => x[0] === v.nlook)[1]})` : ''}` : 'a nanny'}</dt><dd>${nan ? `hatches one ready egg every <b>${+nan.toFixed(2)} min</b> of hunting: about <b>${+handsFree.toFixed(1)}</b> babies an hour from this pen, hands-free${60 / nan < 60 / layMin ? ' (the nanny is the bottleneck: eggs wait in the basket)' : ''}` : 'pick a nanny above to see its hands-free pace'}</dd></div>
     </dl>`
     out.innerHTML = `${head}${babyHtml}<h4 class="w-h4">Chances per egg</h4>${oddsHtml(o, L)}<h4 class="w-h4">All 8 looks <small class="muted">${esc(cur.m?.nm || '')}</small></h4>${lookGrid(L, art, cur.m?.nm || '')}<h4 class="w-h4">Hatch time</h4>${hatchHtml}
-      ${o.islands ? '<p class="muted small">Parents from different islands: base look odds doubled.</p>' : ''}`
+      ${o.islands ? '<p class="muted small">Parents from different islands: base look odds doubled.</p>' : ''}
+      <p class="muted small">${o.everstone ? `${ispr('everstone', 16)} Everstone: every baby gets the holder's nature${P.every((p) => p.everstone) ? ' (both hold one: either parent\'s, egg by egg)' : ''}. Looks and odds stay the same.` : 'Nature: random (1 in 25 for any one nature). An Everstone on a parent passes its nature.'} ${o.knot ? `${ispr('destiny_knot', 16)} Destiny Knot: each baby keeps the best of 3 IV rolls${o.everstone ? ' with that nature' : ''}, and ×3 perfect IVs.` : ''}</p>`
   }
   function runCalc(el, t0) {
     const v = Object.fromEntries($$('[name]', el).filter((i) => i.type !== 'radio' || i.checked).map((i) => [i.name, i.type === 'checkbox' ? i.checked : i.value]))

@@ -120,7 +120,7 @@
   }
 
   // ---- breeding (care.ts eggOdds / compat / firstForm / halloweenBaby, game.ts nannyMins; dice.ts rollLooks) ----
-  // K = META.breed. A parent = { shiny, umbral, prismana, perfect, alpha, knot } (knot = holds a Destiny Knot)
+  // K = META.breed. A parent = { shiny, umbral, prismana, perfect, alpha, knot, everstone } (knot = holds a Destiny Knot, everstone = holds an Everstone)
   /** the chance (0..1) per egg of each look, Perfect IVs and Alpha. o = { rank, charm, islands (caught on different islands), parents } */
   function eggOdds(K, o) {
     const pair = o.parents
@@ -137,13 +137,14 @@
       umbral: 1 / (base * K.umbralX) + (inh * has((c) => !!c.umbral)) / K.inherit.umbral,
       prismana: 1 / (base * K.prismanaX) + (inh * has((c) => !!c.prismana)) / K.inherit.prismana,
       perfect: Math.min(1, perfect), alpha: has((c) => !!c.alpha) / K.inherit.alpha, knot, islands,
+      everstone: pair.some((c) => !!c.everstone), // game 0.54.4: a parent's Everstone passes its nature (odds unchanged)
     }
   }
   /** a Costume Egg's odds (events.ts costumeEgg): K.costumeEgg.k × the egg base, perfect 1 in K.costumeEgg.perfect, never Alpha */
   function costumeEggOdds(K, o) {
     const odds = ((K.ranks[o.rank].shiny / (1 + K.charmK * (o.charm || 0))) * K.lookX.egg) / K.lookX.wild
     const k = K.costumeEgg.k
-    return { shiny: k / odds, umbral: k / (odds * K.umbralX), prismana: k / (odds * K.prismanaX), perfect: 1 / K.costumeEgg.perfect, alpha: 0, knot: false, islands: false }
+    return { shiny: k / odds, umbral: k / (odds * K.umbralX), prismana: k / (odds * K.prismanaX), perfect: 1 / K.costumeEgg.perfect, alpha: 0, knot: false, islands: false, everstone: false }
   }
   /** do two Pokémon get along? m = { s (slug), fst (first form), t (types), bd (its line can breed) } */
   function breedCompat(a, b) {
