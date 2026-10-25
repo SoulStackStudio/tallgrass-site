@@ -888,7 +888,7 @@
     </dl>`
     out.innerHTML = `${head}${babyHtml}<h4 class="w-h4">Chances per egg</h4>${oddsHtml(o, L)}<h4 class="w-h4">All 8 looks <small class="muted">${esc(cur.m?.nm || '')}</small></h4>${lookGrid(L, art, cur.m?.nm || '')}<h4 class="w-h4">Hatch time</h4>${hatchHtml}
       ${o.islands ? '<p class="muted small">Parents from different islands: base look odds doubled.</p>' : ''}
-      <p class="muted small">${o.everstone ? `${ispr('everstone', 16)} Everstone: every baby gets the holder's nature${P.every((p) => p.everstone) ? ' (both hold one: either parent\'s, egg by egg)' : ''}. Looks and odds stay the same.` : 'Nature: random (1 in 25 for any one nature). An Everstone on a parent passes its nature.'} ${o.knot ? `${ispr('destiny_knot', 16)} Destiny Knot: each baby keeps the best of 3 IV rolls${o.everstone ? ' with that nature' : ''}, and ×3 perfect IVs.` : ''}</p>`
+      <p class="muted small">${o.everstone ? `${ispr('everstone', 16)} Everstone: every baby gets the holder's nature${P.every((p) => p.everstone) ? ' (both hold one: either parent\'s, egg by egg)' : ''}. Looks and odds stay the same.` : 'Nature: random (1 in 25 for any one nature). An Everstone on a parent passes its nature.'} ${o.knot ? `${ispr('destiny_knot', 16)} Destiny Knot: each baby keeps the best of 3 IV rolls${o.everstone ? ' with that nature' : ''}, and ×3 perfect IVs${P.every((p) => p.knot) ? ' (two Knots work the same as one)' : ''}.` : ''}</p>`
   }
   function runCalc(el, t0) {
     const v = Object.fromEntries($$('[name]', el).filter((i) => i.type !== 'radio' || i.checked).map((i) => [i.name, i.type === 'checkbox' ? i.checked : i.value]))

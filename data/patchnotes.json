@@ -1,5 +1,33 @@
 [
  {
+  "version": "0.54.5",
+  "date": "2026-10-25",
+  "title": "Fixes and Show on Discord",
+  "notes": [
+   "Show on Discord: your Discord profile shows what you’re up to (the island you hunt on, the Tower floor or a raid), and for a few minutes after a Shiny, Void, Prismatic or Legendary catch, that Pokémon. Needs the Discord app open. Settings → Show on Discord turns it off.",
+   "Shiny and crystal odds events now also boost rare looks in the Tower (Route and Den floors).",
+   "Friend gifts: open up to 20 a day (was 10)."
+  ],
+  "changes": [
+   "Self-Destruct and Explosion make the user faint, like in the main games (Damp stops them). In raids, a Pokémon that uses one is out for the rest of that raid. Your auto team keeps them for when it’s low on HP.",
+   "Updates: before the game restarts into a new version by itself, a notice counts down (Restart now / Not now). An update that’s required restarts on its own when you’re away, and your team’s hunting while it waited is played when the game comes back.",
+   "Rush shows its charges and when the next one comes back, on the strip and the Rush button.",
+   "Day Care: each parent shows its nature, and the help (?) has quick answers about Ditto, the Destiny Knot (two don’t stack), the Everstone, and how Shiny, Void, Prismatic and Alpha pass down.",
+   "Alpha bosses say how to get them: beat them and they may join you (they can’t be caught with balls).",
+   "Night Market: if your account is too new to sell, it says how long until selling opens.",
+   "Raid parties: Leave party is a clear button, invites show how long they last, and the invite list has a search (name or friend code) with online friends first.",
+   "Trainers board: trainers with the same number always keep the same order, and your own row always shows (with your place) even outside the top 100.",
+   "Favourites can’t go on the Night Market or in a trade until you unstar them, like the Professor and Wonder Trade."
+  ],
+  "fixes": [
+   "Fixed favourites sometimes going to the Professor along with an extra copy of the same Pokémon.",
+   "The login card (for example, logged in with a Discord account that hasn’t joined the Glowbugs Discord) now has Use another Discord, Log out and Close game, so you’re never stuck on it.",
+   "Friend battles now use the team you have when the battle runs, not the one from when the challenge was sent.",
+   "The raid card on start no longer says you have 10 passes after you used them all today.",
+   "Fixed the Join the Discord link."
+  ]
+ },
+ {
   "version": "0.54.4",
   "date": "2026-10-25",
   "title": "Fixes and the Skill book",
@@ -41,27 +69,6 @@
   "fixes": [
    "A catch you throw yourself no longer shows up in the log before the ball stops wobbling.",
    "The hatch screen keeps the name of the Pokémon that hatched, even if you rename it while the screen is open."
-  ]
- },
- {
-  "version": "0.54.2",
-  "date": "2026-10-25",
-  "title": "Battle fixes and PC helpers",
-  "notes": [
-   "Suggested items: the new ITEMS button next to AUTO under your party gives your team the held items from your Bag that suit each one. You see the swaps first; it never takes an item from another Pokémon.",
-   "Drag a whole box: in the PC’s Boxes list, drag a box onto another to move it there with all its Pokémon.",
-   "Pokédex: Registered and Seen now filter the Pokédex, and Looks shows which Shiny, Void and Prismatic looks of each species you’ve registered."
-  ],
-  "changes": [
-   "Sending to the Professor (Send duplicates and Select → Send) lists what goes with each one’s nature and IVs, best IVs first.",
-   "Selecting several Pokémon in the PC: the card on the right shows the last one you picked.",
-   "The badge screen closes by itself after 8 seconds (or when you click), so the hunt never waits. Fly there / Stay still decides what happens.",
-   "In battle, a wild Pokémon’s look is written next to its IVs, and the row of looks under it is labelled “In your PC”. Moves show their priority."
-  ],
-  "fixes": [
-   "Heavy Slam and Heat Crash now hit by weight (heavier user, more power) instead of 1–2 damage.",
-   "Fire Spin, Wrap, Whirlpool, sandstorm, burn and poison no longer hurt anyone after the battle is already won or lost. A trap also ends when the Pokémon that set it leaves.",
-   "Whirlpool, Fire Spin, Wrap, Bind, Sand Tomb, Infestation, Magma Storm and Thunder Cage have their move descriptions."
   ]
  }
 ]
