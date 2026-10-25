@@ -1,5 +1,28 @@
 [
  {
+  "version": "0.54.3",
+  "date": "2026-10-25",
+  "title": "Quality of life",
+  "notes": [
+   "Updates: the update downloads by itself and the card shows its progress, then one button: Restart to update. Your save comes with you. No need to close the game yourself.",
+   "Bosses: the next boss counter shows on the island’s Pokédex chip and in Islands. Once an island’s Pokédex is complete, its bosses come every 20 encounters instead of 35.",
+   "Shiny and crystal odds events now count for eggs laid in the Day Care too."
+  ],
+  "changes": [
+   "Catch list: each species can cover its whole family (the evolve-arrow button next to it in the list), so listing Beldum can also catch Metang and Metagross.",
+   "PC: sort by IVs from high to low or low to high, and search “iv<20” or “<20%” for low IVs.",
+   "The Tower shows each floor’s stat boost (“Tower boost +X% stats”): foes keep getting stronger past Lv 100.",
+   "The Shiny passive is now called “Shiny bonus” (same effect). “Lucky” only means Lucky trades.",
+   "Legendary and Mythical Pokémon have their own icons.",
+   "The Trainers board shows each trainer’s card frame.",
+   "Pokémon taken out of the Day Care wait until their next level to evolve on their own (or press Evolve), so breeding parents stay as they are."
+  ],
+  "fixes": [
+   "A catch you throw yourself no longer shows up in the log before the ball stops wobbling.",
+   "The hatch screen keeps the name of the Pokémon that hatched, even if you rename it while the screen is open."
+  ]
+ },
+ {
   "version": "0.54.2",
   "date": "2026-10-25",
   "title": "Battle fixes and PC helpers",
@@ -36,39 +59,6 @@
    "Fixed a hatching issue.",
    "The egg hatch screens no longer stop you from using or closing your other windows while they are open.",
    "Party cards no longer stretch tall."
-  ]
- },
- {
-  "version": "0.54.0",
-  "date": "2026-10-25",
-  "title": "Megas, breeding and terrains",
-  "notes": [
-   "Mega Evolution info: a \"Mega\" chip with its stone on the Pokémon card, the Hunt cards and in the PC (filter: Can Mega Evolve). Pokémon whose evolution can Mega Evolve say which one.",
-   "Day Care: both parents’ IVs side by side (green = higher than the other parent), and right-click a parent to open its full card.",
-   "Ditto knows Transform, and a Ditto with Imposter copies the foe the moment it comes in.",
-   "Terrains: Electric, Grassy, Psychic and Misty Surge (and Hadron Engine, Quark Drive, Seed Sower, Surge Surfer) now work in every battle except raids.",
-   "Catch rules: a Never send list of species (every copy stays), Living dex (your best one of each species stops evolving on its own) and Use evolution items (stones in your Bag are used by themselves). All off until you turn them on.",
-   "A Shiny, Void or Prismatic nanny hatches eggs a little faster (10%, 15%, 20%)."
-  ],
-  "changes": [
-   "Guarded now works like Sturdy: your Pokémon hangs on at 1 HP and still gets its move that turn.",
-   "Giant bosses that have no Gigantamax form are now called Dynamax; the Gigantamax look is for the real ones.",
-   "A Pokémon cries when you open its card. Natures show on the stats: the raised one green, the lowered one red.",
-   "PC filters: Evolves into a new Pokédex entry, Can still evolve, Fully evolved, Can Mega Evolve.",
-   "Move Tutor: show only Physical, Special or Status moves, or sort by them.",
-   "The big-spend question has a \"Don’t show again\" box (the bell next to your money in the Mart brings it back).",
-   "Your panel layout and monitor settings now stay put through updates.",
-   "Catch rules: Auto-evolve can be switched off. Pokémon then wait as Ready to evolve until you press Evolve.",
-   "Night Market: change your price without taking the listing down."
-  ],
-  "fixes": [
-   "When your last Pokémon and the foe faint on the same turn, the game now says so and your team rests at the Pokémon Center.",
-   "The Blue and Pink Wonder Card backgrounds had each other’s names.",
-   "The login card now shows the steps when Discord says your email isn’t verified.",
-   "Your Founder badge now shows on your own Trainer card too.",
-   "Players with lots of friends no longer drop offline.",
-   "Send all gifts now reaches every friend and tells you how many went out.",
-   "Thanks to dll5700 and iwrecked22 for the ideas, and to everyone who reported bugs in the Discord!"
   ]
  }
 ]
