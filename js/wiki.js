@@ -386,11 +386,13 @@
       if (!document.body.contains(el)) return
       const now = Date.now()
       if (el.dataset.live === 'raid') {
-        const today = C.raidBoss(L, now), next = C.raidBoss(L, now + 86400000)
+        // game 0.57.3: a new boss every 12 hours (L.halves: a Mythical from 00:00 UTC, a Legendary from 12:00 UTC); older data: one a day
+        const end = C.raidEnds ? C.raidEnds(L, now) : (Math.floor(now / 86400000) + 1) * 86400000, today = C.raidBoss(L, now), next = C.raidBoss(L, end)
         const t = BY.get(today), x = BY.get(next)
-        const end = (Math.floor(now / 86400000) + 1) * 86400000
-        el.innerHTML = `<div class="lv-card lv-raid"><h4>${ic('raid_pass')} Today's 5★ raid boss</h4>
-          <a class="lv-boss" href="#wiki/pokemon/${today}">${spr(BY.idx.get(today), 96, { alt: t?.nm })}<span><b>${esc(t?.nm || today)}</b>${t ? t.t.map((ty) => typePill(ty, false)).join('') : ''}<small>Changes in ${clock(end - now)} (midnight UTC)</small></span></a>
+        const kind = L.halves ? (L.halves.myth.includes(today) ? ' (Mythical)' : ' (Legendary)') : ''
+        const when = new Date(end).getUTCHours() === 12 ? '12:00 UTC' : 'midnight UTC'
+        el.innerHTML = `<div class="lv-card lv-raid"><h4>${ic('raid_pass')} ${L.halves ? `The 5★ raid boss now${kind}` : "Today's 5★ raid boss"}</h4>
+          <a class="lv-boss" href="#wiki/pokemon/${today}">${spr(BY.idx.get(today), 96, { alt: t?.nm })}<span><b>${esc(t?.nm || today)}</b>${t ? t.t.map((ty) => typePill(ty, false)).join('') : ''}<small>${L.halves ? 'Next boss in' : 'Changes in'} ${clock(end - now)} (${when})</small></span></a>
           <p class="lv-next">Next: ${monLink(next, 32)}</p></div>`
       } else {
         const ob = C.outbreaks(L, now)

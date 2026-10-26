@@ -82,8 +82,17 @@
     return () => { h = Math.imul(h ^ (h >>> 15), 2246822507); h = Math.imul(h ^ (h >>> 13), 3266489909); h ^= h >>> 16; return (h >>> 0) / 4294967296 }
   }
   const DAY = 86400000
-  /** today's 5★ raid boss (one a UTC day) */
-  function raidBoss(L, t) { const n = Math.floor(t / DAY); return L.raid[((n % L.raid.length) + L.raid.length) % L.raid.length] }
+  /** the 5★ raid boss at t. Game 0.57.3+ (L.halves): a new one every 12 hours, a Mythical 00:00-12:00 UTC and a Legendary
+   *  12:00-24:00 UTC, each list walked in its own seeded order (raid2.ts halfKey). Older data (no halves): one a UTC day */
+  function raidBoss(L, t) {
+    const n = Math.floor(t / DAY)
+    const at = (list, i) => list[((i % list.length) + list.length) % list.length]
+    const H = L.halves
+    if (!H) return at(L.raid, n)
+    return t - n * DAY < DAY / 2 ? at(H.myth, H.base + n) : at(H.legend[((n % H.legend.length) + H.legend.length) % H.legend.length], H.base + Math.floor(n / H.legend.length))
+  }
+  /** when the raid boss at t leaves: the next 00:00 / 12:00 UTC (older data: the next midnight UTC) */
+  function raidEnds(L, t) { const step = L.halves ? DAY / 2 : DAY; return (Math.floor(t / step) + 1) * step }
   function cycleSeeded(L, list, n, tag) {
     const round = Math.floor(n / list.length)
     const r = seeded(`${L.seed}|${tag}|${round}`)
@@ -195,6 +204,6 @@
     return (K.nanny[slug] || 0) * Math.min(1, look.shiny ? L.shiny : 1, look.umbral ? L.umbral : 1, look.prismana ? L.prismana : 1)
   }
 
-  root.TGCalc = { catchChance, stats, expGain, expFor, transferCash, powerCost, seeded, raidBoss, outbreaks,
+  root.TGCalc = { catchChance, stats, expGain, expFor, transferCash, powerCost, seeded, raidBoss, raidEnds, outbreaks,
     eggOdds, costumeEggOdds, breedCompat, breedBabies, costumeFor, halloweenFits, looks8, eggsFor, warmEncounters, nannyMins }
 })(typeof window !== 'undefined' ? window : globalThis)

@@ -1,50 +1,82 @@
 [
  {
-  "version": "0.56.1",
-  "date": "2026-10-25",
-  "title": "Cloud save fix",
-  "notes": [],
-  "changes": [],
+  "version": "0.57.3",
+  "date": "2026-10-26",
+  "title": "Friendship points, two raid bosses a day",
+  "notes": [
+   "Friendship points: trade levels now grow with everything you do together, not only gifts. What you already did together counts.",
+   "A gift opened between you +1, a trade +3 (1 a day), a raid boss beaten in the same raid party +2 (3 a day), a cheer on a friend’s rare find +1 (3 a day), a friend battle +1 (2 a day). Same days and numbers as before: Lv2 needs 3 points, Lv3 10, Lv4 20.",
+   "Point at the hearts next to a friend’s name (tap on a phone) to see your level, what the next one unlocks, the days and points still needed, and today’s points with that friend.",
+   "Cheer your friends’ rare finds with the heart on each find in Friends’ finds: once per find, a friendship point for you both (3 a day with each friend). See who cheered your finds on the Reactions page.",
+   "Raids: two bosses a day again! A new raid boss every 12 hours: a Mythical from midnight UTC, then a Legendary or Ultra Beast from 12:00 UTC (2 am and 2 pm in South Africa). Every one of them comes round in turn.",
+   "The raid card shows when the next boss arrives and who it is (“Next boss in 3h 12m”). If the boss changes in the middle of your party’s fight, you have 30 more minutes to finish it.",
+   "New: a Spooky 2026 page in your Stamp book. Six seasonal stamps: your first Spectral, 3 Spectrals, a Spectral Ghost-type, a Spectral Legendary or Mythical, one hatched from a Day Care egg, and 50 Spectrals. Fill it before Spooky season ends to win the Spooky 2026 card frame and title (just for looks).",
+   "Spectrals you found before this update already count. Trades don’t, and the page never counts toward your book’s totals.",
+   "Spooky season decorates every route: flickering jack-o’-lanterns, cobwebs, candles and paper lanterns, bats flitting past now and then, and a purple-orange night sky. They stay in the background and are gone when the season ends.",
+   "Mythical and Ultra Beast Pokémon are now called that (they all said Legendary): on PC cards, the Pokédex, hunt call-outs, battles, raid cards, What you missed, trades and the Night Market, each with its own mark. Only the names changed.",
+   "Search the PC or the Pokédex for mythical, ultra beast or ub, and the PC’s Show filter has Mythical and Ultra Beast. Searching legendary still finds them all."
+  ],
+  "changes": [
+   "Lucky Slots shows what it pays: the winning symbols light up, the readout says why (2 Cherries ×4 +200) and that row of the pay table lights up. The reels show where they really stopped, so the rows above and below the line no longer look like wins. Only the middle line pays; Cherries count from the left reel.",
+   "The Lucky Slots pay table shows what each line pays at your bet, your Coins go up when the reels stop, and phones get a Pay table button next to SPIN.",
+   "Egg counts add up: the egg card by the hunt, Hatch all (N) and its tooltip, the Day Care basket and the hatch reveal all count the same eggs, the ones that open when you press it. The card says why any others wait (still warming).",
+   "A Pokémon you got in a trade can be traded again 30 days after it arrived (it was 14).",
+   "The Pixel / HD switch on a Pokémon’s card remembers your pick for every Pokémon.",
+   "Rare finds remember the Poké Radar chain they were found at: it shows on the Pokémon’s card and on Discord.",
+   "New Game shows the Spectral starter odds (1 in 160) during Spooky season.",
+   "Browser: logging in with no save anywhere now says “No cloud save on this account yet” and shows how to bring your PC save over (open Tallgrass 0.56.1 or newer on your PC while online once), with Import a save file and Start a new game. When your save arrives, it offers to load it by itself."
+  ],
   "fixes": [
-   "Fixed the game freezing on 0.56.0 right after the welcome-back card closed (nothing could be clicked).",
-   "The welcome-back catch-up is faster when your PC holds thousands of Pokémon."
+   "Fused Pokémon (Kyurem, Necrozma and Calyrex) could disappear from the PC after a save. Fixed.",
+   "Hatch all shows every egg it counted: with auto-send on, a baby waiting for its reveal no longer goes to the Professor before you’ve seen it.",
+   "Claiming gifts always tells you what happened. If you’ve already opened today’s gifts on another device, it says so and the counter shows it.",
+   "The Hearth and Nanny pickers always fit your window: they open above the helper and shrink to the room there (smaller slots, more pages). Nothing is cut off, on phones too.",
+   "Lucky Slots: Auto ×10 always spins at the bet you picked, and the Slots fit smaller windows with nothing cut off.",
+   "The Evolution row lines up again.",
+   "HD on a Pokémon’s card shows the HD sprite even when your PC is set to Pixel.",
+   "Phones: the route’s background no longer goes missing when you come back to the app.",
+   "Lycanroc, Wishiwashi, Oricorio and 19 more Pokémon (with their Mega and Crowned forms) have their cries now.",
+   "Hunt timing fixes."
   ]
  },
  {
-  "version": "0.56.0",
-  "date": "2026-10-25",
-  "title": "Cloud save",
+  "version": "0.57.2",
+  "date": "2026-10-26",
+  "title": "Spooky season: Spectral Pokémon",
   "notes": [
-   "Cloud save: your save now lives on your Discord account. Log in on any device (your PC, a Mac, the browser) and it’s your game, right where you left it. No more Export and Import to move it.",
-   "Two saves? If you’ve been playing on two devices (for example a PC and the browser), the first time you log in Tallgrass shows both side by side, with their Pokédex, Pokémon, money, badges and playtime, and you pick the one to keep playing. The other one is kept as a backup on your account. When one of them is brand new, Tallgrass keeps the bigger one by itself and tells you.",
-   "Play here now brings your newest save over from the other device before the hunt goes on.",
-   "New install? Log in and Tallgrass offers to load the save on your account, or start fresh.",
-   "F11 makes the Classic window full screen. F11 or Esc puts it back where it was."
+   "Spooky season is here: Spectral Pokémon haunt the routes until November 9! A Spectral is a see-through ghost of itself: pale teal, glowing softly, breathing in and out with little wisps drifting off it. A little rarer than Prismatic, from every source: wild, eggs, raids and the Tower.",
+   "Spectral stacks with the other looks: a Spectral Shiny is a golden ghost, and a Spectral Void or Prismatic is a see-through crystal. A Spectral stays Spectral forever and trades like a Void or Prismatic.",
+   "Day Care eggs can hatch Spectral during Spooky season too, and every Spectral parent makes it more likely.",
+   "Spectrals can go on the Night Market, and the look adds 50 Glimmer to what one is worth.",
+   "Spectral Pokémon show their ghost look everywhere: the hunt, battles, your PC and party, the Pokédex, trades, showcases, friends’ finds and hatches, with their own ghost mark.",
+   "Find them fast: Spectral in the PC’s Show filter, the search words “spectral” or “spooky”, and a Spectral filter in the Pokédex that marks every species you’ve had as Spectral.",
+   "Catch rules: a Spectral tile and a Spectral Never send tick (both on), and Master Ball rules can pick Spectral.",
+   "A call-out greets you when Spooky season starts, and a ghost chip on the hunt bar counts down the days (click it for the Events card with the odds and your Spectrals). Trainer stats count your Spectrals."
   ],
   "changes": [
-   "A small cloud in the corner of the scene shows whether your save is on your account (saved, saving, offline, or two saves to pick from). Hover it for details, click it for Cloud save.",
-   "Settings → Help → Cloud save: save now, and play one of the older copies your account keeps (the last few, one a day for a week, and any save you set aside). The save you were playing is kept as a backup.",
-   "Pokémon you traded, Wonder Traded or sold since an older copy was saved stay with their new trainers when you load that copy.",
-   "Offline play works as before: your save goes to your account when Tallgrass is back online.",
-   "Your save’s backups on this device stay as they were. Export / Import in the browser is still there for a copy of your own."
+   "When another device is playing your account, the hunt here now looks paused: your team stops, the route dims, and a Paused chip shows where you’re playing, with Play here to bring the hunt back.",
+   "The hunt never waits on its rolls: if they’re slow to come, it carries on at once.",
+   "Rush shows when a boss is next, and says why it stopped."
   ],
-  "fixes": []
+  "fixes": [
+   "Gifts waiting for you no longer disappear from the Inbox after Send all.",
+   "Fixed the game sometimes letting clicks through after a short freeze (new players couldn’t pick a starter).",
+   "The raid invite list fits its box again, and the next page arrow works.",
+   "A friend no longer shows up twice in your friend list.",
+   "Vitamins in the Tower now work on fainted Pokémon.",
+   "Fixed the Pokémon Center rest timer getting stuck for hours after a crash or a clock change.",
+   "New Game fits every screen: on phones and on small or zoomed laptop screens the Choose button was cut off, so you couldn’t start.",
+   "The first screen no longer stays on “Opening the gate…” for good when the connection drops halfway."
+  ]
  },
  {
-  "version": "0.55.0",
-  "date": "2026-10-25",
-  "title": "One device at a time",
-  "notes": [
-   "One device at a time: if your account is already playing on another device, Tallgrass shows “Playing on another device”. Press Play here to carry on where you are, and the other device pauses with the same card until you press Play here on it. When you come back to a device, its catch-up only counts the time nothing else was playing.",
-   "New moves: Stone Axe (Kleavor can learn it) leaves pointed stones that hurt every Pokémon that comes in on the other side. Blood Moon (Ursaluna, from the Move Tutor) can’t be used twice in a row."
-  ],
-  "changes": [
-   "Raid invites only list friends who can raid (5 badges). A small line under the list says how many can’t raid yet.",
-   "The Shiny, Void and Prismatic odds on screen include a running odds event, for example “1 in 190 (2× event)”.",
-   "Battle Tower: a Pokémon that evolves is offered its new form’s moves, including the ones it learns at Lv 1 or below its evolution level (Swampert: Earthquake and Hammer Arm, Volcarona: Heat Wave).",
-   "Ruin abilities (Wo-Chien, Chien-Pao, Ting-Lu, Chi-Yu) say what they weaken when they come in.",
-   "Protosynthesis and Quark Drive work like in the main games: in harsh sunlight or Electric Terrain they raise the Pokémon’s highest stat (Speed by 50%, the others by 30%), say so in battle, and wear off when the sun or terrain ends. Not in raids."
-  ],
-  "fixes": []
+  "version": "0.57.1",
+  "date": "2026-10-26",
+  "title": "Hunt fix",
+  "notes": [],
+  "changes": [],
+  "fixes": [
+   "Fixed the hunt walking without any encounters after updating to 0.57.0. Sorry about that! Your team is back to battling."
+  ]
  }
 ]
