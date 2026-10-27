@@ -128,15 +128,23 @@
     return { window: w, start: w * ms, end: (w + 1) * ms, list }
   }
 
-  // ---- breeding (care.ts eggOdds / compat / firstForm / halloweenBaby, game.ts nannyMins; dice.ts rollLooks) ----
-  // K = META.breed. A parent = { shiny, umbral, prismana, perfect, alpha, knot, everstone } (knot = holds a Destiny Knot, everstone = holds an Everstone)
-  /** the chance (0..1) per egg of each look, Perfect IVs and Alpha. o = { rank, charm, islands (caught on different islands), parents } */
+  // ---- breeding (care.ts eggOdds / compat / firstForm / halloweenBaby, game.ts nannyMins; dice.ts rollLooks; events.ts costumeEgg / openGift;
+  //      raid eggs; seasons.ts) ----
+  // K = META.breed. A parent = { shiny, umbral, prismana, season, perfect, alpha, knot, everstone } (season = its seasonal look's key,
+  // e.g. 'spectral'; knot = holds a Destiny Knot, everstone = holds an Everstone).
+  // K.seasons = the seasonal looks in the game's order (seasons.ts SEASON_KEYS): { k, name, event, vs (x rarer than Prismatic), start, end (ms) }
+  /** every seasonal look's chance from a source's Prismatic chance (dice.ts seasonFromPrismatic: Spectral = Prismatic / 1.25) */
+  const fromPrismatic = (K, q) => Object.fromEntries((K.seasons || []).map((s) => [s.k, q / s.vs]))
+  /** the egg base (1 in N) before the island pair: your wild Shiny odds x LOOK_X.egg / LOOK_X.wild */
+  const eggBase = (K, o) => ((K.ranks[o.rank].shiny / (1 + K.charmK * (o.charm || 0))) * K.lookX.egg) / K.lookX.wild
+  /** the chance (0..1) per egg of each look, Perfect IVs and Alpha. o = { rank, charm, islands (caught on different islands), parents }.
+   *  season (game 0.57.2): each seasonal look's chance, Prismatic's worked out the same way with that look's parents, then vs x rarer
+   *  (it only rolls while its season is open: looks() below) */
   function eggOdds(K, o) {
     const pair = o.parents
     const r = K.ranks[o.rank]
-    const shinyOdds = r.shiny / (1 + K.charmK * (o.charm || 0))
     const islands = pair.length === 2 && !!o.islands
-    const base = (shinyOdds * K.lookX.egg) / K.lookX.wild / (islands ? 2 : 1)
+    const base = eggBase(K, o) / (islands ? 2 : 1)
     const inh = 1 / K.lookX.egg
     const has = (f) => pair.filter(f).length
     const knot = pair.some((c) => !!c.knot)
@@ -147,13 +155,24 @@
       prismana: 1 / (base * K.prismanaX) + (inh * has((c) => !!c.prismana)) / K.inherit.prismana,
       perfect: Math.min(1, perfect), alpha: has((c) => !!c.alpha) / K.inherit.alpha, knot, islands,
       everstone: pair.some((c) => !!c.everstone), // game 0.54.4: a parent's Everstone passes its nature (odds unchanged)
+      season: Object.fromEntries((K.seasons || []).map((s) => [s.k, (1 / (base * K.prismanaX) + (inh * has((c) => c.season === s.k)) / K.inherit.prismana) / s.vs])),
     }
   }
   /** a Costume Egg's odds (events.ts costumeEgg): K.costumeEgg.k × the egg base, perfect 1 in K.costumeEgg.perfect, never Alpha */
   function costumeEggOdds(K, o) {
-    const odds = ((K.ranks[o.rank].shiny / (1 + K.charmK * (o.charm || 0))) * K.lookX.egg) / K.lookX.wild
+    const odds = eggBase(K, o)
     const k = K.costumeEgg.k
-    return { shiny: k / odds, umbral: k / (odds * K.umbralX), prismana: k / (odds * K.prismanaX), perfect: 1 / K.costumeEgg.perfect, alpha: 0, knot: false, islands: false, everstone: false }
+    return { shiny: k / odds, umbral: k / (odds * K.umbralX), prismana: k / (odds * K.prismanaX), perfect: 1 / K.costumeEgg.perfect, alpha: 0, knot: false, islands: false, everstone: false, season: fromPrismatic(K, k / (odds * K.prismanaX)) }
+  }
+  /** a Gift Egg's odds (events.ts openGift): the egg base, never Perfect (no perfect roll) or Alpha */
+  function giftEggOdds(K, o) {
+    const odds = eggBase(K, o)
+    return { shiny: 1 / odds, umbral: 1 / (odds * K.umbralX), prismana: 1 / (odds * K.prismanaX), perfect: 0, alpha: 0, knot: false, islands: false, everstone: false, season: fromPrismatic(K, 1 / (odds * K.prismanaX)) }
+  }
+  /** a Raid Egg's odds (BALANCE.raid.eggOdds, 1 in N each; rank and Shiny Charm don't count), never Alpha */
+  function raidEggOdds(K) {
+    const r = K.raidEgg
+    return { shiny: 1 / r.shiny, umbral: 1 / r.umbral, prismana: 1 / r.prismana, perfect: 1 / r.perfect, alpha: 0, knot: false, islands: false, everstone: false, season: fromPrismatic(K, 1 / r.prismana) }
   }
   /** do two Pokémon get along? m = { s (slug), fst (first form), t (types), bd (its line can breed) } */
   function breedCompat(a, b) {
@@ -179,31 +198,52 @@
   function halloweenFits(CO, costumes, baby) {
     return [...new Set(costumes.map((c) => (c && CO[c] && CO[c].event === 'halloween' ? costumeFor(CO, c, baby) : null)).filter(Boolean))].sort()
   }
-  /** the chance of each of the 8 look combinations. p = eggOdds(); boost = an odds event { shiny, crystal } (1 = none) */
-  function looks8(p, boost) {
+  /** every look combination's chance per egg, the way dice.ts rollLooks rolls them (build-wiki.mjs probes the real roll on every build):
+   *  Shiny, Void and Prismatic each on their own die slot, so they multiply; each seasonal look on its own slot too, but only while
+   *  its season is open (open = the keys of the open seasons) and at most one per Pokémon: the first season in K.seasons order that
+   *  hits wins, so a later season only gets the rolls the earlier ones missed. Perfect IVs and Alpha are separate slots as well
+   *  (perfect: rollLooks slot 3; Alpha: layEgg slot 7), so a combo with them is this x o.perfect x o.alpha.
+   *  p = eggOdds() / costumeEggOdds() / giftEggOdds() / raidEggOdds(); boost = an odds event { shiny, crystal } (1 = none): Shiny x on
+   *  every look, crystal x on Void, Prismatic and the seasonal looks on top.
+   *  list = all 8 x (1 + seasons) exact combinations (they add up to 1); season = { key: chance }; any = any special look at all */
+  function looks(p, boost, open) {
     const sx = (boost && boost.shiny) || 1, cx = sx * ((boost && boost.crystal) || 1)
     const s = Math.min(1, p.shiny * sx), u = Math.min(1, p.umbral * cx), q = Math.min(1, p.prismana * cx)
-    const out = []
-    for (let k = 0; k < 8; k++) {
-      const sh = !!(k & 1), um = !!(k & 2), pr = !!(k & 4)
-      out.push({ shiny: sh, umbral: um, prismana: pr, p: (sh ? s : 1 - s) * (um ? u : 1 - u) * (pr ? q : 1 - q) })
+    const sea = []
+    let miss = 1
+    for (const k of open || []) {
+      const r = Math.min(1, ((p.season && p.season[k]) || 0) * cx)
+      if (r <= 0 || sea.some((x) => x.k === k)) continue
+      sea.push({ k, p: miss * r })
+      miss *= 1 - r
     }
-    return { shiny: s, umbral: u, prismana: q, any: 1 - (1 - s) * (1 - u) * (1 - q), list: out }
+    const list = []
+    for (const so of [{ k: null, p: miss }, ...sea]) {
+      for (let m = 0; m < 8; m++) {
+        const sh = !!(m & 1), um = !!(m & 2), pr = !!(m & 4)
+        list.push({ shiny: sh, umbral: um, prismana: pr, season: so.k, p: (sh ? s : 1 - s) * (um ? u : 1 - u) * (pr ? q : 1 - q) * so.p })
+      }
+    }
+    return { shiny: s, umbral: u, prismana: q, season: Object.fromEntries(sea.map((x) => [x.k, x.p])), none: miss, any: 1 - (1 - s) * (1 - u) * (1 - q) * miss, list }
   }
-  /** eggs needed for a `target` (0..1) chance of at least one */
-  function eggsFor(p, target) { return p >= 1 ? 1 : p <= 0 ? Infinity : Math.max(1, Math.ceil(Math.log(1 - target) / Math.log(1 - p))) }
+  /** the chance of AT LEAST these looks (any others may come too): the asked looks' own chances multiplied. L = looks(), c = { shiny, umbral, prismana, season } */
+  function atLeast(L, c) { return (c.shiny ? L.shiny : 1) * (c.umbral ? L.umbral : 1) * (c.prismana ? L.prismana : 1) * (c.season ? L.season[c.season] || 0 : 1) }
+  /** eggs needed for a `target` (0..1) chance of at least one (log1p: exact even for 1-in-a-trillion combos) */
+  function eggsFor(p, target) { return p >= 1 ? 1 : p <= 0 ? Infinity : Math.max(1, Math.ceil(Math.log1p(-target) / Math.log1p(-p))) }
   /** encounters of warmth an egg needs (it warms the encounter it's laid, then once per encounter; care.ts careTick) */
   function warmEncounters(total, k) {
     let left = total, n = 0
     while (left > 0 && n < 10000) { left = Math.max(0, Math.round((left - k) * 10) / 10); n++ }
     return n
   }
-  /** minutes of hunting per egg the nanny hatches (0 = not a nanny); its best special look makes it faster */
+  /** minutes of hunting per egg the nanny hatches (0 = not a nanny); its best special look makes it faster (a seasonal look: game 0.57.2) */
   function nannyMins(K, slug, look) {
     const L = K.nannyLook || { shiny: 1, umbral: 1, prismana: 1 }
-    return (K.nanny[slug] || 0) * Math.min(1, look.shiny ? L.shiny : 1, look.umbral ? L.umbral : 1, look.prismana ? L.prismana : 1)
+    return (K.nanny[slug] || 0) * Math.min(1, look.shiny ? L.shiny : 1, look.umbral ? L.umbral : 1, look.prismana ? L.prismana : 1, look.season ? L.season || 1 : 1)
   }
+  /** a season's window state at t: { open, start, end } (the game's built-in dates; the server's app_config rows can move them) */
+  function seasonAt(S, t) { return { open: t >= S.start && t < S.end, start: S.start, end: S.end } }
 
   root.TGCalc = { catchChance, stats, expGain, expFor, transferCash, powerCost, seeded, raidBoss, raidEnds, outbreaks,
-    eggOdds, costumeEggOdds, breedCompat, breedBabies, costumeFor, halloweenFits, looks8, eggsFor, warmEncounters, nannyMins }
+    eggOdds, costumeEggOdds, giftEggOdds, raidEggOdds, breedCompat, breedBabies, costumeFor, halloweenFits, looks, atLeast, eggsFor, warmEncounters, nannyMins, seasonAt }
 })(typeof window !== 'undefined' ? window : globalThis)

@@ -32,7 +32,10 @@
     const col = at % S.cols, row = Math.floor(at / S.cols)
     const url = `${ART}dex-${o.shiny ? 's-' : ''}${sheet}.webp`
     const look = o.prismana && o.umbral ? ' spr--umbral spr--prismana' : o.prismana ? ' spr--prismana' : o.umbral ? ' spr--umbral' : ''
-    return `<i class="spr${look}${o.cls ? ` ${o.cls}` : ''}" role="img" aria-label="${esc(o.alt || '')}" style="width:${size}px;height:${size}px;background-image:url('${url}');background-size:${S.cols * size}px auto;background-position:${-col * size}px ${-row * size}px"></i>`
+    // a seasonal look (Spectral): a see-through ghost of itself, drawn over whatever else it is (a plain one pale teal, a Shiny one gold)
+    const ghost = o.season && !o.umbral && !o.prismana ? (o.shiny ? ' spr--ghost-s' : ' spr--ghost') : ''
+    const el = `<i class="spr${look}${ghost}${o.cls ? ` ${o.cls}` : ''}" role="img" aria-label="${esc(o.alt || '')}" style="width:${size}px;height:${size}px;background-image:url('${url}');background-size:${S.cols * size}px auto;background-position:${-col * size}px ${-row * size}px"></i>`
+    return o.season ? `<span class="spr-sea spr-sea--${esc(o.season)}" style="width:${size}px;height:${size}px">${el}</span>` : el
   }
   function ispr(key, size = 24) {
     const i = META.atlas[key]
@@ -169,7 +172,31 @@
     root.addEventListener('input', onInput)
     root.addEventListener('change', onInput)
     root.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches('th[data-sort]')) e.target.click() })
+    // [data-tip] tooltips: a mouse hover, keyboard focus, or a tap on a phone (tiles and cards are focusable)
+    root.addEventListener('pointerover', (e) => { if (e.pointerType !== 'mouse') return; const t = e.target.closest('[data-tip]'); if (t && t !== tipOn) tipShow(t) })
+    root.addEventListener('pointerout', (e) => { if (e.pointerType === 'mouse' && tipOn && !tipOn.contains(e.relatedTarget) && document.activeElement !== tipOn) tipHide() })
+    root.addEventListener('focusin', (e) => { const t = e.target.closest('[data-tip]'); if (t) tipShow(t) })
+    root.addEventListener('focusout', (e) => { if (!e.relatedTarget || !tipOn?.contains(e.relatedTarget)) tipHide() })
+    addEventListener('scroll', () => { if (tipOn && !tipOn.contains(document.activeElement)) tipHide(); else if (tipOn) tipPlace(tipOn) }, { passive: true })
+    addEventListener('hashchange', tipHide)
   }
+  let tipBox = null, tipOn = null
+  function tipShow(t) {
+    if (!tipBox) { tipBox = document.createElement('div'); tipBox.className = 'w-tipbox'; tipBox.setAttribute('role', 'tooltip'); tipBox.id = 'w-tipbox'; document.body.appendChild(tipBox) }
+    tipOn = t
+    tipBox.textContent = t.dataset.tip
+    tipBox.hidden = false
+    tipPlace(t)
+  }
+  function tipPlace(t) {
+    if (!tipBox || tipBox.hidden) return
+    const r = t.getBoundingClientRect(), b = tipBox.getBoundingClientRect(), W = document.documentElement.clientWidth
+    const x = Math.max(8, Math.min(W - b.width - 8, r.left + r.width / 2 - b.width / 2))
+    const y = r.top - b.height - 8 < 72 ? r.bottom + 8 : r.top - b.height - 8 // below it when the sticky bar is in the way
+    tipBox.style.left = `${Math.round(x)}px`
+    tipBox.style.top = `${Math.round(y)}px`
+  }
+  function tipHide() { if (tipBox) tipBox.hidden = true; tipOn = null }
   function onClick(e) {
     const th = e.target.closest('th[data-sort]')
     if (th) {
@@ -756,67 +783,139 @@
   }
 
   // ---------------------------------------------------------------- Breeding calculator (Day Care page)
-  // Every number comes from TGCalc's breeding port (checked against the game's eggOdds / compat / nanny on every build)
+  // Every number comes from TGCalc's breeding port. tools/build-wiki.mjs checks it against the game on every build: eggOdds, compat
+  // and the nannies for 400 random pairs (Spectral parents too), the odds the real Costume / Gift / Raid Egg code rolls, the real roll
+  // (dice.ts rollLooks) probed die slot by die slot (so the combos multiply exactly as the game rolls them), and thousands of real
+  // eggs laid on real server dice.
   const LOOKS3 = [['shiny', 'Shiny', 'star'], ['umbral', 'Void', 'umbral'], ['prismana', 'Prismatic', 'prismana']]
-  const lookLabel = (l) => [l.shiny && 'Shiny', l.umbral && 'Void', l.prismana && 'Prismatic'].filter(Boolean).join(' ') || 'Normal'
-  const pctA = (p) => (p >= 1 ? '100%' : p <= 0 ? '0%' : p >= 0.001 ? pctS(p, p >= 0.1 ? 1 : 2) : `${(p * 100).toFixed(Math.min(12, Math.ceil(-Math.log10(p * 100)) + 1)).replace(/0+$/, '')}%`)
-  const oneInA = (p) => (p >= 1 ? 'always' : p <= 0 ? 'never' : 1 / p < 10 ? `1 in ${+(1 / p).toFixed(2)}` : `1 in ${Math.round(1 / p).toLocaleString('en-US')}`)
-  const eggsA = (p, t) => { const e = C.eggsFor(p, t); return e === Infinity ? '–' : `${n(e)} egg${e === 1 ? '' : 's'}` }
+  const SEAS = () => META.breed.seasons || []
+  const seaName = (k) => SEAS().find((s) => s.k === k)?.name || cap(k)
+  const lookLabel = (l) => [l.shiny && 'Shiny', l.umbral && 'Void', l.prismana && 'Prismatic', l.season && seaName(l.season)].filter(Boolean).join(' ') || 'Normal'
+  // readable chances, never "1.56e-10": 98.8%, 0.89%, 0.0026%, 1 in 38,272, 1 in 2.63 million
+  const BIGW = [[1e33, 'decillion'], [1e30, 'nonillion'], [1e27, 'octillion'], [1e24, 'septillion'], [1e21, 'sextillion'], [1e18, 'quintillion'], [1e15, 'quadrillion'], [1e12, 'trillion'], [1e9, 'billion'], [1e6, 'million']]
+  function bigN(v) {
+    if (!(v < Infinity)) return 'never'
+    if (v < 1e6) return Math.round(v).toLocaleString('en-US')
+    const i = Math.max(0, BIGW.findIndex(([k]) => v >= k))
+    const x = v / BIGW[i][0]
+    if (x >= 999.5 && i > 0) return `${+(v / BIGW[i - 1][0]).toPrecision(3)} ${BIGW[i - 1][1]}`
+    return `${(x >= 100 ? Math.round(x) : +x.toPrecision(3)).toLocaleString('en-US')} ${BIGW[i][1]}`
+  }
+  const trimZ = (s) => (s.includes('.') ? s.replace(/0+$/, '').replace(/\.$/, '') : s)
+  /** a chance as a percentage, two significant digits, never in e-notation (strings, not numbers: 1.2e-7 would print as that) */
+  function pctR(p) {
+    if (p >= 1) return '100%'
+    if (p <= 0) return '0%'
+    const v = p * 100
+    if (v < 1e-9) return '<0.000000001%'
+    const dp = v > 99 ? Math.min(10, Math.max(1, Math.ceil(-Math.log10(100 - v)) + 1)) : v >= 10 ? 1 : Math.ceil(-Math.log10(v)) + 1
+    return `${trimZ(v.toFixed(Math.max(0, dp)))}%`
+  }
+  const oneInR = (p) => (p >= 1 ? 'always' : p <= 0 ? 'never' : 1 / p < 10 ? `1 in ${trimZ((1 / p).toFixed(2))}` : `1 in ${bigN(1 / p)}`)
+  const exactIn = (p) => (p > 0 && p < 1 && 1 / p >= 1e6 ? `1 in ${Math.round(1 / p).toLocaleString('en-US')}` : oneInR(p))
+  const eggsR = (p, t) => { const e = C.eggsFor(p, t); return e === Infinity ? '–' : `${bigN(e)} egg${e === 1 ? '' : 's'}` }
   const mins = (sec) => { const m = sec / 60; if (m < 1) return `${Math.max(1, Math.round(sec))}s`; if (m < 60) return `${+m.toFixed(m < 10 ? 1 : 0)} min`; const h = Math.floor(m / 60); return `${h}h ${String(Math.round(m % 60)).padStart(2, '0')}m` }
   const breedRec = (m) => ({ s: m.s, fst: m.fst || m.s, t: m.t, bd: !!m.bd })
   const costumesOf = (slug) => DEX.filter((x) => x.k === 'costume' && x.b === slug)
+  const utcDay = (t, year) => new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', ...(year ? { year: 'numeric' } : {}), timeZone: 'UTC' })
+  const utcTime = (t) => new Date(t).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' })
+  const span = (ms) => { const h = Math.max(0, ms) / 3_600_000; return h >= 48 ? `${Math.floor(h / 24)} days` : h >= 1 ? `${Math.floor(h)} h` : `${Math.max(1, Math.round(h * 60))} min` }
+  /** a season's window line: "26 Oct – 9 Nov 2026 (18:00 UTC)" and where we are in it */
+  function seasonInfo(S, now) {
+    const open = now >= S.start && now < S.end
+    const dates = `${utcDay(S.start)} – ${utcDay(S.end, true)}${utcTime(S.start) === utcTime(S.end) ? ` (${utcTime(S.start)} UTC)` : ''}`
+    const state = open ? `on now, ${span(S.end - now)} left` : now < S.start ? `starts in ${span(S.start - now)}` : 'over'
+    return { open, dates, state, until: utcDay(S.end) }
+  }
+  const MODES = [['pair', 'Day Care pair', 'egg'], ['cegg', 'Costume Egg', 'fav'], ['gegg', 'Gift Egg', 'fp_gift'], ['regg', 'Raid Egg', 'raid_pass']]
+  const EVENTS = [['1x1', 'None'], ['2x1', 'Shiny event ×2'], ['3x1', 'Shiny event ×3'], ['1x2', 'Crystal event ×2'], ['1x3', 'Crystal event ×3']]
   function breedBuild(el) {
     const K = META.breed
-    const hw = Date.now() < K.halloweenEnd
+    const now = Date.now()
+    const hw = now < K.halloweenEnd
+    const S = SEAS()[0]
+    const si = S && seasonInfo(S, now)
+    const per = (x) => `1 in ${x.toLocaleString('en-US')}`
+    const inh = (look) => K.inherit[look] * K.lookX.egg
+    const chips = [
+      ['shiny', 'Shiny', 'star', `A Shiny parent adds ${per(inh('shiny'))} to every egg's Shiny chance (two: twice that). Never a sure thing.`],
+      ['umbral', 'Void', 'umbral', `A Void parent adds ${per(inh('umbral'))} to every egg's Void chance.`],
+      ['prismana', 'Prismatic', 'prismana', `A Prismatic parent adds ${per(inh('prismana'))} to every egg's Prismatic chance.`],
+      ...SEAS().map((s) => [s.k, s.name, s.icon, `A ${s.name} parent adds ${per(Math.round(inh('prismana') * s.vs))} to every egg's ${s.name} chance, but only while ${s.event} is on (eggs laid outside it are never ${s.name}).`]),
+      ['perfect', 'Perfect', 'perfect', `A Perfect-IV parent adds ${per(K.inherit.perfect)} to the Perfect IV chance (×3 with a Destiny Knot).`],
+      ['alpha', 'Alpha', 'alpha', `Each Alpha parent gives a ${per(K.inherit.alpha)} Alpha chance (two: ${per(K.inherit.alpha / 2)}). No Alpha parent, no Alpha babies.`],
+    ]
     if (!$('#dl-breed')) document.body.insertAdjacentHTML('beforeend', `<datalist id="dl-breed">${DEX.filter((m) => !m.k).map((m) => `<option value="${esc(m.nm)}">`).join('')}</datalist>`)
     const par = (p, title, slug, on) => `<fieldset class="bc-par" data-par="${p}">
         <legend>${title}</legend>
         <div class="bc-par__top"><span class="bc-par__spr" data-pspr="${p}"></span>
           <label class="bc-par__mon"><span>Species</span><input class="w-in" name="${p}_mon" list="dl-breed" value="${esc(BY.get(slug)?.nm || slug)}" placeholder="Search a Pokémon" autocomplete="off" aria-label="${title} species"></label></div>
-        <div class="bc-chips">${[...LOOKS3, ['perfect', 'Perfect', 'perfect'], ['alpha', 'Alpha', 'alpha']].map(([key, l, i2]) => `<label class="bc-chip${on.includes(key) ? ' on' : ''}"><input type="checkbox" name="${p}_${key}"${on.includes(key) ? ' checked' : ''}>${ic(i2)}<span>${l}</span></label>`).join('')}</div>
+        <div class="bc-chips">${chips.map(([key, l, i2, tip]) => `<label class="bc-chip${on.includes(key) ? ' on' : ''}${SEAS().some((s) => s.k === key) ? ' bc-chip--sea' : ''}" data-tip="${esc(tip)}"><input type="checkbox" name="${p}_${key}"${on.includes(key) ? ' checked' : ''}>${ic(i2)}<span>${l}</span></label>`).join('')}</div>
         <div class="bc-par__row">
           <label class="bc-cos" data-cos="${p}" hidden><span>Costume</span><select class="w-in" name="${p}_cos"></select></label>
-          <label class="bc-chip bc-chip--item"><input type="checkbox" name="${p}_knot">${ispr('destiny_knot', 20)}<span>Destiny Knot</span></label>
-          <label class="bc-chip bc-chip--item"><input type="checkbox" name="${p}_ever">${ispr('everstone', 20)}<span>Everstone</span></label>
+          <label class="bc-chip bc-chip--item" data-tip="Destiny Knot: the baby keeps the best of 3 IV rolls, and Perfect IVs are 3× as likely. Two Knots work the same as one."><input type="checkbox" name="${p}_knot">${ispr('destiny_knot', 20)}<span>Destiny Knot</span></label>
+          <label class="bc-chip bc-chip--item" data-tip="Everstone: every baby gets this parent's nature. Looks and odds stay the same."><input type="checkbox" name="${p}_ever">${ispr('everstone', 20)}<span>Everstone</span></label>
         </div>
       </fieldset>`
+    const raidNow = (() => { try { return C.raidBoss(META.live, now) } catch { return null } })()
     el.innerHTML = `<div class="bc">
-      <div class="bc-mode" role="radiogroup" aria-label="Egg">
-        <label class="bc-seg on"><input type="radio" name="mode" value="pair" checked>${ic('egg')}<span>Day Care pair</span></label>
-        <label class="bc-seg"><input type="radio" name="mode" value="cegg">${ic('fav')}<span>Costume Egg</span></label>
-      </div>
-      <div class="bc-parents">${par('a', 'Parent A', 'pikachu', ['shiny'])}${par('b', 'Parent B', 'ditto', ['umbral'])}</div>
-      <div class="bc-cegg calc" hidden><label>Costume <select class="w-in" name="cegg">${DEX.filter((m) => m.k === 'costume').map((m) => `<option value="${m.s}">${esc(m.nm)}</option>`).join('')}</select></label></div>
+      <div class="bc-mode" role="radiogroup" aria-label="Egg">${MODES.map(([k, l, i2], j) => `<label class="bc-seg${j ? '' : ' on'}"><input type="radio" name="mode" value="${k}"${j ? '' : ' checked'}>${ic(i2)}<span>${l}</span></label>`).join('')}</div>
+      <div class="bc-parents bc-for" data-for="pair">${par('a', 'Parent A', 'pikachu', ['shiny'])}${par('b', 'Parent B', 'ditto', ['umbral'])}</div>
+      <div class="bc-cegg calc bc-for" data-for="cegg" hidden><label>Costume <select class="w-in" name="cegg">${DEX.filter((m) => m.k === 'costume').map((m) => `<option value="${m.s}">${esc(m.nm)}</option>`).join('')}</select></label></div>
+      <div class="calc bc-for" data-for="gegg" hidden><label>Preview as <input class="w-in" name="gmon" list="dl-breed" value="${esc(BY.get('eevee')?.nm || 'Eevee')}" autocomplete="off" aria-label="Gift Egg preview Pokémon"></label></div>
+      <div class="calc bc-for" data-for="regg" hidden><label>Preview as <input class="w-in" name="rmon" list="dl-breed" value="${esc(BY.get(raidNow || 'mewtwo')?.nm || 'Mewtwo')}" autocomplete="off" aria-label="Raid Egg preview Pokémon"></label></div>
       <div class="calc bc-opts">
-        <label>Your trainer rank <select class="w-in" name="rank">${META.ranks.map((r, i) => `<option value="${i}"${i === 4 ? ' selected' : ''}>${esc(r.name)} (${r.need}+ species)</option>`).join('')}</select></label>
-        <label><span>Shiny Charm <b class="calc-v" data-v="charm"></b></span><input type="range" name="charm" min="0" max="${META.charmMax}" value="0"></label>
-        <label>Odds event <select class="w-in" name="ev"><option value="1">None</option><option value="2">×2 Shiny event</option><option value="3">×3 Shiny event</option></select></label>
-        <label class="w-check bc-paironly"><input type="checkbox" name="islands"> Parents caught on different islands</label>
+        <label class="bc-noraid">Your trainer rank <select class="w-in" name="rank">${META.ranks.map((r, i) => `<option value="${i}"${i === 4 ? ' selected' : ''}>${esc(r.name)} (${r.need}+ species)</option>`).join('')}</select></label>
+        <label class="bc-noraid"><span>Shiny Charm <b class="calc-v" data-v="charm"></b></span><input type="range" name="charm" min="0" max="${META.charmMax}" value="0"></label>
+        <label data-tip="Events from the Tallgrass team: a Shiny event multiplies every look's chance (${S ? `${S.name} too` : 'all of them'}); a crystal event multiplies Void, Prismatic${S ? ` and ${S.name}` : ''} on top. Day Care eggs get them as well.">Odds event <select class="w-in" name="ev">${EVENTS.map(([k, l]) => `<option value="${k}">${l}</option>`).join('')}</select></label>
+        <label class="w-check bc-for" data-for="pair"><input type="checkbox" name="islands"> Parents caught on different islands</label>
       </div>
-      <div class="calc bc-opts bc-paironly">
+      <div class="calc bc-opts bc-for" data-for="pair">
         <label>Egg warmer (Hearth / party) <select class="w-in" name="warm"><option value="1">None (×1)</option><option value="${K.warm.fire}">A Fire type (×${K.warm.fire})</option><option value="${K.warm.ability}">${esc(K.warm.abilities.join(' / '))} (×${K.warm.ability})</option></select></label>
         <label><span>Sweet Scent <b class="calc-v" data-v="speed"></b></span><input type="range" name="speed" min="0" max="${K.encSecs.length - 1}" value="0"></label>
         <label>Nanny <select class="w-in" name="nanny"><option value="">No nanny</option>${Object.keys(K.nanny).map((s) => `<option value="${s}">${esc(BY.get(s)?.nm || cap(s))} (${K.nanny[s]} min)</option>`).join('')}</select></label>
-        <label>Nanny's look <select class="w-in" name="nlook"><option value="">Normal</option>${K.nannyLook ? LOOKS3.map(([key, l]) => `<option value="${key}">${l} (−${Math.round((1 - K.nannyLook[key]) * 100)}%)</option>`).join('') : ''}</select></label>
+        <label>Nanny's look <select class="w-in" name="nlook"><option value="">Normal</option>${K.nannyLook ? [...LOOKS3, ...SEAS().map((s) => [s.k, s.name, s.icon])].filter(([key]) => K.nannyLook[key] || SEAS().some((s) => s.k === key && K.nannyLook.season)).map(([key, l]) => `<option value="${key}">${l} (−${Math.round((1 - (K.nannyLook[key] || K.nannyLook.season)) * 100)}%)</option>`).join('') : ''}</select></label>
       </div>
-      </div><div class="calc-out"></div>
-      <p class="muted small">Per egg. Each look rolls on its own, so combinations multiply. ${hw ? `Until 1 Nov 2026 (UTC) a parent in a Halloween costume passes it on.` : 'Halloween costumes passed on until 1 Nov 2026 (UTC).'} The nanny only changes how fast eggs hatch, never what hatches.</p>`
+      ${S ? `<div class="bc-season${si.open ? ' is-open' : ''}">
+        ${ic('season_spooky')}<div class="bc-season__txt"><div class="bc-season__top"><b>${esc(S.event)}</b><span>${esc(si.dates)}</span><em class="bc-season__state">${esc(si.state)}</em></div>
+        <small>${esc(S.name)} only rolls while the season is open. These are the game's built-in dates: the server decides the real window.</small></div>
+        <label class="bc-chip bc-chip--sea${si.open ? ' on' : ''}" data-tip="${esc(si.open ? `Count ${S.name} in every number below. Off = odds outside ${S.event}.` : `Show the odds as they are during ${S.event} (it's ${si.state} now, so eggs can't be ${S.name}).`)}"><input type="checkbox" name="sea_on"${si.open ? ' checked' : ''}>${ic(S.icon)}<span>${si.open ? `Count ${esc(S.name)}` : `Preview ${esc(S.name)}`}</span></label>
+      </div>` : ''}
+      </div>
+      <div class="calc-out"></div>
+      <div class="bc-combo-wrap">
+        <h4 class="w-h4">Look combos <small class="muted">per egg, most common first</small></h4>
+        <div class="bc-combo-ctl">
+          <div class="bc-mode" role="radiogroup" aria-label="Match">
+            <label class="bc-seg bc-seg--sm on" data-tip="Each card is exactly these looks and no others. All the cards add up to 100%."><input type="radio" name="cmatch" value="exact" checked><span>Exactly</span></label>
+            <label class="bc-seg bc-seg--sm" data-tip="Each card is at least these looks: the others may come too (a Shiny Void Prismatic also counts as a Void Prismatic)."><input type="radio" name="cmatch" value="least"><span>At least</span></label>
+          </div>
+          <label class="bc-chip" data-xperf data-tip="Count only eggs that also have Perfect IVs (its own roll, so its chance multiplies in)."><input type="checkbox" name="cperf">${ic('perfect')}<span>+ Perfect IVs</span></label>
+          <label class="bc-chip" data-xalpha data-tip="Count only eggs that are also Alpha (its own roll: needs an Alpha parent)."><input type="checkbox" name="calpha">${ic('alpha')}<span>+ Alpha</span></label>
+        </div>
+        <div class="bc-combos"></div>
+        <p class="muted small bc-combo-note"></p>
+      </div>
+      <div class="bc-after"></div>`
   }
   function breedRun(el, v) {
     const K = META.breed
-    const out = $('.calc-out', el)
-    const cegg = v.mode === 'cegg'
-    el.classList.toggle('bc--cegg', cegg)
+    const out = $('.calc-out', el), wrap = $('.bc-combo-wrap', el), after = $('.bc-after', el)
+    const mode = v.mode || 'pair', pair = mode === 'pair'
+    el.classList.toggle('bc--cegg', mode === 'cegg')
     $$('.bc-seg', el).forEach((s) => s.classList.toggle('on', $('input', s).checked))
     $$('.bc-chip', el).forEach((s) => s.classList.toggle('on', $('input', s).checked))
-    $('.bc-parents', el).hidden = cegg
-    $('.bc-cegg', el).hidden = !cegg
-    $$('.bc-paironly', el).forEach((x) => { x.hidden = cegg })
+    $$('.bc-for', el).forEach((x) => { x.hidden = x.dataset.for !== mode })
+    $$('.bc-noraid', el).forEach((x) => { x.hidden = mode === 'regg' })
     const sv = $('[data-v="speed"]', el)
     if (sv) sv.textContent = `Lv ${v.speed} · ${+K.encSecs[+v.speed || 0].toFixed(1)}s`
-    const hw = Date.now() < K.halloweenEnd
-    const boost = { shiny: +v.ev || 1, crystal: 1 }
+    const now = Date.now()
+    const hw = now < K.halloweenEnd
+    const [bs, bc] = String(v.ev || '1x1').split('x').map((x) => +x || 1)
+    const boost = { shiny: bs, crystal: bc }, cx = bs * bc
     const rank = +v.rank || 0, charm = +v.charm || 0
+    const S = SEAS()[0], si = S && seasonInfo(S, now)
+    const open = S && v.sea_on ? SEAS().map((s) => s.k) : []
     // the parents
     const P = ['a', 'b'].map((p) => {
       const m = monByName(v[`${p}_mon`])
@@ -830,68 +929,154 @@
       }
       box.hidden = !list.length
       const cos = list.length ? sel.value : ''
-      const look = { shiny: !!v[`${p}_shiny`], umbral: !!v[`${p}_umbral`], prismana: !!v[`${p}_prismana`] }
+      const season = SEAS().map((s) => s.k).find((k) => v[`${p}_${k}`])
+      const look = { shiny: !!v[`${p}_shiny`], umbral: !!v[`${p}_umbral`], prismana: !!v[`${p}_prismana`], season }
       const art = cos ? BY.idx.get(cos) : m2 ? BY.idx.get(m2.s) : -1
       $(`[data-pspr="${p}"]`, el).innerHTML = spr(art, 64, { ...look, alt: m2?.nm || '' })
       return m2 && { m: m2, cos, look, perfect: !!v[`${p}_perfect`], alpha: !!v[`${p}_alpha`], knot: !!v[`${p}_knot`], everstone: !!v[`${p}_ever`] }
     })
-    const tile = (i2, label, p, sub) => `<div class="bc-tile">${ic(i2)}<span>${label}</span><b>${pctA(p)}</b><small>${oneInA(p)}</small>${p > 0 && p < 1 ? `<em>50%: ${eggsA(p, 0.5)} · 90%: ${eggsA(p, 0.9)}</em>` : sub ? `<em>${sub}</em>` : ''}</div>`
-    const lookGrid = (L, art, nm) => `<div class="bc-looks">${L.list.map((x) => `<div class="bc-look${x.shiny ? ' is-s' : ''}${x.umbral ? ' is-u' : ''}${x.prismana ? ' is-p' : ''}">${spr(art, 64, { shiny: x.shiny, umbral: x.umbral, prismana: x.prismana, alt: `${lookLabel(x)} ${nm}` })}<span>${lookLabel(x)}</span><b>${pctA(x.p)}</b><small>${oneInA(x.p)}</small><em>${x.p >= 0.5 ? 'most eggs' : `90%: ${eggsA(x.p, 0.9)}`}</em></div>`).join('')}</div>`
-    const oddsHtml = (o, L) => `<div class="bc-tiles">${tile('star', 'Shiny', L.shiny)}${tile('umbral', 'Void', L.umbral)}${tile('prismana', 'Prismatic', L.prismana)}${tile('perfect', 'Perfect IVs', o.perfect, o.knot ? '×3 Destiny Knot' : '')}${tile('alpha', 'Alpha', o.alpha, o.alpha ? '' : cegg ? 'never from this egg' : 'needs an Alpha parent')}<div class="bc-tile any">${ic('burst')}<span>Any special look</span><b>${pctA(L.any)}</b><small>${oneInA(L.any)}</small>${L.any > 0 && L.any < 1 ? `<em>50%: ${eggsA(L.any, 0.5)} · 90%: ${eggsA(L.any, 0.9)}</em>` : ''}</div></div>`
-    if (cegg) {
-      const c = BY.get(v.cegg)
-      if (!c) { out.innerHTML = '<p class="muted">Pick a costume.</p>'; return }
-      const o = C.costumeEggOdds(K, { rank, charm })
-      const L = C.looks8(o, boost)
-      out.innerHTML = `<div class="bc-baby"><div class="bc-baby__one">${spr(BY.idx.get(c.s), 96, { alt: c.nm })}<b>${esc(c.nm)}</b><small>hatches from the Costume Egg</small></div>
-        <p class="muted small">A Costume Egg (from gifts and prizes) hatches the costume Pokémon itself, at Lv 5. It's ready at once and never takes a basket slot. Its looks use ${K.costumeEgg.k}× the egg odds; perfect IVs ${oneIn(o.perfect)}.</p></div>
-        <h4 class="w-h4">Chances per egg</h4>${oddsHtml(o, L)}<h4 class="w-h4">All 8 looks</h4>${lookGrid(L, BY.idx.get(c.s), c.nm)}`
-      return
-    }
-    if (!P[0] || !P[1]) { out.innerHTML = `<p class="muted">Pick ${!P[0] && !P[1] ? 'both parents' : `Parent ${P[0] ? 'B' : 'A'}`} from the list.</p>`; return }
-    const match = C.breedCompat(breedRec(P[0].m), breedRec(P[1].m))
-    const babies = C.breedBabies(breedRec(P[0].m), breedRec(P[1].m))
-    const o = C.eggOdds(K, { rank, charm, islands: !!v.islands, parents: P.map((p) => ({ ...p.look, perfect: p.perfect, alpha: p.alpha, knot: p.knot, everstone: p.everstone })) })
-    const L = C.looks8(o, boost)
-    const head = `<div class="bc-match ${match.ok ? 'ok' : 'no'}">${ic(match.ok ? 'heart' : 'warn')}<span><b>${match.ok ? (match.rate === 2 ? 'They get along great' : 'They get along') : 'No eggs'}</b> ${esc(match.why)}</span></div>`
-    if (!match.ok) { out.innerHTML = head; return }
-    // the baby (each non-Ditto parent equally likely) and the Halloween costume it can wear
-    const bsel = babies.includes(el.dataset.baby) ? el.dataset.baby : babies[0]
-    el.dataset.baby = bsel
-    const babyInfo = babies.map((s) => {
-      const fits = hw ? C.halloweenFits(K.costumes, P.map((p) => p.cos || null), s) : []
-      return { s, m: BY.get(s), fits }
-    })
-    const cosNote = (b) => {
-      const tried = P.filter((p) => p.cos)
-      if (!tried.length) return ''
-      if (b.fits.length) return `Wears ${b.fits.map((f) => `<b>${esc(BY.get(f)?.nm || f)}</b>`).join(' or ')}${b.fits.length > 1 ? ' (one of them, 50/50)' : ''}.`
-      if (!hw && tried.some((p) => K.costumes[p.cos]?.event === 'halloween')) return 'Halloween costumes stopped passing on after 31 Oct 2026.'
-      return tried.some((p) => K.costumes[p.cos]?.event === 'halloween') ? 'No costume of that line fits this baby: it hatches plain.' : 'Only Halloween costumes pass on: this baby hatches plain.'
-    }
-    const babyHtml = `<div class="bc-baby">${babyInfo.map((b) => `<label class="bc-baby__one${babies.length > 1 ? ' pick' : ''}${b.s === bsel ? ' on' : ''}">${babies.length > 1 ? `<input type="radio" name="baby" value="${b.s}"${b.s === bsel ? ' checked' : ''}>` : ''}${spr(BY.idx.get(b.fits[0] || b.s), 96, { alt: b.m?.nm || b.s })}<b>${esc(b.m?.nm || b.s)}</b><small>${babies.length > 1 ? `${pctS(1 / babies.length)} of eggs` : 'every egg'}</small>${cosNote(b) ? `<em>${cosNote(b)}</em>` : ''}</label>`).join('')}
-      <p class="muted small">${babies.length > 1 ? 'The baby is the first form of either parent\'s line (each parent half the time). Tap one to preview its looks.' : `The baby is always the first form of ${P.some((p) => p.m.s === 'ditto') ? 'the non-Ditto parent\'s' : 'the parents\''} line.`}</p></div>`
-    const cur = babyInfo.find((b) => b.s === bsel)
-    const art = BY.idx.get(cur.fits[0] || cur.s)
-    // hatch time
-    const sec = K.encSecs[+v.speed || 0]
-    const tierKey = { c: 'common', u: 'uncommon', r: 'rare', l: 'legendary', m: 'legendary' }[cur.m?.tr] || 'common'
-    const total = K.hatch[tierKey] || 30
-    const layEnc = Math.ceil(K.eggAt / match.rate)
-    const warmEnc = C.warmEncounters(total, +v.warm || 1)
-    const nan = v.nanny ? C.nannyMins(K, v.nanny, { shiny: v.nlook === 'shiny', umbral: v.nlook === 'umbral', prismana: v.nlook === 'prismana' }) : 0
-    const layMin = (layEnc * sec) / 60
-    const handsFree = nan ? Math.min(60 / layMin, 60 / nan) : 0
-    const hatchHtml = `<dl class="w-kv bc-time">
-      <div><dt>${ic('egg')} New egg</dt><dd>every <b>${layEnc}</b> encounters (${mins(layEnc * sec)})${match.rate === 2 ? ', same family = twice as fast' : ''}</dd></div>
-      <div><dt>${ic('clock')} Ready to hatch</dt><dd><b>${warmEnc}</b> encounters of warmth (${mins(warmEnc * sec)}) for a ${tierKey} baby (${total} warmth)</dd></div>
-      <div><dt>${ic('check')} Without a nanny</dt><dd>you open each egg as soon as it's ready: about <b>${mins((layEnc + warmEnc - 1) * sec)}</b> from an empty pen to a baby, then ${+(60 / layMin).toFixed(1)} eggs an hour</dd></div>
-      <div><dt>${ic('heart')} With ${nan ? `${esc(BY.get(v.nanny)?.nm || v.nanny)}${v.nlook ? ` (${LOOKS3.find((x) => x[0] === v.nlook)[1]})` : ''}` : 'a nanny'}</dt><dd>${nan ? `hatches one ready egg every <b>${+nan.toFixed(2)} min</b> of hunting: about <b>${+handsFree.toFixed(1)}</b> babies an hour from this pen, hands-free${60 / nan < 60 / layMin ? ' (the nanny is the bottleneck: eggs wait in the basket)' : ''}` : 'pick a nanny above to see its hands-free pace'}</dd></div>
-    </dl>`
-    out.innerHTML = `${head}${babyHtml}<h4 class="w-h4">Chances per egg</h4>${oddsHtml(o, L)}<h4 class="w-h4">All 8 looks <small class="muted">${esc(cur.m?.nm || '')}</small></h4>${lookGrid(L, art, cur.m?.nm || '')}<h4 class="w-h4">Hatch time</h4>${hatchHtml}
+    wrap.hidden = false; after.innerHTML = ''
+    // the egg's odds, what hatches and how each number is made (the tooltips)
+    let o, art, nm, head = ''
+    const r = META.ranks[rank], wild = r.shiny / (1 + 0.12 * charm)
+    const eggB = (wild * K.lookX.egg) / K.lookX.wild
+    const ev = cx > 1 ? ` Odds event: ×${bs} on every look${bc > 1 ? `, crystal ×${bc} more on Void, Prismatic${S ? ` and ${S.name}` : ''}` : ''}.` : ''
+    const why = {}
+    if (mode === 'pair') {
+      if (!P[0] || !P[1]) { out.innerHTML = `<p class="muted">Pick ${!P[0] && !P[1] ? 'both parents' : `Parent ${P[0] ? 'B' : 'A'}`} from the list.</p>`; wrap.hidden = true; return }
+      const match = C.breedCompat(breedRec(P[0].m), breedRec(P[1].m))
+      head = `<div class="bc-match ${match.ok ? 'ok' : 'no'}">${ic(match.ok ? 'heart' : 'warn')}<span><b>${match.ok ? (match.rate === 2 ? 'They get along great' : 'They get along') : 'No eggs'}</b> ${esc(match.why)}</span></div>`
+      if (!match.ok) { out.innerHTML = head; wrap.hidden = true; return }
+      o = C.eggOdds(K, { rank, charm, islands: !!v.islands, parents: P.map((p) => ({ ...p.look, perfect: p.perfect, alpha: p.alpha, knot: p.knot, everstone: p.everstone })) })
+      const babies = C.breedBabies(breedRec(P[0].m), breedRec(P[1].m))
+      const bsel = babies.includes(el.dataset.baby) ? el.dataset.baby : babies[0]
+      el.dataset.baby = bsel
+      const babyInfo = babies.map((s) => ({ s, m: BY.get(s), fits: hw ? C.halloweenFits(K.costumes, P.map((p) => p.cos || null), s) : [] }))
+      const cosNote = (b) => {
+        const tried = P.filter((p) => p.cos)
+        if (!tried.length) return ''
+        if (b.fits.length) return `Wears ${b.fits.map((f) => `<b>${esc(BY.get(f)?.nm || f)}</b>`).join(' or ')}${b.fits.length > 1 ? ' (one of them, 50/50)' : ''}.`
+        if (!hw && tried.some((p) => K.costumes[p.cos]?.event === 'halloween')) return `Halloween costumes stopped passing on after ${utcDay(K.halloweenEnd - 1, true)}.`
+        return tried.some((p) => K.costumes[p.cos]?.event === 'halloween') ? 'No costume of that line fits this baby: it hatches plain.' : 'Only Halloween costumes pass on: this baby hatches plain.'
+      }
+      const cur = babyInfo.find((b) => b.s === bsel)
+      art = BY.idx.get(cur.fits[0] || cur.s); nm = cur.m?.nm || ''
+      head += `<div class="bc-baby">${babyInfo.map((b) => `<label class="bc-baby__one${babies.length > 1 ? ' pick' : ''}${b.s === bsel ? ' on' : ''}">${babies.length > 1 ? `<input type="radio" name="baby" value="${b.s}"${b.s === bsel ? ' checked' : ''}>` : ''}${spr(BY.idx.get(b.fits[0] || b.s), 96, { alt: b.m?.nm || b.s })}<b>${esc(b.m?.nm || b.s)}</b><small>${babies.length > 1 ? `${pctS(1 / babies.length)} of eggs` : 'every egg'}</small>${cosNote(b) ? `<em>${cosNote(b)}</em>` : ''}</label>`).join('')}
+        <p class="muted small">${babies.length > 1 ? 'The baby is the first form of either parent\'s line (each parent half the time). Tap one to preview its looks.' : `The baby is always the first form of ${P.some((p) => p.m.s === 'ditto') ? 'the non-Ditto parent\'s' : 'the parents\''} line.`}</p></div>`
+      const base = eggB / (o.islands ? 2 : 1)
+      const has = (f) => P.filter(f).length
+      const baseTxt = `Egg base: your wild ${per0(wild)} × ${K.lookX.egg}/${K.lookX.wild} for eggs = ${per0(eggB)}${o.islands ? `, ÷2 for parents from different islands = ${per0(base)}` : ''}.`
+      const parTxt = (n, each, what) => (n ? ` + ${n} ${what} parent${n > 1 ? 's' : ''} × 1 in ${each.toLocaleString('en-US')}.` : ` No ${what} parent (each would add 1 in ${each.toLocaleString('en-US')}).`)
+      why.shiny = `${baseTxt}${parTxt(has((p) => p.look.shiny), K.inherit.shiny * K.lookX.egg, 'Shiny')}`
+      why.umbral = `Void = the base × ${K.umbralX} (${per0(base * K.umbralX)})${parTxt(has((p) => p.look.umbral), K.inherit.umbral * K.lookX.egg, 'Void')}`
+      why.prismana = `Prismatic = the base × ${K.prismanaX} (${per0(base * K.prismanaX)})${parTxt(has((p) => p.look.prismana), K.inherit.prismana * K.lookX.egg, 'Prismatic')}`
+      if (S) {
+        const ns = has((p) => p.look.season === S.k), each = K.inherit.prismana * K.lookX.egg
+        why.season = `${S.name} = Prismatic's base (${per0(base * K.prismanaX)})${ns ? ` + ${ns} ${S.name} parent${ns > 1 ? 's' : ''} × 1 in ${each.toLocaleString('en-US')}` : ''}, then ${S.vs}× rarer${ns ? '' : ` (a ${S.name} parent would add 1 in ${Math.round(each * S.vs).toLocaleString('en-US')})`}. ${S.event} only.`
+      }
+      why.perfect = `Your rank's ${per0(r.perfect)}${has((p) => p.perfect) ? ` + ${has((p) => p.perfect)} Perfect parent${has((p) => p.perfect) > 1 ? 's' : ''} × 1 in ${K.inherit.perfect}` : ''}${o.knot ? ', ×3 for the Destiny Knot' : ''}. Charm and events don't change it.`
+      why.alpha = o.alpha ? `${has((p) => p.alpha)} Alpha parent${has((p) => p.alpha) > 1 ? 's' : ''} × 1 in ${K.inherit.alpha}. Its own roll.` : 'No Alpha parent: an Alpha baby needs one (1 in 64 each).'
+      // hatch time
+      const sec = K.encSecs[+v.speed || 0]
+      const tierKey = { c: 'common', u: 'uncommon', r: 'rare', l: 'legendary', m: 'legendary' }[cur.m?.tr] || 'common'
+      const total = K.hatch[tierKey] || 30
+      const layEnc = Math.ceil(K.eggAt / match.rate)
+      const warmEnc = C.warmEncounters(total, +v.warm || 1)
+      const nlook = v.nlook || ''
+      const nan = v.nanny ? C.nannyMins(K, v.nanny, { shiny: nlook === 'shiny', umbral: nlook === 'umbral', prismana: nlook === 'prismana', season: SEAS().some((s) => s.k === nlook) ? nlook : undefined }) : 0
+      const layMin = (layEnc * sec) / 60
+      const handsFree = nan ? Math.min(60 / layMin, 60 / nan) : 0
+      after.innerHTML = `<h4 class="w-h4">Hatch time</h4><dl class="w-kv bc-time">
+        <div><dt>${ic('egg')} New egg</dt><dd>every <b>${layEnc}</b> encounters (${mins(layEnc * sec)})${match.rate === 2 ? ', same family = twice as fast' : ''}</dd></div>
+        <div><dt>${ic('clock')} Ready to hatch</dt><dd><b>${warmEnc}</b> encounters of warmth (${mins(warmEnc * sec)}) for a ${tierKey} baby (${total} warmth)</dd></div>
+        <div><dt>${ic('check')} Without a nanny</dt><dd>you open each egg as soon as it's ready: about <b>${mins((layEnc + warmEnc - 1) * sec)}</b> from an empty pen to a baby, then ${+(60 / layMin).toFixed(1)} eggs an hour</dd></div>
+        <div><dt>${ic('heart')} With ${nan ? `${esc(BY.get(v.nanny)?.nm || v.nanny)}${nlook ? ` (${esc(lookLabel({ [nlook]: true, season: SEAS().some((s) => s.k === nlook) ? nlook : undefined }))})` : ''}` : 'a nanny'}</dt><dd>${nan ? `hatches one ready egg every <b>${+nan.toFixed(2)} min</b> of hunting: about <b>${+handsFree.toFixed(1)}</b> babies an hour from this pen, hands-free${60 / nan < 60 / layMin ? ' (the nanny is the bottleneck: eggs wait in the basket)' : ''}` : 'pick a nanny above to see its hands-free pace'}</dd></div>
+      </dl>
       ${o.islands ? '<p class="muted small">Parents from different islands: base look odds doubled.</p>' : ''}
-      <p class="muted small">${o.everstone ? `${ispr('everstone', 16)} Everstone: every baby gets the holder's nature${P.every((p) => p.everstone) ? ' (both hold one: either parent\'s, egg by egg)' : ''}. Looks and odds stay the same.` : 'Nature: random (1 in 25 for any one nature). An Everstone on a parent passes its nature.'} ${o.knot ? `${ispr('destiny_knot', 16)} Destiny Knot: each baby keeps the best of 3 IV rolls${o.everstone ? ' with that nature' : ''}, and ×3 perfect IVs${P.every((p) => p.knot) ? ' (two Knots work the same as one)' : ''}.` : ''}</p>`
+      <p class="muted small">${o.everstone ? `${ispr('everstone', 16)} Everstone: every baby gets the holder's nature${P.every((p) => p.everstone) ? ' (both hold one: either parent\'s, egg by egg)' : ''}. Looks and odds stay the same.` : 'Nature: random (1 in 25 for any one nature). An Everstone on a parent passes its nature.'} ${o.knot ? `${ispr('destiny_knot', 16)} Destiny Knot: each baby keeps the best of 3 IV rolls${o.everstone ? ' with that nature' : ''}, and ×3 perfect IVs${P.every((p) => p.knot) ? ' (two Knots work the same as one)' : ''}.` : ''} The nanny only changes how fast eggs hatch, never what hatches. ${hw ? `Through ${utcDay(K.halloweenEnd - 1, true)} (UTC) a parent in a Halloween costume passes it on.` : ''}</p>`
+    } else {
+      const base = mode === 'cegg' ? eggB / K.costumeEgg.k : eggB
+      if (mode === 'cegg') {
+        const c = BY.get(v.cegg)
+        if (!c) { out.innerHTML = '<p class="muted">Pick a costume.</p>'; wrap.hidden = true; return }
+        o = C.costumeEggOdds(K, { rank, charm }); art = BY.idx.get(c.s); nm = c.nm
+        head = `<div class="bc-baby"><div class="bc-baby__one">${spr(art, 96, { alt: c.nm })}<b>${esc(c.nm)}</b><small>hatches from the Costume Egg</small></div>
+          <p class="muted small">A Costume Egg (1 in 100 friend gifts, or your first Tower Climb past floor 25, 50, 75 and 100) hatches the costume Pokémon itself, at Lv 5. It's ready at once and never takes a basket slot. Its looks are ${K.costumeEgg.k}× your egg odds, Perfect IVs ${oneIn(o.perfect)}, never Alpha.</p></div>`
+      } else if (mode === 'gegg') {
+        const m = monByName(v.gmon) || BY.get('eevee')
+        o = C.giftEggOdds(K, { rank, charm }); art = m ? BY.idx.get(m.s) : -1; nm = m?.nm || ''
+        head = `<div class="bc-baby"><div class="bc-baby__one">${spr(art, 96, { alt: nm })}<b>${esc(nm)}</b><small>preview</small></div>
+          <p class="muted small">About 1 friend gift in 9 holds a Gift Egg: a random uncommon or rare first form from the islands you've opened, at Lv 5 (pick any Pokémon above to preview the looks). Its looks use your egg odds, with no parents; it's never Perfect IVs or Alpha.</p></div>`
+      } else {
+        const m = monByName(v.rmon) || BY.get('mewtwo')
+        o = C.raidEggOdds(K); art = m ? BY.idx.get(m.s) : -1; nm = m?.nm || ''
+        head = `<div class="bc-baby"><div class="bc-baby__one">${spr(art, 96, { alt: nm })}<b>${esc(nm)}</b><small>preview</small></div>
+          <p class="muted small">Every Raid Egg rolls the same odds: your rank and Shiny Charm don't count. It hatches the raid's boss (pick any Pokémon above to preview). Never Alpha.</p></div>`
+      }
+      const kx = mode === 'cegg' ? ` × ${K.costumeEgg.k} for a Costume Egg` : ''
+      if (mode === 'regg') {
+        for (const [k, l] of [['shiny', 'Shiny'], ['umbral', 'Void'], ['prismana', 'Prismatic'], ['perfect', 'Perfect IVs']]) why[k] = `Every Raid Egg: ${l} ${per0(K.raidEgg[k])}.`
+        if (S) why.season = `${S.name} = Prismatic's ${per0(K.raidEgg.prismana)}, ${S.vs}× rarer.`
+        why.alpha = 'Raid Eggs are never Alpha.'
+      } else {
+        why.shiny = `Your wild ${per0(wild)} × ${K.lookX.egg}/${K.lookX.wild} for eggs = ${per0(eggB)}${kx}.`
+        why.umbral = `The egg base × ${K.umbralX}${kx} (${per0(base * K.umbralX)}).`
+        why.prismana = `The egg base × ${K.prismanaX}${kx} (${per0(base * K.prismanaX)}).`
+        if (S) why.season = `${S.name} = Prismatic's chance, ${S.vs}× rarer (${per0(base * K.prismanaX * S.vs)}).`
+        why.perfect = mode === 'cegg' ? `Every Costume Egg: ${per0(K.costumeEgg.perfect)}.` : 'Gift Eggs never roll Perfect IVs.'
+        why.alpha = `${mode === 'cegg' ? 'Costume' : 'Gift'} Eggs are never Alpha.`
+      }
+    }
+    const L = C.looks(o, boost, open)
+    // the tiles: each look's own chance
+    const sNote = S ? (open.length ? `${S.event} only (until ${si.until})` : `${S.event} only: off`) : ''
+    const tile = (i2, label, p, tip, sub, cls = '') => `<div class="bc-tile${cls}" tabindex="0" data-tip="${esc(`${tip}${ev && !/Perfect|Alpha/.test(label) ? ev : ''}\n= ${exactIn(p)} per egg.`)}">${ic(i2)}<span>${label}</span><b>${pctR(p)}</b><small>${oneInR(p)}</small>${p > 0 && p < 1 ? `<em>50%: ${eggsR(p, 0.5)} · 90%: ${eggsR(p, 0.9)}</em>` : ''}${sub ? `<i class="bc-tag">${sub}</i>` : ''}</div>`
+    const seaTile = S ? (open.length
+      ? tile(S.icon, S.name, L.season[S.k] || 0, why.season || '', sNote, ' is-g')
+      : `<div class="bc-tile is-g is-off" tabindex="0" data-tip="${esc(`${why.season || ''} Off now: ${S.event} is ${si.state}, and eggs laid outside it are never ${S.name}. Turn on "${si.open ? 'Count' : 'Preview'} ${S.name}" above to see it.`)}">${ic(S.icon)}<span>${esc(S.name)}</span><b>–</b><small>${esc(S.event)} only</small><i class="bc-tag">${si.open ? 'switched off above' : si.state === 'over' ? `ended ${esc(si.until)}` : esc(si.state)}</i></div>`) : ''
+    // every Shiny Charm level with this same setup (what the next Charm upgrade does; Raid Eggs ignore the charm)
+    const charmOdds = (c) => (mode === 'pair' ? C.eggOdds(K, { rank, charm: c, islands: !!v.islands, parents: P.map((p) => ({ ...p.look, perfect: p.perfect, alpha: p.alpha, knot: p.knot, everstone: p.everstone })) }) : mode === 'cegg' ? C.costumeEggOdds(K, { rank, charm: c }) : C.giftEggOdds(K, { rank, charm: c }))
+    const foldOpen = !!$('.bc-charm', out)?.open
+    const charmFold = mode === 'regg' ? '' : `<details class="w-fold bc-charm"${foldOpen ? ' open' : ''}><summary>Every Shiny Charm level <small class="muted">(1 in N per egg)</small></summary><div class="w-tablewrap"><table class="w-table bc-charm__t"><thead><tr><th>Charm</th><th class="num">Shiny</th><th class="num">Void</th><th class="num">Prismatic</th>${S && open.length ? `<th class="num">${esc(S.name)}</th>` : ''}<th class="num">Any look</th></tr></thead><tbody>${Array.from({ length: META.charmMax + 1 }, (_, c) => {
+      const L2 = C.looks(charmOdds(c), boost, open)
+      return `<tr${c === charm ? ' class="is-me"' : ''}><td>${c}${c === charm ? ' (you)' : ''}</td><td class="num">${oneInR(L2.shiny).replace('1 in ', '')}</td><td class="num">${oneInR(L2.umbral).replace('1 in ', '')}</td><td class="num">${oneInR(L2.prismana).replace('1 in ', '')}</td>${S && open.length ? `<td class="num">${oneInR(L2.season[S.k] || 0).replace('1 in ', '')}</td>` : ''}<td class="num">${oneInR(L2.any).replace('1 in ', '')}</td></tr>`
+    }).join('')}</tbody></table></div></details>`
+    const anyTip = `1 − the chance of no special look at all: each look rolls on its own die, so they multiply (${[pctR(1 - L.shiny), pctR(1 - L.umbral), pctR(1 - L.prismana), ...(open.length ? [pctR(L.none)] : [])].join(' × ')} = ${pctR(1 - L.any)} plain).`
+    out.innerHTML = `${head}<h4 class="w-h4">Chances per egg</h4><div class="bc-tiles">${tile('star', 'Shiny', L.shiny, why.shiny)}${tile('umbral', 'Void', L.umbral, why.umbral)}${tile('prismana', 'Prismatic', L.prismana, why.prismana)}${seaTile}${tile('perfect', 'Perfect IVs', Math.min(1, o.perfect || 0), why.perfect, o.knot ? '×3 Destiny Knot' : '')}${tile('alpha', 'Alpha', o.alpha, why.alpha, o.alpha ? '' : pair ? 'needs an Alpha parent' : 'never from this egg')}
+      <div class="bc-tile any" tabindex="0" data-tip="${esc(anyTip)}">${ic('burst')}<span>Any special look</span><b>${pctR(L.any)}</b><small>${oneInR(L.any)}</small>${L.any > 0 && L.any < 1 ? `<em>50%: ${eggsR(L.any, 0.5)} · 90%: ${eggsR(L.any, 0.9)}</em>` : ''}</div></div>${charmFold}`
+    // the combos: every look combination (Spectral too while it's counted), + Perfect / + Alpha, sorted most common first
+    const exact = v.cmatch !== 'least'
+    const perf = !!v.cperf && o.perfect > 0, alpha = !!v.calpha && o.alpha > 0
+    const xp = $('[data-xperf]', wrap), xa = $('[data-xalpha]', wrap)
+    xp.classList.toggle('is-dis', !(o.perfect > 0)); xa.classList.toggle('is-dis', !(o.alpha > 0))
+    $('input', xp).disabled = !(o.perfect > 0); $('input', xa).disabled = !(o.alpha > 0)
+    xa.dataset.tip = o.alpha > 0 ? 'Count only eggs that are also Alpha (its own roll, so its chance multiplies in).' : pair ? 'No Alpha parent: these eggs can\'t be Alpha.' : 'This egg is never Alpha.'
+    xp.dataset.tip = o.perfect > 0 ? 'Count only eggs that also have Perfect IVs (its own roll, so its chance multiplies in).' : 'This egg never rolls Perfect IVs.'
+    const pPerf = Math.min(1, o.perfect || 0)
+    let list = exact ? L.list.map((x) => ({ ...x })) : []
+    if (!exact) {
+      for (const so of [null, ...open]) for (let m = 0; m < 8; m++) {
+        const c = { shiny: !!(m & 1), umbral: !!(m & 2), prismana: !!(m & 4), season: so }
+        if (m || so) list.push({ ...c, p: C.atLeast(L, c) })
+      }
+    }
+    list.forEach((x, i) => { x.i = i; x.p0 = x.p; x.p = x.p * (perf ? pPerf : 1) * (alpha ? o.alpha : 1) })
+    list.sort((a, b) => b.p - a.p || a.i - b.i)
+    const part = (on, l, p) => (on ? `${l} ${oneInR(p)}` : `no ${l} (${pctR(1 - p)})`)
+    const comboTip = (x) => {
+      const bits = []
+      for (const [k, l] of LOOKS3) if (exact || x[k]) bits.push(exact ? part(x[k], l, L[k]) : `${l} ${oneInR(L[k])}`)
+      for (const s of SEAS()) if (open.includes(s.k) && (exact || x.season === s.k)) bits.push(exact ? (x.season === s.k ? `${s.name} ${oneInR(L.season[s.k])}` : `no ${s.name} (${pctR(1 - (L.season[s.k] || 0))})`) : `${s.name} ${oneInR(L.season[s.k])}`)
+      if (perf) bits.push(`Perfect IVs ${oneInR(pPerf)}`)
+      if (alpha) bits.push(`Alpha ${oneInR(o.alpha)}`)
+      return `${bits.join(' × ') || 'Any egg'}\n= ${exactIn(x.p)} per egg${exact ? '' : ' (other looks may come too)'}. Each one is its own roll, so the chances multiply.`
+    }
+    const badge = `${perf ? `<i class="bc-x">${ic('perfect')}Perfect</i>` : ''}${alpha ? `<i class="bc-x">${ic('alpha')}Alpha</i>` : ''}`
+    $('.bc-combos', wrap).innerHTML = list.map((x) => `<div class="bc-look${x.shiny ? ' is-s' : ''}${x.umbral ? ' is-u' : ''}${x.prismana ? ' is-p' : ''}${x.season ? ' is-g' : ''}" tabindex="0" data-tip="${esc(comboTip(x))}">${spr(art, 64, { shiny: x.shiny, umbral: x.umbral, prismana: x.prismana, season: x.season, alt: `${lookLabel(x)} ${nm}` })}<span>${exact ? lookLabel(x) : `${lookLabel(x)}+`}</span>${badge ? `<span class="bc-xs">${badge}</span>` : ''}<b>${pctR(x.p)}</b><small>${oneInR(x.p)}</small><em>${x.p >= 0.5 ? 'most eggs' : `90%: ${eggsR(x.p, 0.9)}`}</em></div>`).join('')
+    const twoBabies = pair && C.breedBabies(breedRec(P[0].m), breedRec(P[1].m)).length > 1
+    $('.bc-combo-note', wrap).innerHTML = `${exact ? 'Exactly these looks: all the cards add up to 100%.' : 'At least these looks: a card also counts eggs with more looks on top (the + on its name).'} Tap or hover a card for its maths.${twoBabies ? ` The looks don't depend on which baby hatches; for one particular baby (half the eggs), double the 1 in N.` : ''}${S && !open.length ? ` ${esc(S.name)} is off (${esc(S.event)} only).` : ''}`
   }
+  const per0 = (x) => `1 in ${Number(x.toFixed(x < 100 ? 1 : 0)).toLocaleString('en-US')}`
   function runCalc(el, t0) {
     const v = Object.fromEntries($$('[name]', el).filter((i) => i.type !== 'radio' || i.checked).map((i) => [i.name, i.type === 'checkbox' ? i.checked : i.value]))
     const out = $('.calc-out', el)
