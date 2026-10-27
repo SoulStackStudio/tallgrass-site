@@ -1,5 +1,34 @@
 [
  {
+  "version": "0.57.4",
+  "date": "2026-10-27",
+  "title": "Surprise events, Cheer all, raid team tips",
+  "notes": [
+   "New surprise events the Tallgrass team can run any time: Golden Hour (boosted Shiny odds, EXP and money for everyone, with a golden burst on your screen), Spotlight outbreaks of one Pokémon on every island, weather over every route (rain, thunderstorms, snow, a blood moon or the aurora), messages from Glo, Candy Rain and Mystery Egg drops.",
+   "Friends’ finds: Cheer all cheers every find you haven’t cheered yet in one go, then shows the friendship points you got (still 3 a day with each friend).",
+   "Spectral Pokémon now have a ghostly 10% chance to dodge attacks (not in raids). It shows on their card as Ghostly.",
+   "Raids: each Pokémon in your raid squad shows its held item, and a glowing one is a better item from your Bag for this boss (hover for why). Equip all gives them in one click.",
+   "Raids: Suggested squad finds stronger squads: it tests them against the exact boss you’ll fight, tries type pairs that light Synergies, and picks the held items from your Bag that suit them. It never suggests a weaker squad than it used to: when the stronger squad needs its items, Equip all brings it in with them."
+  ],
+  "changes": [
+   "Spooky 2026 stamp page: Spirit Collector now needs 25 Spectrals (it was 50). Already have 25? It stamps itself.",
+   "Focus Sash works the moment the hit lands, like in the games: your Pokémon hangs on with 1 HP and still makes its move (it used to skip its move, then come back at 1 HP).",
+   "Stamina also raises Defense when your Pokémon hurts itself in confusion.",
+   "Friend battles: fused Necrozma, Kyurem and Calyrex fight in their fused form, and friends see the fused form in your team.",
+   "Online features use less data while the game sits untouched."
+  ],
+  "fixes": [
+   "New players: the New Game screen always takes your clicks after the Discord login (on some PCs the clicks went to the desktop behind it).",
+   "Browser: “Moving your game here…” can’t get stuck any more. If the other tab doesn’t answer (asleep or closed), this one takes over after a few seconds, and the old tab can’t save over your game.",
+   "Use all monitors stays on after an update or a restart (a slow start could turn it off by itself for a day).",
+   "The Game Boy theme no longer slows the game down.",
+   "Gifts: after opening lots of gifts at once, the reward card always has an X (and Esc) to close it, and a big batch fits on the screen.",
+   "Party & PC: a Spectral’s Evolution row shows which forms you have as Spectral (it said every form you’d ever caught was registered).",
+   "The raid DEFEATED! card closes with its X again (on phones the X couldn’t be tapped).",
+   "Friends: the online count is right for very big friend lists (it stopped at 1,000)."
+  ]
+ },
+ {
   "version": "0.57.3",
   "date": "2026-10-26",
   "title": "Friendship points, two raid bosses a day",
@@ -67,16 +96,6 @@
    "Fixed the Pokémon Center rest timer getting stuck for hours after a crash or a clock change.",
    "New Game fits every screen: on phones and on small or zoomed laptop screens the Choose button was cut off, so you couldn’t start.",
    "The first screen no longer stays on “Opening the gate…” for good when the connection drops halfway."
-  ]
- },
- {
-  "version": "0.57.1",
-  "date": "2026-10-26",
-  "title": "Hunt fix",
-  "notes": [],
-  "changes": [],
-  "fixes": [
-   "Fixed the hunt walking without any encounters after updating to 0.57.0. Sorry about that! Your team is back to battling."
   ]
  }
 ]
