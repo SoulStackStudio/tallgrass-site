@@ -1,5 +1,28 @@
 [
  {
+  "version": "0.60.2",
+  "date": "2026-10-30",
+  "title": "Browser fix + fixes",
+  "notes": [],
+  "changes": [
+   "Battle Tower: the \"Choose your path\" cards show the island itself, its main types and a few Pokémon you can meet there.",
+   "Updates: the game no longer restarts into an update while you are playing something else. It waits until you are back in Tallgrass or away from the PC (Restart now still works any time)."
+  ],
+  "fixes": [
+   "Browser: \"A new version of Tallgrass is out\" no longer comes up by mistake when you look at a Lucky Pokémon or open the PC wallpapers.",
+   "Browser: if that card ever shows, it now has a Refresh button and an X to close it.",
+   "Lucky Pokémon show their gold twinkles again, and the Poké Ball wallpaper shows its Poké Balls.",
+   "Updates: the restart after an update no longer pulls you out of a full screen game or takes your mouse.",
+   "Battle Tower: every island’s name is easy to read on its path card (Dragonspire’s was dark on dark), and the cards are no longer huge empty boxes.",
+   "Phones: if you switch Layout to Desktop, a \"Phone layout\" button stays in the corner, so you can always switch back.",
+   "Raids: a Pokémon’s card from the raid menu shows its buttons properly again (candies work) and scrolls up and down.",
+   "Battle Tower: Light Clay now always guards your team while its holder is standing, wherever it sits in the squad.",
+   "Primal Groudon’s harsh sunlight makes Water moves fail, and Primal Kyogre’s heavy rain makes Fire moves fail, like the games.",
+   "Mega Emboar faces the right way in the hunt.",
+   "Achievements: the Gold and Platinum labels are no longer cut off on long names."
+  ]
+ },
+ {
   "version": "0.60.1",
   "date": "2026-10-30",
   "title": "The balance sweep",
@@ -49,15 +72,5 @@
    "A Tower boss caught with a Master Ball can now be traded and sold like any other catch.",
    "Browser: no more blank screen after an update — the page refreshes itself."
   ]
- },
- {
-  "version": "0.59.4",
-  "date": "2026-10-29",
-  "title": "Rare Candies with your account",
-  "notes": [
-   "Rare Candies are now kept with your account, so they're safe on every device."
-  ],
-  "changes": [],
-  "fixes": []
  }
 ]
