@@ -1,5 +1,33 @@
 [
  {
+  "version": "0.61.0",
+  "date": "2026-10-30",
+  "title": "Guilds",
+  "notes": [
+   "Guilds are here! Team up with up to 10 trainers: found one, find one to join, and see everyone’s War Power. Guild Boss and Guild Wars come next."
+  ],
+  "changes": [
+   "Guilds: open the Guild window from Friends. Found a guild with 3 badges and $1,000,000: pick a name, a 3-4 letter tag and a pixel emblem.",
+   "Guilds: anyone can join an open guild, ask to join one, or be invited by friend code. Leaders and Officers say yes, invite and remove members.",
+   "Guilds: roles are Leader, Officer and Member. After leaving a guild you can join another one 24 hours later.",
+   "Guilds: your guild tag shows next to your name, and the guild page shows every member, their War Power, what they earned this week and the guild’s history.",
+   "War Power: how strong you are for guild battles, from how many Pokémon you have at your level cap and how strong your best 10 are. Shiny and other looks don’t change it.",
+   "Guild XP and levels, and guild tokens: say hi to your guild once a day for guild XP and a token. The guild shop opens with the Guild Boss.",
+   "The Pokémon card is new: your Pokémon is big, its name and level sit on the art, and the whole card shines with its looks (Shiny, Void, Prismatic and Spectral, and they mix).",
+   "The Pokémon card: fully powered up Pokémon get a gold MAX frame, and their candy buttons become one tidy Power strip.",
+   "The Pokémon card: one row per stat with a bar and its IV (30 and up in gold), the nature’s raised stat in green and lowered one in red.",
+   "The Game Corner now plays online: the Slots and the Capsule Machine need an internet connection. Your Coins are kept safe.",
+   "Trainer names: pick your own! “Trainer” and “Player” aren’t names any more, so the game asks you when it starts (Later is fine). Guilds and the boards show you once you have one.",
+   "Names: a few hurtful words can’t be used in trainer or guild names.",
+   "Two saves: when you pick a save, it now warns you if it has less play time than the other one, and shows any rare Pokémon that are only in the other save."
+  ],
+  "fixes": [
+   "My odds has its own close button, and Esc closes just My odds (not the Day Care behind it).",
+   "The Day Care’s help and My odds buttons have their icons in the middle again.",
+   "Breeding: the Day Care now says it: gender doesn’t matter, any two Pokémon that get along can have eggs."
+  ]
+ },
+ {
   "version": "0.60.2",
   "date": "2026-10-30",
   "title": "Browser fix + fixes",
@@ -48,29 +76,6 @@
    "Battle Tower: a Mega Evolution keeps its run stats (it got stronger than it should).",
    "Battle Tower bosses: Rough Skin, Iron Barbs, Aftermath, Rocky Helmet, sandstorms and trapping moves hurt one HP bar at a time.",
    "Battle Tower: the run page fits the Events window without scrolling, on the desktop and on phones."
-  ]
- },
- {
-  "version": "0.60.0",
-  "date": "2026-10-30",
-  "title": "The Battle Tower update: Hard Mode",
-  "notes": [
-   "Battle Tower Hard Mode: a Nuzlocke climb for trainers whose best Climb reached floor 150. Bring one of your own Pokémon. Any Pokémon that faints in Hard Mode is gone for good: the one you bring and every one you catch.",
-   "Hard Mode rules: no Revives and no Rest Stops (a small heal after every boss), and closing the game or loading a backup won’t bring a fainted Pokémon back. The rules show before every run. Hard Mode needs a connection.",
-   "Hard Mode foes are much tougher: they grow twice as fast as the Climb’s, with extra stats on top.",
-   "Hard Mode pays for the risk: everyone still standing comes home with you, catches included (put a catch in the box to keep it safe). Rare looks are twice as likely as in the Climb, Gilded four times, and run prizes are doubled.",
-   "Every week (Monday to Sunday, UTC), your first Hard Mode climb past floor 75 earns a Nature Mint of your choice, and past floor 100 a Bottle Cap.",
-   "Tower battles have a new look: every battle shows its floor and island, Dens are dark with a glow around the Den’s Pokémon, and bosses get their own stage with HP bars you can see break.",
-   "My odds: a new button next to Help at the top of the Day Care shows your own odds for rare looks (your route, eggs, the Battle Tower and Hard Mode) and the hatch odds of the pair in the pen."
-  ],
-  "changes": [
-   "Battle Tower (Climb, Daily and Hard Mode): catching is much easier, about 3 times the odds you’d have on your route and far more for Legendaries, and Shiny, Void, Prismatic, Spectral and Gilded Pokémon are no harder to catch than plain ones.",
-   "Tower and island bosses: healing moves, status damage and Super Fang-style moves now work on one HP bar at a time, like raid bosses (a boss could heal its whole HP pool, and one Super Fang took several bars).",
-   "Supporters can now switch their name effect off in Settings."
-  ],
-  "fixes": [
-   "A Tower boss caught with a Master Ball can now be traded and sold like any other catch.",
-   "Browser: no more blank screen after an update — the page refreshes itself."
   ]
  }
 ]
