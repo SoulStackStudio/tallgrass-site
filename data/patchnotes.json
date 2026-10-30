@@ -1,101 +1,63 @@
 [
  {
-  "version": "0.57.4",
-  "date": "2026-10-27",
-  "title": "Surprise events, Cheer all, raid team tips",
+  "version": "0.60.1",
+  "date": "2026-10-30",
+  "title": "The balance sweep",
   "notes": [
-   "New surprise events the Tallgrass team can run any time: Golden Hour (boosted Shiny odds, EXP and money for everyone, with a golden burst on your screen), Spotlight outbreaks of one Pokémon on every island, weather over every route (rain, thunderstorms, snow, a blood moon or the aurora), messages from Glo, Candy Rain and Mystery Egg drops.",
-   "Friends’ finds: Cheer all cheers every find you haven’t cheered yet in one go, then shows the friendship points you got (still 3 a day with each friend).",
-   "Spectral Pokémon now have a ghostly 10% chance to dodge attacks (not in raids). It shows on their card as Ghostly.",
-   "Raids: each Pokémon in your raid squad shows its held item, and a glowing one is a better item from your Bag for this boss (hover for why). Equip all gives them in one click.",
-   "Raids: Suggested squad finds stronger squads: it tests them against the exact boss you’ll fight, tries type pairs that light Synergies, and picks the held items from your Bag that suit them. It never suggests a weaker squad than it used to: when the stronger squad needs its items, Equip all brings it in with them."
+   "Upgrades: higher levels cost more, climbing steadily so the top ones take a few days to save for. The first few levels cost the same as before, and levels you already have stay."
   ],
   "changes": [
-   "Spooky 2026 stamp page: Spirit Collector now needs 25 Spectrals (it was 50). Already have 25? It stamps itself.",
-   "Focus Sash works the moment the hit lands, like in the games: your Pokémon hangs on with 1 HP and still makes its move (it used to skip its move, then come back at 1 HP).",
-   "Stamina also raises Defense when your Pokémon hurts itself in confusion.",
-   "Friend battles: fused Necrozma, Kyurem and Calyrex fight in their fused form, and friends see the fused form in your team.",
-   "Online features use less data while the game sits untouched."
+   "Battle Tower: type boosters (Charcoal, Mystic Water and the rest) stack up to 3, like the Expert Belt.",
+   "Bench healers now heal at most a quarter of your lead’s HP every 3 turns.",
+   "Friend battles: both trainers’ Pokémon now pick their moves the same way.",
+   "Drizzle, Drought, Sand Stream and Snow Warning weather lasts 5 turns, like the games.",
+   "Raids keep their current battle rules for now."
   ],
   "fixes": [
-   "New players: the New Game screen always takes your clicks after the Discord login (on some PCs the clicks went to the desktop behind it).",
-   "Browser: “Moving your game here…” can’t get stuck any more. If the other tab doesn’t answer (asleep or closed), this one takes over after a few seconds, and the old tab can’t save over your game.",
-   "Use all monitors stays on after an update or a restart (a slow start could turn it off by itself for a day).",
-   "The Game Boy theme no longer slows the game down.",
-   "Gifts: after opening lots of gifts at once, the reward card always has an X (and Esc) to close it, and a big batch fits on the screen.",
-   "Party & PC: a Spectral’s Evolution row shows which forms you have as Spectral (it said every form you’d ever caught was registered).",
-   "The raid DEFEATED! card closes with its X again (on phones the X couldn’t be tapped).",
-   "Friends: the online count is right for very big friend lists (it stopped at 1,000)."
+   "Battle fixes: Rocky Helmet only hurts a Pokémon that touches it with an attack.",
+   "Battle fixes: Venoshock and Barb Barrage only double their power against a poisoned Pokémon (Venoshock did four times the damage).",
+   "Battle fixes: Truant (Slaking), Slow Start (Regigigas) and Defeatist (Archeops) now work.",
+   "Battle fixes: a Void Pokémon’s Shadow Veil halves a hit it survives. It no longer brings back a Pokémon that was knocked out.",
+   "Battle fixes: Spicy Extract raises the target’s Attack and lowers its Defense, like the games.",
+   "Battle fixes: after Glaive Rush, attacks on its user can’t miss and do double damage until it moves again.",
+   "Battle fixes: Crafty Shield only blocks status moves, Quick Guard only priority moves and Wide Guard only moves that hit everyone.",
+   "Battle fixes: Disguise, Intrepid Sword and Dauntless Shield work once a battle, and Shedinja always has 1 HP.",
+   "Battle Tower: a Mega Evolution keeps its run stats (it got stronger than it should).",
+   "Battle Tower bosses: Rough Skin, Iron Barbs, Aftermath, Rocky Helmet, sandstorms and trapping moves hurt one HP bar at a time.",
+   "Battle Tower: the run page fits the Events window without scrolling, on the desktop and on phones."
   ]
  },
  {
-  "version": "0.57.3",
-  "date": "2026-10-26",
-  "title": "Friendship points, two raid bosses a day",
+  "version": "0.60.0",
+  "date": "2026-10-30",
+  "title": "The Battle Tower update: Hard Mode",
   "notes": [
-   "Friendship points: trade levels now grow with everything you do together, not only gifts. What you already did together counts.",
-   "A gift opened between you +1, a trade +3 (1 a day), a raid boss beaten in the same raid party +2 (3 a day), a cheer on a friend’s rare find +1 (3 a day), a friend battle +1 (2 a day). Same days and numbers as before: Lv2 needs 3 points, Lv3 10, Lv4 20.",
-   "Point at the hearts next to a friend’s name (tap on a phone) to see your level, what the next one unlocks, the days and points still needed, and today’s points with that friend.",
-   "Cheer your friends’ rare finds with the heart on each find in Friends’ finds: once per find, a friendship point for you both (3 a day with each friend). See who cheered your finds on the Reactions page.",
-   "Raids: two bosses a day again! A new raid boss every 12 hours: a Mythical from midnight UTC, then a Legendary or Ultra Beast from 12:00 UTC (2 am and 2 pm in South Africa). Every one of them comes round in turn.",
-   "The raid card shows when the next boss arrives and who it is (“Next boss in 3h 12m”). If the boss changes in the middle of your party’s fight, you have 30 more minutes to finish it.",
-   "New: a Spooky 2026 page in your Stamp book. Six seasonal stamps: your first Spectral, 3 Spectrals, a Spectral Ghost-type, a Spectral Legendary or Mythical, one hatched from a Day Care egg, and 50 Spectrals. Fill it before Spooky season ends to win the Spooky 2026 card frame and title (just for looks).",
-   "Spectrals you found before this update already count. Trades don’t, and the page never counts toward your book’s totals.",
-   "Spooky season decorates every route: flickering jack-o’-lanterns, cobwebs, candles and paper lanterns, bats flitting past now and then, and a purple-orange night sky. They stay in the background and are gone when the season ends.",
-   "Mythical and Ultra Beast Pokémon are now called that (they all said Legendary): on PC cards, the Pokédex, hunt call-outs, battles, raid cards, What you missed, trades and the Night Market, each with its own mark. Only the names changed.",
-   "Search the PC or the Pokédex for mythical, ultra beast or ub, and the PC’s Show filter has Mythical and Ultra Beast. Searching legendary still finds them all."
+   "Battle Tower Hard Mode: a Nuzlocke climb for trainers whose best Climb reached floor 150. Bring one of your own Pokémon. Any Pokémon that faints in Hard Mode is gone for good: the one you bring and every one you catch.",
+   "Hard Mode rules: no Revives and no Rest Stops (a small heal after every boss), and closing the game or loading a backup won’t bring a fainted Pokémon back. The rules show before every run. Hard Mode needs a connection.",
+   "Hard Mode foes are much tougher: they grow twice as fast as the Climb’s, with extra stats on top.",
+   "Hard Mode pays for the risk: everyone still standing comes home with you, catches included (put a catch in the box to keep it safe). Rare looks are twice as likely as in the Climb, Gilded four times, and run prizes are doubled.",
+   "Every week (Monday to Sunday, UTC), your first Hard Mode climb past floor 75 earns a Nature Mint of your choice, and past floor 100 a Bottle Cap.",
+   "Tower battles have a new look: every battle shows its floor and island, Dens are dark with a glow around the Den’s Pokémon, and bosses get their own stage with HP bars you can see break.",
+   "My odds: a new button next to Help at the top of the Day Care shows your own odds for rare looks (your route, eggs, the Battle Tower and Hard Mode) and the hatch odds of the pair in the pen."
   ],
   "changes": [
-   "Lucky Slots shows what it pays: the winning symbols light up, the readout says why (2 Cherries ×4 +200) and that row of the pay table lights up. The reels show where they really stopped, so the rows above and below the line no longer look like wins. Only the middle line pays; Cherries count from the left reel.",
-   "The Lucky Slots pay table shows what each line pays at your bet, your Coins go up when the reels stop, and phones get a Pay table button next to SPIN.",
-   "Egg counts add up: the egg card by the hunt, Hatch all (N) and its tooltip, the Day Care basket and the hatch reveal all count the same eggs, the ones that open when you press it. The card says why any others wait (still warming).",
-   "A Pokémon you got in a trade can be traded again 30 days after it arrived (it was 14).",
-   "The Pixel / HD switch on a Pokémon’s card remembers your pick for every Pokémon.",
-   "Rare finds remember the Poké Radar chain they were found at: it shows on the Pokémon’s card and on Discord.",
-   "New Game shows the Spectral starter odds (1 in 160) during Spooky season.",
-   "Browser: logging in with no save anywhere now says “No cloud save on this account yet” and shows how to bring your PC save over (open Tallgrass 0.56.1 or newer on your PC while online once), with Import a save file and Start a new game. When your save arrives, it offers to load it by itself."
+   "Battle Tower (Climb, Daily and Hard Mode): catching is much easier, about 3 times the odds you’d have on your route and far more for Legendaries, and Shiny, Void, Prismatic, Spectral and Gilded Pokémon are no harder to catch than plain ones.",
+   "Tower and island bosses: healing moves, status damage and Super Fang-style moves now work on one HP bar at a time, like raid bosses (a boss could heal its whole HP pool, and one Super Fang took several bars).",
+   "Supporters can now switch their name effect off in Settings."
   ],
   "fixes": [
-   "Fused Pokémon (Kyurem, Necrozma and Calyrex) could disappear from the PC after a save. Fixed.",
-   "Hatch all shows every egg it counted: with auto-send on, a baby waiting for its reveal no longer goes to the Professor before you’ve seen it.",
-   "Claiming gifts always tells you what happened. If you’ve already opened today’s gifts on another device, it says so and the counter shows it.",
-   "The Hearth and Nanny pickers always fit your window: they open above the helper and shrink to the room there (smaller slots, more pages). Nothing is cut off, on phones too.",
-   "Lucky Slots: Auto ×10 always spins at the bet you picked, and the Slots fit smaller windows with nothing cut off.",
-   "The Evolution row lines up again.",
-   "HD on a Pokémon’s card shows the HD sprite even when your PC is set to Pixel.",
-   "Phones: the route’s background no longer goes missing when you come back to the app.",
-   "Lycanroc, Wishiwashi, Oricorio and 19 more Pokémon (with their Mega and Crowned forms) have their cries now.",
-   "Hunt timing fixes."
+   "A Tower boss caught with a Master Ball can now be traded and sold like any other catch.",
+   "Browser: no more blank screen after an update — the page refreshes itself."
   ]
  },
  {
-  "version": "0.57.2",
-  "date": "2026-10-26",
-  "title": "Spooky season: Spectral Pokémon",
+  "version": "0.59.4",
+  "date": "2026-10-29",
+  "title": "Rare Candies with your account",
   "notes": [
-   "Spooky season is here: Spectral Pokémon haunt the routes until November 9! A Spectral is a see-through ghost of itself: pale teal, glowing softly, breathing in and out with little wisps drifting off it. A little rarer than Prismatic, from every source: wild, eggs, raids and the Tower.",
-   "Spectral stacks with the other looks: a Spectral Shiny is a golden ghost, and a Spectral Void or Prismatic is a see-through crystal. A Spectral stays Spectral forever and trades like a Void or Prismatic.",
-   "Day Care eggs can hatch Spectral during Spooky season too, and every Spectral parent makes it more likely.",
-   "Spectrals can go on the Night Market, and the look adds 50 Glimmer to what one is worth.",
-   "Spectral Pokémon show their ghost look everywhere: the hunt, battles, your PC and party, the Pokédex, trades, showcases, friends’ finds and hatches, with their own ghost mark.",
-   "Find them fast: Spectral in the PC’s Show filter, the search words “spectral” or “spooky”, and a Spectral filter in the Pokédex that marks every species you’ve had as Spectral.",
-   "Catch rules: a Spectral tile and a Spectral Never send tick (both on), and Master Ball rules can pick Spectral.",
-   "A call-out greets you when Spooky season starts, and a ghost chip on the hunt bar counts down the days (click it for the Events card with the odds and your Spectrals). Trainer stats count your Spectrals."
+   "Rare Candies are now kept with your account, so they're safe on every device."
   ],
-  "changes": [
-   "When another device is playing your account, the hunt here now looks paused: your team stops, the route dims, and a Paused chip shows where you’re playing, with Play here to bring the hunt back.",
-   "The hunt never waits on its rolls: if they’re slow to come, it carries on at once.",
-   "Rush shows when a boss is next, and says why it stopped."
-  ],
-  "fixes": [
-   "Gifts waiting for you no longer disappear from the Inbox after Send all.",
-   "Fixed the game sometimes letting clicks through after a short freeze (new players couldn’t pick a starter).",
-   "The raid invite list fits its box again, and the next page arrow works.",
-   "A friend no longer shows up twice in your friend list.",
-   "Vitamins in the Tower now work on fainted Pokémon.",
-   "Fixed the Pokémon Center rest timer getting stuck for hours after a crash or a clock change.",
-   "New Game fits every screen: on phones and on small or zoomed laptop screens the Choose button was cut off, so you couldn’t start.",
-   "The first screen no longer stays on “Opening the gate…” for good when the connection drops halfway."
-  ]
+  "changes": [],
+  "fixes": []
  }
 ]
