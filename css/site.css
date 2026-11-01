@@ -415,3 +415,41 @@ code { font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace; font-siz
 .dl-web h3 { margin: 0 0 8px; display: flex; align-items: center; gap: 10px; }
 .dl-web p { margin: 0 0 6px; } .dl-web code { font-size: .9em; }
 @media (max-width: 860px) { .dl-web { grid-template-columns: 1fr; justify-items: start; } }
+
+/* ---------- support (Paystack monthly; js/support.js). Plain "support" tiers: no perks on the site ---------- */
+.support__sub { max-width: 760px; margin: -14px auto 26px; text-align: center; color: #d2d6f5; text-wrap: pretty; }
+.sup-who { max-width: 980px; margin: 0 auto 22px; padding: 16px 22px; }
+.sup-who > div { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.sup-who > div[hidden] { display: none; }
+.sup-who p { margin: 0; flex: 1 1 260px; }
+.sup-who__avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--line); background: #0e1018; }
+.sup-who__btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.sup-who__status { display: block; color: var(--muted); font-size: 15px; }
+.sup-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; max-width: 980px; margin: 0 auto; }
+.sup-tier { position: relative; padding: 24px 22px 22px; display: flex; flex-direction: column; gap: 10px; border-color: color-mix(in srgb, var(--c) 45%, var(--line));
+  box-shadow: 0 0 34px -14px var(--c), 0 6px 0 #0d0f16; transition: transform .2s, box-shadow .2s; }
+.sup-tier:hover { transform: translateY(-3px); }
+.sup-tier.is-mine { box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 30%, transparent), 0 0 34px -10px var(--c), 0 6px 0 #0d0f16; }
+.sup-tier.is-mine::after { content: 'Your tier'; position: absolute; top: -14px; right: 18px; background: var(--c); color: #14161f; font-size: 13px; font-weight: 600; padding: 4px 12px; border-radius: 99px; }
+.sup-tier__icon { margin-bottom: 4px; }
+.sup-tier h3 { font: 400 32px/1 'Luckiest Guy', sans-serif; letter-spacing: .02em; margin: 0; color: var(--c); }
+.sup-tier--shiny { --c: #ffd84a; } .sup-tier--umbral { --c: var(--umbral); } .sup-tier--prismana { --c: #8ff0ff; }
+.sup-tier--prismana h3 { background: linear-gradient(90deg, #ff8ad8, #ffd36b, #8dffb0, #7fd8ff, #c79bff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sup-tier__price { margin: 0; color: var(--muted); }
+.sup-tier__price b { font: 400 40px/1 'Luckiest Guy', sans-serif; color: var(--text); letter-spacing: .02em; margin-right: 4px; }
+.sup-tier__copy { margin: 0 0 8px; color: #d2d6f5; flex: 1; }
+.sup-pick[aria-busy='true'] { filter: brightness(.85); pointer-events: none; }
+.sup-msg { min-height: 1.55em; margin: 16px auto 0; text-align: center; font-weight: 600; max-width: 760px; }
+.sup-msg.is-bad { color: var(--bad); } .sup-msg.is-warn { color: var(--gold); }
+.sup-fine { max-width: 760px; margin: 6px auto 0; text-align: center; font-size: 15px; }
+.sup-fine a:not(.link) { color: var(--text); }
+.sup-thanks { max-width: 980px; margin: 0 auto 22px; padding: 18px 22px; display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: center;
+  border-color: #5c7a2a; box-shadow: 0 0 0 4px rgba(221, 243, 30, .10), 0 6px 0 #0d0f16; }
+.sup-thanks[hidden] { display: none; }
+.sup-thanks h3 { font: 400 28px/1 'Luckiest Guy', sans-serif; letter-spacing: .02em; margin: 0 0 6px; color: var(--lime); }
+.sup-thanks p { margin: 0; color: #d2d6f5; }
+@media (max-width: 860px) {
+  .sup-tiers { grid-template-columns: 1fr; max-width: 520px; }
+  .sup-thanks { grid-template-columns: auto 1fr; } .sup-thanks .btn { grid-column: 1 / -1; justify-self: start; }
+}
+.sup-who .btn[hidden] { display: none; }

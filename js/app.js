@@ -75,12 +75,33 @@
     set('mac', rel.mac_url, rel.mac_mb)
   }
 
+  // v0.53.2 takedown-proofing: the mirror (config.js mirrorBase) when GitHub has gone away: latest.json + v<x>/ zips
+  async function fromMirror(rel) {
+    const base = String(C.mirrorBase || '').replace(/\/+$/, '')
+    if (!base) return
+    try {
+      const ctl = new AbortController(); setTimeout(() => ctl.abort(), 5000)
+      const r = await fetch(`${base}/latest.json`, { signal: ctl.signal, cache: 'no-cache' })
+      if (!r.ok) return
+      const l = await r.json()
+      const v = String(l.version || l.tag || '').replace(/^v/, '')
+      if (!/^\d+\.\d+\.\d+$/.test(v)) return
+      const dir = `${base}/v${v}`
+      const next = { ...(rel || {}), tag: `v${v}`, date: l.date || (rel && rel.date) || '',
+        win_url: `${dir}/Tallgrass-v${v}.zip`, win_mb: l.win_mb || null,
+        mac_url: l.mac === false ? null : `${dir}/Tallgrass-mac-v${v}.zip`, mac_mb: l.mac_mb || null }
+      applyRelease(next); save(next)
+    } catch { /* the mirror is down too: the server copy stands */ }
+  }
+
   // A newer GitHub release than the server row (a sync that hasn't been pasted yet): use it.
   async function freshen(rel) {
     if (!rel || !rel.repo || !/^[\w.-]+\/[\w.-]+$/.test(rel.repo)) return
     try {
       const ctl = new AbortController(); setTimeout(() => ctl.abort(), 5000)
-      const r = await fetch(`https://api.github.com/repos/${rel.repo}/releases/latest`, { signal: ctl.signal, headers: { Accept: 'application/vnd.github+json' } })
+      let r = null
+      try { r = await fetch(`https://api.github.com/repos/${rel.repo}/releases/latest`, { signal: ctl.signal, headers: { Accept: 'application/vnd.github+json' } }) } catch { r = null }
+      if (!r || [404, 410, 451].includes(r.status)) { await fromMirror(rel); return } // v0.53.2: the repo is gone / blocked / unreachable
       if (!r.ok) return
       const gh = await r.json()
       if (!newer(gh.tag_name, rel.tag)) return

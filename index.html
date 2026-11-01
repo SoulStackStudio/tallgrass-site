@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/wiki.css">
 <script src="js/config.js" defer></script>
+<script src="js/support.js" defer></script>
 <script src="js/app.js" defer></script>
 <script src="js/wiki-calc.js" defer></script>
 <script src="js/wiki.js" defer></script>
@@ -115,6 +116,7 @@
     <a href="#features">Features</a>
     <a href="#notes">Patch notes</a>
     <a href="#faq">FAQ</a>
+    <a href="#support">Support</a>
     <a class="nav__wikilink" href="#wiki">Wiki</a>
   </nav>
   <a class="btn btn--yellow btn--sm" href="#download">
@@ -393,6 +395,68 @@
     <p class="download__foot muted">Your save lives on your computer and carries over every update. Wild Pokémon keep stacking up while the game is closed.</p>
   </section>
 
+  <!-- SUPPORT (js/support.js): Discord sign-in -> pick a tier -> Paystack. Plain "support" tiers: the site never lists perks -->
+  <section class="section support" id="support" aria-labelledby="sup-title">
+    <h2 class="h2" id="sup-title">Support <em>Tallgrass</em></h2>
+    <p class="support__sub">Tallgrass is free, and it's staying free. It's made by a tiny team in our spare hours, and the servers that run raids, trades and friends cost real money every month. If you'd like to help keep the route open, you can chip in monthly. Every bit goes straight back into the game.</p>
+
+    <!-- thank-you state (back from Paystack) -->
+    <div class="sup-thanks panel" id="sup-thanks" hidden>
+      <img class="px sup-thanks__art" src="assets/sprites/eevee.png" alt="" width="64" height="64" style="--w:64;--h:64;--s:1.5">
+      <div>
+        <h3>Thank you, trainer!</h3>
+        <p id="sup-thanks-msg">Your support is set up. It means a lot to us, and it keeps Tallgrass growing. A receipt is on its way to your email.</p>
+      </div>
+      <button class="btn btn--ghost btn--sm" type="button" id="sup-thanks-close">Done</button>
+    </div>
+
+    <!-- who's signed in -->
+    <div class="sup-who panel" id="sup-who">
+      <div class="sup-who__out" data-sup="out">
+        <p><b>Step 1:</b> sign in with Discord, so your support is linked to you.</p>
+        <button class="btn btn--discord" type="button" id="sup-signin">
+          <img class="px" src="assets/icons/friends.png" alt="" width="22" height="12" style="--w:22;--h:12"> Sign in with Discord
+        </button>
+      </div>
+      <div class="sup-who__in" data-sup="in" hidden>
+        <img class="sup-who__avatar" id="sup-avatar" src="assets/img/icon-192.png" alt="" width="40" height="40">
+        <p>Signed in as <b id="sup-name">trainer</b><span id="sup-status"></span></p>
+        <div class="sup-who__btns">
+          <button class="btn btn--ghost btn--sm" type="button" id="sup-manage" hidden>Manage or cancel</button>
+          <button class="btn btn--ghost btn--sm" type="button" id="sup-signout">Sign out</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sup-tiers" id="sup-tiers">
+      <article class="sup-tier panel sup-tier--shiny" data-tier="shiny">
+        <img class="px sup-tier__icon" src="assets/icons/star.png" alt="" width="10" height="9" style="--w:10;--h:9;--s:4">
+        <h3>Shiny</h3>
+        <p class="sup-tier__price"><b>R90</b> a month <small>(about $5)</small></p>
+        <p class="sup-tier__copy">A coffee a month for the developer. Helps keep the lights on and the route open.</p>
+        <button class="btn btn--yellow btn--block sup-pick" type="button" data-tier="shiny">Support with R90</button>
+      </article>
+      <article class="sup-tier panel sup-tier--umbral" data-tier="void">
+        <img class="px sup-tier__icon" src="assets/icons/umbral.png" alt="" width="11" height="11" style="--w:11;--h:11;--s:4">
+        <h3>Void</h3>
+        <p class="sup-tier__price"><b>R180</b> a month <small>(about $10)</small></p>
+        <p class="sup-tier__copy">Covers a real slice of the server bill, so raids, trades and friends stay fast for everyone.</p>
+        <button class="btn btn--yellow btn--block sup-pick" type="button" data-tier="void">Support with R180</button>
+      </article>
+      <article class="sup-tier panel sup-tier--prismana" data-tier="prismatic">
+        <img class="px sup-tier__icon" src="assets/icons/prismana.png" alt="" width="11" height="11" style="--w:11;--h:11;--s:4">
+        <h3>Prismatic</h3>
+        <p class="sup-tier__price"><b>R270</b> a month <small>(about $15)</small></p>
+        <p class="sup-tier__copy">The big one. Helps fund new islands, new features and the time to build them.</p>
+        <button class="btn btn--yellow btn--block sup-pick" type="button" data-tier="prismatic">Support with R270</button>
+      </article>
+    </div>
+    <p class="sup-msg" id="sup-msg" role="status" aria-live="polite"></p>
+
+    <p class="sup-fine muted">Billed monthly in South African rand (ZAR) through Paystack (card). Outside South Africa your bank converts it, so the exact amount can differ slightly. Cancel any time with <b>Manage or cancel</b> above: you stay a supporter until the end of the month you paid for. See the <a href="terms.html#support">terms</a>.</p>
+    <p class="sup-fine muted" id="sup-patreon">Card not going through, or already on Patreon? You can support or manage your pledge there too: <a class="link" href="https://www.patreon.com/glowbugstv" rel="noopener" target="_blank">patreon.com/glowbugstv</a>.</p>
+  </section>
+
   <!-- DISCORD -->
   <section class="section">
     <div class="discord panel">
@@ -415,7 +479,7 @@
     <h2 class="h2" id="faq-title">Questions</h2>
     <div class="faq__list">
       <details class="panel"><summary>Is it really free?</summary>
-        <p>Yes. Tallgrass is a free fan project, with no ads and nothing to buy. Everything in the game is earned by playing.</p></details>
+        <p>Yes. Tallgrass is a free fan project, with no ads and nothing to buy in the game. Everything in it is earned by playing. If you'd like to help, you can <a href="#support">support it monthly</a>, but that's always optional.</p></details>
       <details class="panel"><summary>Windows says it's from an unknown publisher. Is that OK?</summary>
         <p>That warning shows for any game that isn't signed by a big company. Click <b>More info</b> then <b>Run anyway</b>. You only need to do it once.</p></details>
       <details class="panel"><summary>Will it slow my PC down?</summary>
@@ -442,7 +506,7 @@
       <span class="wordmark wordmark--nav"><span>Tall</span><span>grass</span></span>
     </div>
     <p>A free, fan-made game by Glowbugs TV. Not affiliated with, endorsed or sponsored by Nintendo, Game Freak, Creatures Inc. or The Pokémon Company. Pokémon and all related names and sprites are trademarks of their respective owners.</p>
-    <p class="footer__links"><a data-discord href="#">Discord</a> &middot; <a href="#download">Download</a> &middot; <a href="#wiki">Wiki</a> &middot; <a href="#faq">FAQ</a></p>
+    <p class="footer__links"><a data-discord href="#">Discord</a> &middot; <a href="#download">Download</a> &middot; <a href="#wiki">Wiki</a> &middot; <a href="#faq">FAQ</a> &middot; <a href="#support">Support</a> &middot; <a href="terms.html">Terms</a></p>
   </div>
 </footer>
 
