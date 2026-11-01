@@ -89,7 +89,16 @@
     const at = (list, i) => list[((i % list.length) + list.length) % list.length]
     const H = L.halves
     if (!H) return at(L.raid, n)
-    return t - n * DAY < DAY / 2 ? at(H.myth, H.base + n) : at(H.legend[((n % H.legend.length) + H.legend.length) % H.legend.length], H.base + Math.floor(n / H.legend.length))
+    const nr = (s) => (H.noRaid && H.noRaid[s]) || s // game 0.63.0: Arceus never raids (Mew takes its turn)
+    if (t - n * DAY >= DAY / 2) return nr(at(H.legend[((n % H.legend.length) + H.legend.length) % H.legend.length], H.base + Math.floor(n / H.legend.length)))
+    const sw = H.swap && H.swap[`g${H.base + n}`] // game 0.57.6: a hand-swapped Mythical half-day
+    if (sw) return sw
+    const s = nr(at(H.myth, H.base + n))
+    // game 0.64.0 (raid2.ts mythForm): a species with raid-only forms goes round [...forms, itself], one step per pass of the walk
+    const fs = H.mythForms && H.mythForms[s]
+    if (!fs || !fs.length) return s
+    const set = [...fs, s]
+    return at(set, Math.floor(n / Math.max(1, H.myth.length)))
   }
   /** when the raid boss at t leaves: the next 00:00 / 12:00 UTC (older data: the next midnight UTC) */
   function raidEnds(L, t) { const step = L.halves ? DAY / 2 : DAY; return (Math.floor(t / step) + 1) * step }
@@ -128,7 +137,7 @@
     return { window: w, start: w * ms, end: (w + 1) * ms, list }
   }
 
-  // ---- breeding (care.ts eggOdds / compat / firstForm / halloweenBaby, game.ts nannyMins; dice.ts rollLooks; events.ts costumeEgg / openGift;
+  // ---- breeding (care.ts eggOdds / compat / firstForm / halloweenBaby, game.ts nannyX / warmOf; dice.ts rollLooks; events.ts costumeEgg / openGift;
   //      raid eggs; seasons.ts) ----
   // K = META.breed. A parent = { shiny, umbral, prismana, season, perfect, alpha, knot, everstone } (season = its seasonal look's key,
   // e.g. 'spectral'; knot = holds a Destiny Knot, everstone = holds an Everstone).
@@ -236,14 +245,23 @@
     while (left > 0 && n < 10000) { left = Math.max(0, Math.round((left - k) * 10) / 10); n++ }
     return n
   }
-  /** minutes of hunting per egg the nanny hatches (0 = not a nanny); its best special look makes it faster (a seasonal look: game 0.57.2) */
-  function nannyMins(K, slug, look) {
-    const L = K.nannyLook || { shiny: 1, umbral: 1, prismana: 1 }
-    return (K.nanny[slug] || 0) * Math.min(1, look.shiny ? L.shiny : 1, look.umbral ? L.umbral : 1, look.prismana ? L.prismana : 1, look.season ? L.season || 1 : 1)
+  /** what a Pokémon's looks add by a look table (game.ts lookBonus, game 0.64.6): each look once, summed; T.spectral for Spectral, T.season for another seasonal look */
+  function lookAdd(T, look) {
+    if (!T) return 0
+    return (look.shiny ? T.shiny : 0) + (look.umbral ? T.umbral : 0) + (look.prismana ? T.prismana : 0) + (look.season ? (look.season === 'spectral' ? T.spectral : T.season) || 0 : 0)
+  }
+  const r2 = (x) => Math.round(x * 100) / 100
+  /** the Nanny's breeding multiplier on every pen (game.ts nannyX, game 0.64.6; 1 = not a nanny): 1 + its base + its looks, the bonus capped at K.nannyCap */
+  function nannyX(K, slug, look) {
+    return K.nanny[slug] ? r2(1 + Math.min(K.nannyCap, K.nanny[slug] + lookAdd(K.nannyLook, look))) : 1
+  }
+  /** how much a warmer warms the eggs (game.ts warmOf, game 0.64.6): its base (1, Fire-type, Flame Body & co) + its looks (capped), only for a real warmer (base > 1) */
+  function warmX(K, base, look) {
+    return base > 1 ? r2(base + Math.min(K.warm.cap, lookAdd(K.warm.look, look))) : 1
   }
   /** a season's window state at t: { open, start, end } (the game's built-in dates; the server's app_config rows can move them) */
   function seasonAt(S, t) { return { open: t >= S.start && t < S.end, start: S.start, end: S.end } }
 
   root.TGCalc = { catchChance, stats, expGain, expFor, transferCash, powerCost, seeded, raidBoss, raidEnds, outbreaks,
-    eggOdds, costumeEggOdds, giftEggOdds, raidEggOdds, breedCompat, breedBabies, costumeFor, halloweenFits, looks, atLeast, eggsFor, warmEncounters, nannyMins, seasonAt }
+    eggOdds, costumeEggOdds, giftEggOdds, raidEggOdds, breedCompat, breedBabies, costumeFor, halloweenFits, looks, atLeast, eggsFor, warmEncounters, nannyX, warmX, seasonAt }
 })(typeof window !== 'undefined' ? window : globalThis)

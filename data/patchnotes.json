@@ -1,81 +1,51 @@
 [
  {
-  "version": "0.61.0",
-  "date": "2026-10-30",
-  "title": "Guilds",
+  "version": "0.64.6",
+  "date": "2026-11-01",
+  "title": "Faster breeding and a bigger UI",
   "notes": [
-   "Guilds are here! Team up with up to 10 trainers: found one, find one to join, and see everyone’s War Power. Guild Boss and Guild Wars come next."
+   "The Nanny now makes every breeding pen lay eggs faster instead of hatching them: Happiny, Chansey, Togepi and Togetic +25%, Blissey and Togekiss +50%. A Shiny, Void, Prismatic or Spectral nanny adds more, up to twice as fast.",
+   "The Hearth: a Shiny, Void, Prismatic or Spectral Fire-type warms your eggs even faster, up to 3× with Flame Body, Magma Armor or Steam Engine.",
+   "The Hearth and Nanny cards show their real speed (like \"Warming 2.25×\" and \"Breeding 1.8×\") and which looks add to it.",
+   "Egg settings → Hatch by themselves now also hatches eggs while you’re away, so your pens keep going overnight. Shiny and other special babies wait for their reveal until you’re back. If you had a Nanny, it is turned on for you.",
+   "Settings: new UI size (100%, 115%, 125% or 150%) makes text, numbers and windows bigger on PC. Ctrl+= and Ctrl+- change it too, Ctrl+0 goes back to normal. It never goes bigger than your monitor fits.",
+   "The taskbar button is now on for everyone: Tallgrass shows on your taskbar like other apps. You can turn it off in Settings → Window."
   ],
-  "changes": [
-   "Guilds: open the Guild window from Friends. Found a guild with 3 badges and $1,000,000: pick a name, a 3-4 letter tag and a pixel emblem.",
-   "Guilds: anyone can join an open guild, ask to join one, or be invited by friend code. Leaders and Officers say yes, invite and remove members.",
-   "Guilds: roles are Leader, Officer and Member. After leaving a guild you can join another one 24 hours later.",
-   "Guilds: your guild tag shows next to your name, and the guild page shows every member, their War Power, what they earned this week and the guild’s history.",
-   "War Power: how strong you are for guild battles, from how many Pokémon you have at your level cap and how strong your best 10 are. Shiny and other looks don’t change it.",
-   "Guild XP and levels, and guild tokens: say hi to your guild once a day for guild XP and a token. The guild shop opens with the Guild Boss.",
-   "The Pokémon card is new: your Pokémon is big, its name and level sit on the art, and the whole card shines with its looks (Shiny, Void, Prismatic and Spectral, and they mix).",
-   "The Pokémon card: fully powered up Pokémon get a gold MAX frame, and their candy buttons become one tidy Power strip.",
-   "The Pokémon card: one row per stat with a bar and its IV (30 and up in gold), the nature’s raised stat in green and lowered one in red.",
-   "The Game Corner now plays online: the Slots and the Capsule Machine need an internet connection. Your Coins are kept safe.",
-   "Trainer names: pick your own! “Trainer” and “Player” aren’t names any more, so the game asks you when it starts (Later is fine). Guilds and the boards show you once you have one.",
-   "Names: a few hurtful words can’t be used in trainer or guild names.",
-   "Two saves: when you pick a save, it now warns you if it has less play time than the other one, and shows any rare Pokémon that are only in the other save."
-  ],
+  "changes": [],
   "fixes": [
-   "My odds has its own close button, and Esc closes just My odds (not the Day Care behind it).",
-   "The Day Care’s help and My odds buttons have their icons in the middle again.",
-   "Breeding: the Day Care now says it: gender doesn’t matter, any two Pokémon that get along can have eggs."
+   "The shine on special Pokémon cards no longer cuts off in the middle: it sweeps all the way across and loops smoothly."
   ]
  },
  {
-  "version": "0.60.2",
-  "date": "2026-10-30",
-  "title": "Browser fix + fixes",
-  "notes": [],
-  "changes": [
-   "Battle Tower: the \"Choose your path\" cards show the island itself, its main types and a few Pokémon you can meet there.",
-   "Updates: the game no longer restarts into an update while you are playing something else. It waits until you are back in Tallgrass or away from the PC (Restart now still works any time)."
+  "version": "0.64.5",
+  "date": "2026-10-31",
+  "title": "Market filters and more",
+  "notes": [
+   "Ghost types: Curse used by a Ghost-type Pokémon now works like in the games: it costs half its HP and the foe loses a quarter of its HP every turn.",
+   "Prankster status moves now fail against Dark-type Pokémon, like in the games.",
+   "The move buttons in battle now show the right matchup for moves that change type (like Weather Ball) and for Scrappy.",
+   "PC Select mode: new Favourite and Unfavourite buttons star or unstar every Pokémon you picked at once.",
+   "Raid invites: you can’t invite a friend who has used all their raid hits for today, and an invite can’t be accepted once you’re out of hits. The invite list shows them greyed under \"Out for today\".",
+   "Raid invite list: on a small window its top no longer goes off the panel.",
+   "Ranked: a new \"?\" button in the Ranked lobby explains how ranked battles work (Lv 50, the game picks the best moves, types hit much harder than in Pokémon, strong moves need a rest), with team tips and a link to the Discord.",
+   "Taskbar button: with the Taskbar button switch on, the Tallgrass button now shows on the monitor the game is on, not always the main one.",
+   "PC sort by Pokédex: forms that share a number now sort in Pokédex order (Unown A to Z, then ! and ?).",
+   "Night Market: new Alpha filter, and look filters now stack (Shiny + Alpha shows Shiny Alphas). New Type filter and Max price filter.",
+   "Settings: new \"Full speed in the background\" switch (off by default). It keeps Tallgrass at full frame rate even when you’re using another app. It uses more of your PC, so turn it off if other games lag.",
+   "Raids: \"Expected per run\" now always shows the same number for the same squad. Swapping and swapping back no longer changes it."
   ],
-  "fixes": [
-   "Browser: \"A new version of Tallgrass is out\" no longer comes up by mistake when you look at a Lucky Pokémon or open the PC wallpapers.",
-   "Browser: if that card ever shows, it now has a Refresh button and an X to close it.",
-   "Lucky Pokémon show their gold twinkles again, and the Poké Ball wallpaper shows its Poké Balls.",
-   "Updates: the restart after an update no longer pulls you out of a full screen game or takes your mouse.",
-   "Battle Tower: every island’s name is easy to read on its path card (Dragonspire’s was dark on dark), and the cards are no longer huge empty boxes.",
-   "Phones: if you switch Layout to Desktop, a \"Phone layout\" button stays in the corner, so you can always switch back.",
-   "Raids: a Pokémon’s card from the raid menu shows its buttons properly again (candies work) and scrolls up and down.",
-   "Battle Tower: Light Clay now always guards your team while its holder is standing, wherever it sits in the squad.",
-   "Primal Groudon’s harsh sunlight makes Water moves fail, and Primal Kyogre’s heavy rain makes Fire moves fail, like the games.",
-   "Mega Emboar faces the right way in the hunt.",
-   "Achievements: the Gold and Platinum labels are no longer cut off on long names."
-  ]
+  "changes": [],
+  "fixes": []
  },
  {
-  "version": "0.60.1",
-  "date": "2026-10-30",
-  "title": "The balance sweep",
+  "version": "0.64.4",
+  "date": "2026-10-31",
+  "title": "Typing fix",
   "notes": [
-   "Upgrades: higher levels cost more, climbing steadily so the top ones take a few days to save for. The first few levels cost the same as before, and levels you already have stay."
+   "Fixed: on Windows you sometimes couldn’t type your name on the New Game screen. Clicking a text box now brings your keyboard to Tallgrass.",
+   "If another app still has your keyboard, a small \"Click here to type\" button shows under the box."
   ],
-  "changes": [
-   "Battle Tower: type boosters (Charcoal, Mystic Water and the rest) stack up to 3, like the Expert Belt.",
-   "Bench healers now heal at most a quarter of your lead’s HP every 3 turns.",
-   "Friend battles: both trainers’ Pokémon now pick their moves the same way.",
-   "Drizzle, Drought, Sand Stream and Snow Warning weather lasts 5 turns, like the games.",
-   "Raids keep their current battle rules for now."
-  ],
-  "fixes": [
-   "Battle fixes: Rocky Helmet only hurts a Pokémon that touches it with an attack.",
-   "Battle fixes: Venoshock and Barb Barrage only double their power against a poisoned Pokémon (Venoshock did four times the damage).",
-   "Battle fixes: Truant (Slaking), Slow Start (Regigigas) and Defeatist (Archeops) now work.",
-   "Battle fixes: a Void Pokémon’s Shadow Veil halves a hit it survives. It no longer brings back a Pokémon that was knocked out.",
-   "Battle fixes: Spicy Extract raises the target’s Attack and lowers its Defense, like the games.",
-   "Battle fixes: after Glaive Rush, attacks on its user can’t miss and do double damage until it moves again.",
-   "Battle fixes: Crafty Shield only blocks status moves, Quick Guard only priority moves and Wide Guard only moves that hit everyone.",
-   "Battle fixes: Disguise, Intrepid Sword and Dauntless Shield work once a battle, and Shedinja always has 1 HP.",
-   "Battle Tower: a Mega Evolution keeps its run stats (it got stronger than it should).",
-   "Battle Tower bosses: Rough Skin, Iron Barbs, Aftermath, Rocky Helmet, sandstorms and trapping moves hurt one HP bar at a time.",
-   "Battle Tower: the run page fits the Events window without scrolling, on the desktop and on phones."
-  ]
+  "changes": [],
+  "fixes": []
  }
 ]

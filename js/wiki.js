@@ -416,7 +416,7 @@
         // game 0.57.3: a new boss every 12 hours (L.halves: a Mythical from 00:00 UTC, a Legendary from 12:00 UTC); older data: one a day
         const end = C.raidEnds ? C.raidEnds(L, now) : (Math.floor(now / 86400000) + 1) * 86400000, today = C.raidBoss(L, now), next = C.raidBoss(L, end)
         const t = BY.get(today), x = BY.get(next)
-        const kind = L.halves ? (L.halves.myth.includes(today) ? ' (Mythical)' : ' (Legendary)') : ''
+        const kind = L.halves ? (now % 86400000 < 43200000 ? ' (Mythical)' : ' (Legendary)') : '' // 00:00-12:00 UTC the Mythical (game 0.64.0: maybe one of its forms)
         const when = new Date(end).getUTCHours() === 12 ? '12:00 UTC' : 'midnight UTC'
         el.innerHTML = `<div class="lv-card lv-raid"><h4>${ic('raid_pass')} ${L.halves ? `The 5★ raid boss now${kind}` : "Today's 5★ raid boss"}</h4>
           <a class="lv-boss" href="#wiki/pokemon/${today}">${spr(BY.idx.get(today), 96, { alt: t?.nm })}<span><b>${esc(t?.nm || today)}</b>${t ? t.t.map((ty) => typePill(ty, false)).join('') : ''}<small>${L.halves ? 'Next boss in' : 'Changes in'} ${clock(end - now)} (${when})</small></span></a>
@@ -790,6 +790,10 @@
   const LOOKS3 = [['shiny', 'Shiny', 'star'], ['umbral', 'Void', 'umbral'], ['prismana', 'Prismatic', 'prismana']]
   const SEAS = () => META.breed.seasons || []
   const seaName = (k) => SEAS().find((s) => s.k === k)?.name || cap(k)
+  /** game 0.64.6: one look picked in a warmer / nanny select ('' = Normal), as a look ({ shiny, umbral, prismana, season }) */
+  const lookOne = (key) => ({ shiny: key === 'shiny', umbral: key === 'umbral', prismana: key === 'prismana', season: SEAS().some((s) => s.k === key) ? key : undefined })
+  /** the look <option>s of a look-bonus table (game.ts NANNY_LOOK / WARM_LOOK), each with what it adds (Spectral: T.spectral, other seasons: T.season) */
+  const lookOpts = (T, f) => (T ? [...LOOKS3, ...SEAS().map((s) => [s.k, s.name])].map(([key, l]) => [key, l, T[key] ?? (SEAS().some((s) => s.k === key) ? T.season : 0)]).filter(([, , x]) => x > 0).map(([key, l, x]) => `<option value="${key}">${l} (${f(x)})</option>`).join('') : '')
   const lookLabel = (l) => [l.shiny && 'Shiny', l.umbral && 'Void', l.prismana && 'Prismatic', l.season && seaName(l.season)].filter(Boolean).join(' ') || 'Normal'
   // readable chances, never "1.56e-10": 98.8%, 0.89%, 0.0026%, 1 in 38,272, 1 in 2.63 million
   const BIGW = [[1e33, 'decillion'], [1e30, 'nonillion'], [1e27, 'octillion'], [1e24, 'septillion'], [1e21, 'sextillion'], [1e18, 'quintillion'], [1e15, 'quadrillion'], [1e12, 'trillion'], [1e9, 'billion'], [1e6, 'million']]
@@ -872,9 +876,10 @@
       </div>
       <div class="calc bc-opts bc-for" data-for="pair">
         <label>Egg warmer (Hearth / party) <select class="w-in" name="warm"><option value="1">None (×1)</option><option value="${K.warm.fire}">A Fire type (×${K.warm.fire})</option><option value="${K.warm.ability}">${esc(K.warm.abilities.join(' / '))} (×${K.warm.ability})</option></select></label>
+        <label data-tip="A warmer's looks add up on top of its base, at most +${K.warm.cap}× in all. A plain (not Fire) Pokémon's looks warm nothing.">Warmer's look <select class="w-in" name="wlook"><option value="">Normal</option>${lookOpts(K.warm.look, (x) => `+${x}×`)}</select></label>
         <label><span>Sweet Scent <b class="calc-v" data-v="speed"></b></span><input type="range" name="speed" min="0" max="${K.encSecs.length - 1}" value="0"></label>
-        <label>Nanny <select class="w-in" name="nanny"><option value="">No nanny</option>${Object.keys(K.nanny).map((s) => `<option value="${s}">${esc(BY.get(s)?.nm || cap(s))} (${K.nanny[s]} min)</option>`).join('')}</select></label>
-        <label>Nanny's look <select class="w-in" name="nlook"><option value="">Normal</option>${K.nannyLook ? [...LOOKS3, ...SEAS().map((s) => [s.k, s.name, s.icon])].filter(([key]) => K.nannyLook[key] || SEAS().some((s) => s.k === key && K.nannyLook.season)).map(([key, l]) => `<option value="${key}">${l} (−${Math.round((1 - (K.nannyLook[key] || K.nannyLook.season)) * 100)}%)</option>`).join('') : ''}</select></label>
+        <label data-tip="The Nanny makes every breeding pen lay eggs faster (it doesn't hatch them). Its looks add up on top, at most ×${1 + K.nannyCap} in all.">Nanny <select class="w-in" name="nanny"><option value="">No nanny</option>${Object.keys(K.nanny).map((s) => `<option value="${s}">${esc(BY.get(s)?.nm || cap(s))} (×${1 + K.nanny[s]} breeding)</option>`).join('')}</select></label>
+        <label>Nanny's look <select class="w-in" name="nlook"><option value="">Normal</option>${lookOpts(K.nannyLook, (x) => `+${Math.round(x * 100)}%`)}</select></label>
       </div>
       ${S ? `<div class="bc-season${si.open ? ' is-open' : ''}">
         ${ic('season_spooky')}<div class="bc-season__txt"><div class="bc-season__top"><b>${esc(S.event)}</b><span>${esc(si.dates)}</span><em class="bc-season__state">${esc(si.state)}</em></div>
@@ -980,20 +985,21 @@
       const sec = K.encSecs[+v.speed || 0]
       const tierKey = { c: 'common', u: 'uncommon', r: 'rare', l: 'legendary', m: 'legendary' }[cur.m?.tr] || 'common'
       const total = K.hatch[tierKey] || 30
-      const layEnc = Math.ceil(K.eggAt / match.rate)
-      const warmEnc = C.warmEncounters(total, +v.warm || 1)
-      const nlook = v.nlook || ''
-      const nan = v.nanny ? C.nannyMins(K, v.nanny, { shiny: nlook === 'shiny', umbral: nlook === 'umbral', prismana: nlook === 'prismana', season: SEAS().some((s) => s.k === nlook) ? nlook : undefined }) : 0
+      const nx = v.nanny ? C.nannyX(K, v.nanny, lookOne(v.nlook || '')) : 1
+      const gain = Math.round(match.rate * nx * 1000) / 1000 // care.ts breedGain (no Hatch Rush): the extra past an egg carries on
+      const layEnc = K.eggAt / gain, firstEnc = Math.ceil(K.eggAt / gain)
+      const wx = C.warmX(K, +v.warm || 1, lookOne(v.wlook || ''))
+      const warmEnc = C.warmEncounters(total, wx)
       const layMin = (layEnc * sec) / 60
-      const handsFree = nan ? Math.min(60 / layMin, 60 / nan) : 0
+      const nm2 = v.nanny ? `${esc(BY.get(v.nanny)?.nm || v.nanny)}${v.nlook ? ` (${esc(lookLabel(lookOne(v.nlook)))})` : ''}` : ''
       after.innerHTML = `<h4 class="w-h4">Hatch time</h4><dl class="w-kv bc-time">
-        <div><dt>${ic('egg')} New egg</dt><dd>every <b>${layEnc}</b> encounters (${mins(layEnc * sec)})${match.rate === 2 ? ', same family = twice as fast' : ''}</dd></div>
-        <div><dt>${ic('clock')} Ready to hatch</dt><dd><b>${warmEnc}</b> encounters of warmth (${mins(warmEnc * sec)}) for a ${tierKey} baby (${total} warmth)</dd></div>
-        <div><dt>${ic('check')} Without a nanny</dt><dd>you open each egg as soon as it's ready: about <b>${mins((layEnc + warmEnc - 1) * sec)}</b> from an empty pen to a baby, then ${+(60 / layMin).toFixed(1)} eggs an hour</dd></div>
-        <div><dt>${ic('heart')} With ${nan ? `${esc(BY.get(v.nanny)?.nm || v.nanny)}${nlook ? ` (${esc(lookLabel({ [nlook]: true, season: SEAS().some((s) => s.k === nlook) ? nlook : undefined }))})` : ''}` : 'a nanny'}</dt><dd>${nan ? `hatches one ready egg every <b>${+nan.toFixed(2)} min</b> of hunting: about <b>${+handsFree.toFixed(1)}</b> babies an hour from this pen, hands-free${60 / nan < 60 / layMin ? ' (the nanny is the bottleneck: eggs wait in the basket)' : ''}` : 'pick a nanny above to see its hands-free pace'}</dd></div>
+        <div><dt>${ic('egg')} New egg</dt><dd>every <b>${+layEnc.toFixed(1)}</b> encounters (${mins(layEnc * sec)})${match.rate === 2 ? ', same family = twice as fast' : ''}${nx > 1 ? `, ×${nx} from ${nm2}` : ''}</dd></div>
+        <div><dt>${ic('clock')} Ready to hatch</dt><dd><b>${warmEnc}</b> encounters of warmth (${mins(warmEnc * sec)}) for a ${tierKey} baby (${total} warmth${wx > 1 ? `, warmed ×${wx}` : ''})</dd></div>
+        <div><dt>${ic('check')} From an empty pen</dt><dd>about <b>${mins((firstEnc + warmEnc - 1) * sec)}</b> to the first baby, then <b>${+(60 / layMin).toFixed(1)}</b> eggs an hour from this pen${nx > 1 ? ` (${+(3600 / ((K.eggAt / match.rate) * sec)).toFixed(1)} without the nanny)` : ''}</dd></div>
+        <div><dt>${ic('heart')} Hands-free</dt><dd>with <b>Egg settings → Hatch by themselves</b> ready eggs hatch on their own, even while you're away (a special baby waits for its reveal). Otherwise they wait in the basket for you</dd></div>
       </dl>
       ${o.islands ? '<p class="muted small">Parents from different islands: base look odds doubled.</p>' : ''}
-      <p class="muted small">${o.everstone ? `${ispr('everstone', 16)} Everstone: every baby gets the holder's nature${P.every((p) => p.everstone) ? ' (both hold one: either parent\'s, egg by egg)' : ''}. Looks and odds stay the same.` : 'Nature: random (1 in 25 for any one nature). An Everstone on a parent passes its nature.'} ${o.knot ? `${ispr('destiny_knot', 16)} Destiny Knot: each baby keeps the best of 3 IV rolls${o.everstone ? ' with that nature' : ''}, and ×3 perfect IVs${P.every((p) => p.knot) ? ' (two Knots work the same as one)' : ''}.` : ''} The nanny only changes how fast eggs hatch, never what hatches. ${hw ? `Through ${utcDay(K.halloweenEnd - 1, true)} (UTC) a parent in a Halloween costume passes it on.` : ''}</p>`
+      <p class="muted small">${o.everstone ? `${ispr('everstone', 16)} Everstone: every baby gets the holder's nature${P.every((p) => p.everstone) ? ' (both hold one: either parent\'s, egg by egg)' : ''}. Looks and odds stay the same.` : 'Nature: random (1 in 25 for any one nature). An Everstone on a parent passes its nature.'} ${o.knot ? `${ispr('destiny_knot', 16)} Destiny Knot: each baby keeps the best of 3 IV rolls${o.everstone ? ' with that nature' : ''}, and ×3 perfect IVs${P.every((p) => p.knot) ? ' (two Knots work the same as one)' : ''}.` : ''} The nanny and the warmer only change how fast eggs come and hatch, never what hatches. ${hw ? `Through ${utcDay(K.halloweenEnd - 1, true)} (UTC) a parent in a Halloween costume passes it on.` : ''}</p>`
     } else {
       const base = mode === 'cegg' ? eggB / K.costumeEgg.k : eggB
       if (mode === 'cegg') {
