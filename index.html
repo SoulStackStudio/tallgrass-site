@@ -28,6 +28,7 @@
 <link rel="preload" href="assets/fonts/fredoka.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/wiki.css">
+<style>/* Support stays hidden until config.js supportOpen (live Paystack key) or ?preview=1 (support.js) */html:not(.sup-open) #support,html:not(.sup-open) a[href="#support"],html:not(.sup-open) .sup-only{display:none!important}</style>
 <script src="js/config.js" defer></script>
 <script src="js/support.js" defer></script>
 <script src="js/app.js" defer></script>
@@ -479,7 +480,7 @@
     <h2 class="h2" id="faq-title">Questions</h2>
     <div class="faq__list">
       <details class="panel"><summary>Is it really free?</summary>
-        <p>Yes. Tallgrass is a free fan project, with no ads and nothing to buy in the game. Everything in it is earned by playing. If you'd like to help, you can <a href="#support">support it monthly</a>, but that's always optional.</p></details>
+        <p>Yes. Tallgrass is a free fan project, with no ads and nothing to buy in the game. Everything in it is earned by playing.<span class="sup-only"> If you'd like to help, you can <a href="#support">support it monthly</a>, but that's always optional.</span></p></details>
       <details class="panel"><summary>Windows says it's from an unknown publisher. Is that OK?</summary>
         <p>That warning shows for any game that isn't signed by a big company. Click <b>More info</b> then <b>Run anyway</b>. You only need to do it once.</p></details>
       <details class="panel"><summary>Will it slow my PC down?</summary>

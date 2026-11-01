@@ -14,6 +14,11 @@
   const KEY = MOCK ? 'tallgrass:sb:mock' : 'tallgrass:sb'
   const TIERS = { shiny: ['Shiny', 5], void: ['Void', 10], prismatic: ['Prismatic', 15] }
   const sleep = ms => new Promise(r => setTimeout(r, ms))
+  // hidden until supportOpen (config.js); ?preview=1 opens it for this tab (kept through the Discord / Paystack round trip)
+  try { if (params.get('preview') === '1') sessionStorage.setItem('tallgrass:suppreview', '1') } catch { /* private mode */ }
+  const OPEN = C.supportOpen || !!MOCK || (() => { try { return sessionStorage.getItem('tallgrass:suppreview') === '1' } catch { return false } })()
+  if (!OPEN) return
+  document.documentElement.classList.add('sup-open')
 
   // ------------------------------------------------------------------ session (Supabase Auth, implicit flow, no library)
   // Back from Discord the address ends in #access_token=...: keep it for this tab, then tidy the address to #support.

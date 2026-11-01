@@ -9,4 +9,7 @@ window.TALLGRASS = {
   // v0.53.2 takedown-proofing: the download mirror's public base URL (same files as a GitHub release, see the game's
   // tools/mirror-release.mjs). Empty = off. Used only when GitHub answers 404 / 410 / 451 or can't be reached.
   mirrorBase: '',
+  // the Support section (Paystack): false = hidden unless the address has ?preview=1 (Paystack still on its TEST key: a public
+  // test card must not hand out tiers). Flip to true once the live key is set.
+  supportOpen: false,
 }
