@@ -1,5 +1,46 @@
 [
  {
+  "version": "0.69.1",
+  "date": "2026-11-05",
+  "title": "Back to classic Events",
+  "notes": [
+   "Pick your Day Care background! Use the new wallpaper button in Breeding pens to choose the fence, a plain look or any PC wallpaper you own."
+  ],
+  "changes": [
+   "The Events tab is back to its classic look: Outbreaks, Raid, Tower, Bounties, Stamps, Wonder Trade, Night Market, Style and Game Corner.",
+   "The Lab is gone. Every Pokémon's card now has a Get button that turns Rare Candy into Candy for that Pokémon's family. Hatch all stays in the Day Care and on the strip.",
+   "Odds events now only count on the islands, so Safari Zone odds stay the same during them."
+  ],
+  "fixes": [
+   "Browser on phones: the island strip no longer loses its ground in landscape during Spooky season."
+  ]
+ },
+ {
+  "version": "0.69.0",
+  "date": "2026-11-05",
+  "title": "A whole new look",
+  "notes": [
+   "Every island has been repainted, and so have the Safari Zone's scenes. They have their own landmarks, moving water and critters, and at night you'll see moons, lit windows and glowing lanterns.",
+   "Battles have new painted stages, with a night version of each. Pokémon now stand properly on their base.",
+   "Rare finds light up the island: Shiny, Void, Prismatic, Spectral and Gilded each have their own moment on the strip.",
+   "Catches, level ups, badges and evolutions have all new celebrations.",
+   "Menus now feel like places: Outbreaks, Bounties, the Day Care, Field Research, the Lab, Wonder Trade and the Battle Tower each have their own room. Islands also has a new world map.",
+   "New players get a new opening, and battles and panels open with sharper transitions.",
+   "On desktop the game now runs far smoother, and Settings has been sorted into tabs. The new Performance tab sets your frame rate: 30, 60 or 120 while you play, and 15, 30 or 60 in the background."
+  ],
+  "changes": [
+   "Raids no longer play the same long chime for everything. A boss being ready, a friend's invite, your turn and your own hit each sound different, and raiding fast stays quiet.",
+   "Music and Sound and cries are now separate, so you can have music with no sound effects. Volume works as long as any of them is on.",
+   "Next to Special alerts you can now mute raids, cheers, battle challenges, trades, friend requests and gifts, and boss, Gym and outbreak alerts one by one. Rare-find alerts keep playing. Muted requests still wait in Friends → Inbox.",
+   "With Sound and cries off, raid calls still ring unless you mute them. Tower boss horns and the new pen chime now go quiet with it.",
+   "On a rare find, Best Ball now picks the ball with the highest real catch chance in your Bag. Everything else still gets the cheapest one first.",
+   "All three outbreak Pokémon now move on the Outbreaks page."
+  ],
+  "fixes": [
+   "Lots of small translation fixes in every language."
+  ]
+ },
+ {
   "version": "0.68.0",
   "date": "2026-11-05",
   "title": "Music and new sounds",
@@ -14,38 +55,5 @@
    "The game talks to the server a little less, to keep things running smoothly when lots of people are on."
   ],
   "fixes": []
- },
- {
-  "version": "0.67.0",
-  "date": "2026-11-04",
-  "title": "The Safari Zone",
-  "notes": [
-   "The Safari Zone is open to anyone with all 8 badges. It's an endgame area you walk by yourself, with your Buddy and Safari Balls, on a daily number of steps.",
-   "A new pool of 60 species every Monday, and far better odds for Shiny, Void, Prismatic and Perfect IVs. Once a day, a Golden Hour doubles them for 30 steps.",
-   "Throw by hand with Ball, Bait and Rock, or let your Catch rules do it. Shiny, Void, Prismatic, Spectral and Legendary finds rarely run.",
-   "Safari Tokens: earned from steps, rare finds and your Safari Dex. Spend them in the Safari Shop on Safari Balls, Longer Trips, Trail Mix, Scout's Focus, Costume Vouchers, Mints, Bottle Caps and cosmetics.",
-   "Ranger Outfit, both looks. Worn on a trip: special looks ×1.25 and encounters ×1.25. Auto-wear puts it on when you enter and back when you leave.",
-   "Safari Dex: catch a species, then reveal its card for Tokens. A full card earns a keepsake stamp.",
-   "Safari Ladder: your 5 best finds of the week add up. Rewards every Monday, and first place wins the Safari Champion frame.",
-   "Rare costume spawns, Safari outbreaks every 3 hours, and one costume outbreak a day. Event costumes only appear during their event.",
-   "Wishlist: star up to 6 species, and the Safari tab shows a dot the week one comes up.",
-   "New Egg settings switch: no big card for Perfect IVs when eggs hatch by themselves."
-  ],
-  "changes": [
-   "Pokémon found while the game was offline can't go in the Day Care's pens, Hearth or Nanny seat any more. Any already there go back to your PC."
-  ],
-  "fixes": [
-   "While the Two saves card was up, an older copy of your save could keep hunting behind it, then lose those finds when you picked the other copy. It now waits for your pick."
-  ]
- },
- {
-  "version": "0.66.1",
-  "date": "2026-11-03",
-  "title": "Language fix",
-  "notes": [],
-  "changes": [],
-  "fixes": [
-   "Playing in German, Spanish or French could freeze the game for up to a minute, most often when opening Friends after switching language. Fixed."
-  ]
  }
 ]
