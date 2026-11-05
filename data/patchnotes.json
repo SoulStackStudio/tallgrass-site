@@ -1,51 +1,51 @@
 [
  {
-  "version": "0.64.6",
-  "date": "2026-11-01",
-  "title": "Faster breeding and a bigger UI",
+  "version": "0.68.0",
+  "date": "2026-11-05",
+  "title": "Music and new sounds",
   "notes": [
-   "The Nanny now makes every breeding pen lay eggs faster instead of hatching them: Happiny, Chansey, Togepi and Togetic +25%, Blissey and Togekiss +50%. A Shiny, Void, Prismatic or Spectral nanny adds more, up to twice as fast.",
-   "The Hearth: a Shiny, Void, Prismatic or Spectral Fire-type warms your eggs even faster, up to 3× with Flame Body, Magma Armor or Steam Engine.",
-   "The Hearth and Nanny cards show their real speed (like \"Warming 2.25×\" and \"Breeding 1.8×\") and which looks add to it.",
-   "Egg settings → Hatch by themselves now also hatches eggs while you’re away, so your pens keep going overnight. Shiny and other special babies wait for their reveal until you’re back. If you had a Nanny, it is turned on for you.",
-   "Settings: new UI size (100%, 115%, 125% or 150%) makes text, numbers and windows bigger on PC. Ctrl+= and Ctrl+- change it too, Ctrl+0 goes back to normal. It never goes bigger than your monitor fits.",
-   "The taskbar button is now on for everyone: Tallgrass shows on your taskbar like other apps. You can turn it off in Settings → Window."
+   "Tallgrass has a soundtrack! Every island has its own music, and so do the Safari Zone and battles. If you already play, it starts off: turn it on in Settings, under Sound, and set how loud you want it.",
+   "All new sound effects: buttons, ball throws, catches, fanfares and rare-find alerts. Pokémon cries are the same as ever.",
+   "New languages: Italiano, Português (Brasil) and 한국어.",
+   "Language in Settings now opens its own window.",
+   "Every search now works in your language as well as English."
   ],
-  "changes": [],
+  "changes": [
+   "The game talks to the server a little less, to keep things running smoothly when lots of people are on."
+  ],
+  "fixes": []
+ },
+ {
+  "version": "0.67.0",
+  "date": "2026-11-04",
+  "title": "The Safari Zone",
+  "notes": [
+   "The Safari Zone is open to anyone with all 8 badges. It's an endgame area you walk by yourself, with your Buddy and Safari Balls, on a daily number of steps.",
+   "A new pool of 60 species every Monday, and far better odds for Shiny, Void, Prismatic and Perfect IVs. Once a day, a Golden Hour doubles them for 30 steps.",
+   "Throw by hand with Ball, Bait and Rock, or let your Catch rules do it. Shiny, Void, Prismatic, Spectral and Legendary finds rarely run.",
+   "Safari Tokens: earned from steps, rare finds and your Safari Dex. Spend them in the Safari Shop on Safari Balls, Longer Trips, Trail Mix, Scout's Focus, Costume Vouchers, Mints, Bottle Caps and cosmetics.",
+   "Ranger Outfit, both looks. Worn on a trip: special looks ×1.25 and encounters ×1.25. Auto-wear puts it on when you enter and back when you leave.",
+   "Safari Dex: catch a species, then reveal its card for Tokens. A full card earns a keepsake stamp.",
+   "Safari Ladder: your 5 best finds of the week add up. Rewards every Monday, and first place wins the Safari Champion frame.",
+   "Rare costume spawns, Safari outbreaks every 3 hours, and one costume outbreak a day. Event costumes only appear during their event.",
+   "Wishlist: star up to 6 species, and the Safari tab shows a dot the week one comes up.",
+   "New Egg settings switch: no big card for Perfect IVs when eggs hatch by themselves."
+  ],
+  "changes": [
+   "Pokémon found while the game was offline can't go in the Day Care's pens, Hearth or Nanny seat any more. Any already there go back to your PC."
+  ],
   "fixes": [
-   "The shine on special Pokémon cards no longer cuts off in the middle: it sweeps all the way across and loops smoothly."
+   "While the Two saves card was up, an older copy of your save could keep hunting behind it, then lose those finds when you picked the other copy. It now waits for your pick."
   ]
  },
  {
-  "version": "0.64.5",
-  "date": "2026-10-31",
-  "title": "Market filters and more",
-  "notes": [
-   "Ghost types: Curse used by a Ghost-type Pokémon now works like in the games: it costs half its HP and the foe loses a quarter of its HP every turn.",
-   "Prankster status moves now fail against Dark-type Pokémon, like in the games.",
-   "The move buttons in battle now show the right matchup for moves that change type (like Weather Ball) and for Scrappy.",
-   "PC Select mode: new Favourite and Unfavourite buttons star or unstar every Pokémon you picked at once.",
-   "Raid invites: you can’t invite a friend who has used all their raid hits for today, and an invite can’t be accepted once you’re out of hits. The invite list shows them greyed under \"Out for today\".",
-   "Raid invite list: on a small window its top no longer goes off the panel.",
-   "Ranked: a new \"?\" button in the Ranked lobby explains how ranked battles work (Lv 50, the game picks the best moves, types hit much harder than in Pokémon, strong moves need a rest), with team tips and a link to the Discord.",
-   "Taskbar button: with the Taskbar button switch on, the Tallgrass button now shows on the monitor the game is on, not always the main one.",
-   "PC sort by Pokédex: forms that share a number now sort in Pokédex order (Unown A to Z, then ! and ?).",
-   "Night Market: new Alpha filter, and look filters now stack (Shiny + Alpha shows Shiny Alphas). New Type filter and Max price filter.",
-   "Settings: new \"Full speed in the background\" switch (off by default). It keeps Tallgrass at full frame rate even when you’re using another app. It uses more of your PC, so turn it off if other games lag.",
-   "Raids: \"Expected per run\" now always shows the same number for the same squad. Swapping and swapping back no longer changes it."
-  ],
+  "version": "0.66.1",
+  "date": "2026-11-03",
+  "title": "Language fix",
+  "notes": [],
   "changes": [],
-  "fixes": []
- },
- {
-  "version": "0.64.4",
-  "date": "2026-10-31",
-  "title": "Typing fix",
-  "notes": [
-   "Fixed: on Windows you sometimes couldn’t type your name on the New Game screen. Clicking a text box now brings your keyboard to Tallgrass.",
-   "If another app still has your keyboard, a small \"Click here to type\" button shows under the box."
-  ],
-  "changes": [],
-  "fixes": []
+  "fixes": [
+   "Playing in German, Spanish or French could freeze the game for up to a minute, most often when opening Friends after switching language. Fixed."
+  ]
  }
 ]
