@@ -1,5 +1,19 @@
 [
  {
+  "version": "0.70.0",
+  "date": "2026-11-06",
+  "title": "Japanese and Chinese",
+  "notes": [
+   "Tallgrass now speaks Japanese and Simplified Chinese! Pick 日本語 or 简体中文 in Settings → Language. The game restarts in your language and your save stays as it is."
+  ],
+  "changes": [],
+  "fixes": [
+   "Battles now type out in your language from the first letter, and Pokémon and move names no longer show as English capitals.",
+   "Lots of small translation fixes in every language: Gym Leader names, reward lists and the Mart's Buy button.",
+   "The news bubble above the strip no longer flickers when it appears or goes away."
+  ]
+ },
+ {
   "version": "0.69.1",
   "date": "2026-11-05",
   "title": "Back to classic Events",
@@ -39,21 +53,5 @@
   "fixes": [
    "Lots of small translation fixes in every language."
   ]
- },
- {
-  "version": "0.68.0",
-  "date": "2026-11-05",
-  "title": "Music and new sounds",
-  "notes": [
-   "Tallgrass has a soundtrack! Every island has its own music, and so do the Safari Zone and battles. If you already play, it starts off: turn it on in Settings, under Sound, and set how loud you want it.",
-   "All new sound effects: buttons, ball throws, catches, fanfares and rare-find alerts. Pokémon cries are the same as ever.",
-   "New languages: Italiano, Português (Brasil) and 한국어.",
-   "Language in Settings now opens its own window.",
-   "Every search now works in your language as well as English."
-  ],
-  "changes": [
-   "The game talks to the server a little less, to keep things running smoothly when lots of people are on."
-  ],
-  "fixes": []
  }
 ]
