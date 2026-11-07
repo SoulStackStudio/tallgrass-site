@@ -1,5 +1,57 @@
 [
  {
+  "version": "0.71.0",
+  "date": "2026-11-07",
+  "title": "The big bug fix",
+  "notes": [
+   "We tested every open bug report against the game and fixed what was broken. Thank you for reporting!",
+   "Aegislash's Stance Change and Palafin's Zero to Hero now work, in every battle but raids. In auto battles Palafin turns Hero after its first turn.",
+   "Aegislash, Zacian, Zamazenta, Palafin, Giratina and many others can now learn moves from the Move Tutor."
+  ],
+  "changes": [
+   "Magneton, Primeape, Piloswine, Bisharp and Charjabug now evolve at a real level instead of right after evolving.",
+   "Last Respects and Rage Fist now grow as they should, in every battle but raids.",
+   "Tower: a Spectral or Gilded Pokémon you bring keeps its look in fights, and a Spectral keeps its 10% chance to fade through hits.",
+   "The Welcome back card no longer pauses your team: the hunt carries on behind it until you close it.",
+   "If a Two saves card comes up while you're playing, the hunt pauses until you pick, so finds aren't made on a save you might not keep.",
+   "Poké Radar hits on the Mass Outbreak species now count for outbreak bounties.",
+   "Raids: up to 50 raid bosses a day (was 20), so stacked Raid Passes can all be used, and 200 raid hits a day."
+  ],
+  "fixes": [
+   "Battles: Sucker Punch and Thunderclap fail if the target isn't about to attack. Focus Sash works before the squad's Guarded. Nothing can hit a Pokémon that vanished with Shadow Force or Phantom Force.",
+   "Your own starter can go in the Day Care pens again.",
+   "Using a stone or evolution item on a spare copy no longer sends the evolved Pokémon to the Professor.",
+   "Raid hits that take a long time to reach the server now count in full. The raid Expected number is steadier when you change your squad.",
+   "Pokémon no longer pick Focus Punch by themselves. It fails whenever the user is hit first, so one level up could halve a raid squad's damage. Any that learned it this way go back to their best moves, and it stays only if you pinned it yourself.",
+   "A level up in a fight you command no longer lowers that Pokémon's max HP and other stats until the fight ends.",
+   "Shiny Yveltal's colours now match its real shiny look.",
+   "Raids: damage estimates are steadier and match real runs. Best items only suggests sets that really do more, and rechecks after a level up. Suggested squad gives the same answer each click.",
+   "Raids: a Pokémon whose moves can't touch the boss now swaps out for one that can. Auto-picked moves favour moves that keep hitting hard over ones that weaken their user.",
+   "Raids: Rocky Helmet now works as it does in every other battle: only when a contact move hits its holder, for a normal share of HP.",
+   "Fight it yourself no longer greys out partway through an encounter.",
+   "Duplicates on a friend's PC no longer freezes the game on big collections.",
+   "The Moves tab's list of moves to swap in has room at the default window size.",
+   "Empty PC slots no longer refuse a drop after Back to boxes. A fully maxed Pokémon's card no longer pushes Get off the edge.",
+   "Tower: passing a held item on the replace screen no longer replaces that Pokémon. The Pokémon you bring home is no longer sent to the Professor by auto-send as it arrives.",
+   "Tower: a caught Pokémon keeps the ability, nature and IVs you saw in the battle. Nincada always evolves into Ninjask, with a Shedinja too when there's a free slot.",
+   "Tower Hard Mode: a caught Pokémon can no longer be added to the party twice, and existing ghost copies clear on load.",
+   "Ranked: closing the game during a search no longer blocks changing your team. Spectral Pokémon keep their look on Ranked teams and in Ranked battles.",
+   "Female Meowstic, Complete and 10% Zygarde, Droopy and Stretchy Tatsugiri and Original Magearna can now hold their Mega Stone.",
+   "Silvally now has its Pokédex slot, and the count no longer reads one too high. Fly there works from an alternate form's Pokédex page.",
+   "With Auto-file on, a Pokémon that evolves moves to its new form's box. The PC shows when babies are waiting for their hatch reveal, even with the egg card hidden.",
+   "Long Send to the Professor questions fit a short window, with the buttons always on screen. The Two saves card shows both saves in full.",
+   "Classic: on 768-high screens the window fits above the taskbar, and Friends' finds is no longer cut off at small sizes.",
+   "The game should stop opening by itself when other apps like game clients open or close. If it still happens for you, tell us what you were doing.",
+   "Guilds: the Found a guild tab shows on phones, invites all show with pages, and the join-request pages can be reached on a sideways phone.",
+   "Phones: every outbreak's Fly there button fits with the Safari open, every Settings row fits, and every choice in Tower events can be reached. Long drop-down lists no longer sit under the status bar on notched iPhones.",
+   "Buttons on notifications now work while a pop-up is open.",
+   "If the browser or phone version can't start, it now says so and offers Try again instead of staying on a blank screen. If it can't read your save, it no longer starts a new game on top of it.",
+   "In a small browser window, clicking a Pokémon in the PC opens its stats.",
+   "Looks: the Master Ball count stays in the top bar, Mega text in the small battle view is readable in every theme, friends named after a Pokémon keep their name in every language, move tooltips are fully translated, Prismatic and Void Pokémon draw at the right size on trainer cards on phones, and party items no longer draw over the hatch card.",
+   "Also: the Pokédex progress bar sits under its numbers in the browser, the Update ready notice stays on the game's monitor, Auto Spin plays out when you change tab, and in the enlarged view the shadow sits under each Pokémon's feet."
+  ]
+ },
+ {
   "version": "0.70.0",
   "date": "2026-11-06",
   "title": "Japanese and Chinese",
@@ -27,31 +79,6 @@
   ],
   "fixes": [
    "Browser on phones: the island strip no longer loses its ground in landscape during Spooky season."
-  ]
- },
- {
-  "version": "0.69.0",
-  "date": "2026-11-05",
-  "title": "A whole new look",
-  "notes": [
-   "Every island has been repainted, and so have the Safari Zone's scenes. They have their own landmarks, moving water and critters, and at night you'll see moons, lit windows and glowing lanterns.",
-   "Battles have new painted stages, with a night version of each. Pokémon now stand properly on their base.",
-   "Rare finds light up the island: Shiny, Void, Prismatic, Spectral and Gilded each have their own moment on the strip.",
-   "Catches, level ups, badges and evolutions have all new celebrations.",
-   "Menus now feel like places: Outbreaks, Bounties, the Day Care, Field Research, the Lab, Wonder Trade and the Battle Tower each have their own room. Islands also has a new world map.",
-   "New players get a new opening, and battles and panels open with sharper transitions.",
-   "On desktop the game now runs far smoother, and Settings has been sorted into tabs. The new Performance tab sets your frame rate: 30, 60 or 120 while you play, and 15, 30 or 60 in the background."
-  ],
-  "changes": [
-   "Raids no longer play the same long chime for everything. A boss being ready, a friend's invite, your turn and your own hit each sound different, and raiding fast stays quiet.",
-   "Music and Sound and cries are now separate, so you can have music with no sound effects. Volume works as long as any of them is on.",
-   "Next to Special alerts you can now mute raids, cheers, battle challenges, trades, friend requests and gifts, and boss, Gym and outbreak alerts one by one. Rare-find alerts keep playing. Muted requests still wait in Friends → Inbox.",
-   "With Sound and cries off, raid calls still ring unless you mute them. Tower boss horns and the new pen chime now go quiet with it.",
-   "On a rare find, Best Ball now picks the ball with the highest real catch chance in your Bag. Everything else still gets the cheapest one first.",
-   "All three outbreak Pokémon now move on the Outbreaks page."
-  ],
-  "fixes": [
-   "Lots of small translation fixes in every language."
   ]
  }
 ]
