@@ -1,5 +1,25 @@
 [
  {
+  "version": "0.76.1",
+  "date": "2026-11-10",
+  "title": "Wallpapers and Mirage trades",
+  "notes": [
+   "19 new PC wallpapers in Events → Style, including 5 animated ones (Snowfall, Shooting Stars, Aurora, Rainy Window, Firefly Pond). Sakura has been redrawn with falling petals: if you own it, you have the new one.",
+   "Finding a Mirage now paints the island in a desert sunset."
+  ],
+  "changes": [
+   "The Impossible now needs a Shiny Void Prismatic with no looks from the Prism Altar. Where it was unlocked without one, it has been taken back (its rewards stay).",
+   "The Shiny, Void and Prismatic achievements and Born Lucky now count only the looks a Pokémon was found with, not looks from the Prism Altar. Ranks you already have are kept.",
+   "Auto-file: Spectral and Mirage are separate filters now. Rules you already have keep filing exactly as before.",
+   "Auto-favourite: Spectral and Mirage are separate ticks now. If the old one was on, both are on.",
+   "Mirage Pokémon can now be traded, offered, sent through Wonder Trade, sold at the Night Market and auctioned, just like Spectral (one Mirage listing a day). The Prism Altar still won’t take them."
+  ],
+  "fixes": [
+   "Costume Pokémon now have their own “1 of N in the world” count, separate from the same Pokémon without a costume.",
+   "Fixed: on some fresh installs the New Game name box ignored typing. An out-of-date download now shows Update required and updates itself."
+  ]
+ },
+ {
   "version": "0.76.0",
   "date": "2026-11-10",
   "title": "Your picks",
@@ -32,20 +52,6 @@
    "The daily Halloween costume outbreak and the costume bounties have ended along with Spooky season. Costume Pokémon you already have keep their costume."
   ],
   "changes": [],
-  "fixes": []
- },
- {
-  "version": "0.75.0",
-  "date": "2026-11-09",
-  "title": "Mirage",
-  "notes": [
-   "New look: Mirage, found only in the Safari Zone. Its sunset colours waver like a heat haze, over a shimmering reflection. It doesn’t pass on in the Day Care.",
-   "In battle, a Mirage has Rising Heat: +5% Speed each turn it stays in the fight, up to +25% (not in raids)."
-  ],
-  "changes": [
-   "Spooky season is over, so new Spectrals have stopped appearing. Any you own keep their look and can still be traded.",
-   "Mirage Pokémon can’t be traded, auctioned or taken to the Altar for now."
-  ],
   "fixes": []
  }
 ]
