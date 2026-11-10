@@ -1,5 +1,36 @@
 [
  {
+  "version": "0.77.0",
+  "date": "2026-11-11",
+  "title": "Golden Leaf and Mythic trainers",
+  "notes": [
+   "Golden Leaf festival (14 to 28 Nov): a bingo board shuffled just for you, mystery blocks, acorn openings, encore quests once your board is full, a Leaf Calendar stamp for every festival day, the Autumn Album, Harvest Moon nights and costume spotlights.",
+   "Mythic trainers: supporters can pick an original Mythic trainer outfit, one more for each month of support (up to 3). They show on your card, the leaderboards and everywhere else your trainer appears.",
+   "A fresh new app icon.",
+   "Animated PC wallpapers now move smoothly at your chosen frame rate."
+  ],
+  "changes": [
+   "Mirage now passes on in the Day Care, but only from a Mirage parent: a Mirage egg is about as rare as finding a Mirage in the Safari Zone. A pair with a Mirage parent shows its chance on the Day Care’s Mirage chip.",
+   "Sound effects and Cries now have separate switches in Settings → Sound.",
+   "With a Poké Radar chain, the odds tooltip shows the chained Pokémon’s odds and everyone else’s separately.",
+   "You can unfavourite a Pokémon right in the Prism Altar, Night Market and auction pickers (it asks first).",
+   "The Battle Tower battle window stays where you dragged it, floor after floor.",
+   "Raid replays now end the moment the boss is beaten, instead of playing out the rest of the battle."
+  ],
+  "fixes": [
+   "The Prism Altar now fits on phones (and scrolls on small ones). The Calendar fits on a phone held sideways.",
+   "The egg card no longer runs off the top of the screen in Classic.",
+   "Battle Tower: a Master Ball never “breaks free” any more. If a Hard Mode throw doesn’t go through, you’re told why and you keep the ball.",
+   "Mythic Shop: if a buy can’t go through yet, it now says your wallet is still syncing instead of “The shop just changed”.",
+   "Browser (especially Safari): if the browser’s storage gets stuck at start, your save is never replaced by a cloud copy or a New Game, and the game tells you what’s wrong instead of a general error.",
+   "Browser: if the save on your account is more than 2 days old, it’s no longer loaded on its own. The game shows how old it is first (the Tallgrass app on your Dock or home screen and each browser keep their own save).",
+   "Cloud saves upload more reliably on slow connections and on older Safari versions.",
+   "If you also play Tallgrass Offline, the New Game screen reminds you that your Offline game is still saved. The two always keep separate saves.",
+   "Big PCs now sync with the server much faster.",
+   "Nothing gets cut off on small Mac windows, and a trackpad swipe turns one page."
+  ]
+ },
+ {
   "version": "0.76.2",
   "date": "2026-11-10",
   "title": "Aurora wallpaper fix",
@@ -27,31 +58,6 @@
   "fixes": [
    "Costume Pokémon now have their own “1 of N in the world” count, separate from the same Pokémon without a costume.",
    "Fixed: on some fresh installs the New Game name box ignored typing. An out-of-date download now shows Update required and updates itself."
-  ]
- },
- {
-  "version": "0.76.0",
-  "date": "2026-11-10",
-  "title": "Your picks",
-  "notes": [
-   "Compare two Pokémon side by side: tick two in Select mode and press Compare, or press Compare on a Pokémon’s card and click another. See their stats as they fight, their base stats or their IVs, with the higher one lit.",
-   "Two-type filter: light two types in the PC Filters to find Pokémon that have both, like Ghost and Poison. Search understands it too: type \"ghost poison\". The Pokédex search does as well.",
-   "Held items and Mega Stones now have their own filters in the PC, and two new sorts: Held item and Mega Stone.",
-   "Send to Altar: send Pokémon from the PC (Select bar or a Pokémon’s card) and they wait at the Prism Altar, ready to feed. Nothing is fed until you do the Final check.",
-   "Day Care: every parent shows the island it came from, with a 2× mark when the pair comes from two different islands.",
-   "Battle Tower: a Move Relearner room. Teach a squad member a move it could have learned at its level.",
-   "Battle Tower: the Scanner, a rare reward between floors. For the rest of the run it shows any Pokémon’s ability, nature, IVs and moves.",
-   "Friend battles: a six-Pokémon option, using the ranked team rules at Lv 50. It’s unranked: ratings and ranked rewards never change.",
-   "Auctions: you can now pick a 4 hour length (4, 12, 24 or 48 hours).",
-   "Patch notes are now translated into every language, from 0.60.0 on."
-  ],
-  "changes": [
-   "A new filtered box now goes right after your other filtered boxes instead of at the bottom of the PC.",
-   "Support the Game now sits at the top of the first Settings tab. Tallgrass is made by one person, and support keeps the servers up."
-  ],
-  "fixes": [
-   "Night Market: Spectral Pokémon can be searched for again now that Spooky season is over.",
-   "The Tower’s learn-a-move card no longer stretches the Pokémon’s picture."
   ]
  }
 ]
