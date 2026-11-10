@@ -67,7 +67,8 @@
     $('#dl-version').textContent = `Version ${v}${rel.date ? `, ${niceDate(rel.date)}` : ''}`
     const set = (os, url, size) => {
       const btn = $(`#dl-${os}-btn`)
-      if (url) { btn.href = url; btn.removeAttribute('aria-disabled'); btn.removeAttribute('tabindex') }
+      // 2026-11-10: put the label back too (a first payload without a Mac link left "Coming soon" on a working button)
+      if (url) { btn.href = url; btn.removeAttribute('aria-disabled'); btn.removeAttribute('tabindex'); btn.lastChild.textContent = os === 'mac' ? ' Download for Mac' : ' Download for Windows' }
       else { btn.removeAttribute('href'); btn.setAttribute('aria-disabled', 'true'); btn.lastChild.textContent = ' Coming soon' }
       $(`[data-${os}-size]`).textContent = mb(size) || 'zip'
     }
