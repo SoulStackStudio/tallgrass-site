@@ -1,5 +1,15 @@
 [
  {
+  "version": "0.76.2",
+  "date": "2026-11-10",
+  "title": "Aurora wallpaper fix",
+  "notes": [],
+  "changes": [],
+  "fixes": [
+   "Fixed: the animated Aurora wallpaper now ripples properly instead of sliding down like a waterfall."
+  ]
+ },
+ {
   "version": "0.76.1",
   "date": "2026-11-10",
   "title": "Wallpapers and Mirage trades",
@@ -43,15 +53,5 @@
    "Night Market: Spectral Pokémon can be searched for again now that Spooky season is over.",
    "The Tower’s learn-a-move card no longer stretches the Pokémon’s picture."
   ]
- },
- {
-  "version": "0.75.1",
-  "date": "2026-11-09",
-  "title": "Halloween is over",
-  "notes": [
-   "The daily Halloween costume outbreak and the costume bounties have ended along with Spooky season. Costume Pokémon you already have keep their costume."
-  ],
-  "changes": [],
-  "fixes": []
  }
 ]
