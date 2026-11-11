@@ -108,12 +108,20 @@
     const order = list.map((s) => ({ s, k: r() })).sort((a, b) => a.k - b.k).map((x) => x.s)
     return order[((n % list.length) + list.length) % list.length]
   }
+  /** the window's daily costume outbreak (game.ts costumeOutbreakOf), or null. Game 0.77.0: while the Golden Leaf festival is open
+   *  (L.goldenWin) its costumes (L.golden) take the daily slot, walked with the seed tag 'cosgold'; otherwise the Halloween costumes
+   *  (L.halloween), only in a window that starts before Spooky season ends (L.spookyEnd, game 0.75.1). The game's built-in dates: the
+   *  server's app_config rows can move them */
   function costumeOutbreak(L, w) {
     const per = Math.max(1, Math.round(24 / L.hours))
-    if (!L.costumeDaily || !L.halloween.length) return null
+    const ms = L.hours * 3600000
+    const G = L.goldenWin
+    const leaf = !!G && w * ms + 1 >= G.start && w * ms + 1 < G.end
+    const list = leaf ? L.golden || [] : L.spookyEnd == null || w * ms < L.spookyEnd ? L.halloween : []
+    if (!L.costumeDaily || !list.length) return null
     const day = Math.floor(w / per)
     const slot = Math.floor(seeded(`${L.seed}|cosslot|${day}`)() * per)
-    return ((w % per) + per) % per === slot ? cycleSeeded(L, L.halloween, day, 'cosday') : null
+    return ((w % per) + per) % per === slot ? cycleSeeded(L, list, day, leaf ? 'cosgold' : 'cosday') : null
   }
   /** the shared Mass Outbreak list for the 6-hour window holding t: every island once, in order */
   function outbreaks(L, t) {
@@ -142,13 +150,19 @@
   // K = META.breed. A parent = { shiny, umbral, prismana, season, perfect, alpha, knot, everstone } (season = its seasonal look's key,
   // e.g. 'spectral'; knot = holds a Destiny Knot, everstone = holds an Everstone).
   // K.seasons = the seasonal looks in the game's order (seasons.ts SEASON_KEYS): { k, name, event, vs (x rarer than Prismatic), start, end (ms) }
-  /** every seasonal look's chance from a source's Prismatic chance (dice.ts seasonFromPrismatic: Spectral = Prismatic / 1.25) */
-  const fromPrismatic = (K, q) => Object.fromEntries((K.seasons || []).map((s) => [s.k, q / s.vs]))
+  //   + (game 0.77.0) safari: true, vsShiny (x rarer than Shiny) for a Safari look (Mirage): rolled only on Safari dice, so never from a
+  //   Costume / Gift / Raid Egg; a Day Care egg gets it only from a parent in it (see eggOdds)
+  /** every seasonal look's chance from a source's Prismatic chance (dice.ts seasonFromPrismatic: Spectral = Prismatic / 1.25; Safari looks never roll there) */
+  const fromPrismatic = (K, q) => Object.fromEntries((K.seasons || []).filter((s) => !s.safari).map((s) => [s.k, q / s.vs]))
+  /** your wild Shiny odds (1 in N): the rank's base / (1 + charm) (game.ts shinyOdds) */
+  const wildOdds = (K, o) => K.ranks[o.rank].shiny / (1 + K.charmK * (o.charm || 0))
   /** the egg base (1 in N) before the island pair: your wild Shiny odds x LOOK_X.egg / LOOK_X.wild */
-  const eggBase = (K, o) => ((K.ranks[o.rank].shiny / (1 + K.charmK * (o.charm || 0))) * K.lookX.egg) / K.lookX.wild
+  const eggBase = (K, o) => (wildOdds(K, o) * K.lookX.egg) / K.lookX.wild
   /** the chance (0..1) per egg of each look, Perfect IVs and Alpha. o = { rank, charm, islands (caught on different islands), parents }.
    *  season (game 0.57.2): each seasonal look's chance, Prismatic's worked out the same way with that look's parents, then vs x rarer
-   *  (it only rolls while its season is open: looks() below) */
+   *  (it only rolls while its season is open: looks() below).
+   *  Game 0.77.0 (care.ts safariLookEgg): a Safari look (Mirage) only when a parent has it, at its Safari rarity: K.safariLooks / (your wild
+   *  Shiny odds x vsShiny), the same with one or two such parents, island pair or not; odds events don't touch it (seasonFlat) */
   function eggOdds(K, o) {
     const pair = o.parents
     const r = K.ranks[o.rank]
@@ -164,7 +178,10 @@
       prismana: 1 / (base * K.prismanaX) + (inh * has((c) => !!c.prismana)) / K.inherit.prismana,
       perfect: Math.min(1, perfect), alpha: has((c) => !!c.alpha) / K.inherit.alpha, knot, islands,
       everstone: pair.some((c) => !!c.everstone), // game 0.54.4: a parent's Everstone passes its nature (odds unchanged)
-      season: Object.fromEntries((K.seasons || []).map((s) => [s.k, (1 / (base * K.prismanaX) + (inh * has((c) => c.season === s.k)) / K.inherit.prismana) / s.vs])),
+      season: Object.fromEntries((K.seasons || []).flatMap((s) => (s.safari
+        ? (has((c) => c.season === s.k) ? [[s.k, K.safariLooks / (wildOdds(K, o) * s.vsShiny)]] : [])
+        : [[s.k, (1 / (base * K.prismanaX) + (inh * has((c) => c.season === s.k)) / K.inherit.prismana) / s.vs]]))),
+      seasonFlat: Object.fromEntries((K.seasons || []).filter((s) => s.safari).map((s) => [s.k, true])),
     }
   }
   /** a Costume Egg's odds (events.ts costumeEgg): K.costumeEgg.k × the egg base, perfect 1 in K.costumeEgg.perfect, never Alpha */
@@ -203,9 +220,9 @@
     }
     return null
   }
-  /** the Halloween costumes a baby can wear from these parents' costumes (each equally likely; [] = a plain baby) */
+  /** the Halloween costumes a baby can wear from these parents' costumes (each equally likely; [] = a plain baby). A raid boss's costume (CO[c].boss, game 0.72.2) never passes on */
   function halloweenFits(CO, costumes, baby) {
-    return [...new Set(costumes.map((c) => (c && CO[c] && CO[c].event === 'halloween' ? costumeFor(CO, c, baby) : null)).filter(Boolean))].sort()
+    return [...new Set(costumes.map((c) => (c && CO[c] && CO[c].event === 'halloween' && !CO[c].boss ? costumeFor(CO, c, baby) : null)).filter(Boolean))].sort()
   }
   /** every look combination's chance per egg, the way dice.ts rollLooks rolls them (build-wiki.mjs probes the real roll on every build):
    *  Shiny, Void and Prismatic each on their own die slot, so they multiply; each seasonal look on its own slot too, but only while
@@ -213,7 +230,7 @@
    *  hits wins, so a later season only gets the rolls the earlier ones missed. Perfect IVs and Alpha are separate slots as well
    *  (perfect: rollLooks slot 3; Alpha: layEgg slot 7), so a combo with them is this x o.perfect x o.alpha.
    *  p = eggOdds() / costumeEggOdds() / giftEggOdds() / raidEggOdds(); boost = an odds event { shiny, crystal } (1 = none): Shiny x on
-   *  every look, crystal x on Void, Prismatic and the seasonal looks on top.
+   *  every look, crystal x on Void, Prismatic and the seasonal looks on top (not on a look in p.seasonFlat: a bred Safari look, game 0.77.0).
    *  list = all 8 x (1 + seasons) exact combinations (they add up to 1); season = { key: chance }; any = any special look at all */
   function looks(p, boost, open) {
     const sx = (boost && boost.shiny) || 1, cx = sx * ((boost && boost.crystal) || 1)
@@ -221,7 +238,7 @@
     const sea = []
     let miss = 1
     for (const k of open || []) {
-      const r = Math.min(1, ((p.season && p.season[k]) || 0) * cx)
+      const r = Math.min(1, ((p.season && p.season[k]) || 0) * (p.seasonFlat && p.seasonFlat[k] ? 1 : cx))
       if (r <= 0 || sea.some((x) => x.k === k)) continue
       sea.push({ k, p: miss * r })
       miss *= 1 - r

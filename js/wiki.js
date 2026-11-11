@@ -845,7 +845,10 @@
       ['shiny', 'Shiny', 'star', `A Shiny parent adds ${per(inh('shiny'))} to every egg's Shiny chance (two: twice that). Never a sure thing.`],
       ['umbral', 'Void', 'umbral', `A Void parent adds ${per(inh('umbral'))} to every egg's Void chance.`],
       ['prismana', 'Prismatic', 'prismana', `A Prismatic parent adds ${per(inh('prismana'))} to every egg's Prismatic chance.`],
-      ...SEAS().map((s) => [s.k, s.name, s.icon, `A ${s.name} parent adds ${per(Math.round(inh('prismana') * s.vs))} to every egg's ${s.name} chance, but only while ${s.event} is on (eggs laid outside it are never ${s.name}).`]),
+      // game 0.77.0: a Safari look (Mirage) passes on only from a parent in it, at its Safari rarity (no season, no odds events)
+      ...SEAS().map((s) => [s.k, s.name, s.icon, s.safari
+        ? `A ${s.name} parent passes ${s.name} on at its ${s.event} rarity: 1 in (your wild Shiny odds × ${+(s.vsShiny / K.safariLooks).toFixed(2)}) per egg (one or two ${s.name} parents work the same). Odds events don't change it. Without a ${s.name} parent, eggs are never ${s.name}.`
+        : `A ${s.name} parent adds ${per(Math.round(inh('prismana') * s.vs))} to every egg's ${s.name} chance, but only while ${s.event} is on (eggs laid outside it are never ${s.name}).`]),
       ['perfect', 'Perfect', 'perfect', `A Perfect-IV parent adds ${per(K.inherit.perfect)} to the Perfect IV chance (×3 with a Destiny Knot).`],
       ['alpha', 'Alpha', 'alpha', `Each Alpha parent gives a ${per(K.inherit.alpha)} Alpha chance (two: ${per(K.inherit.alpha / 2)}). No Alpha parent, no Alpha babies.`],
     ]
@@ -920,7 +923,8 @@
     const boost = { shiny: bs, crystal: bc }, cx = bs * bc
     const rank = +v.rank || 0, charm = +v.charm || 0
     const S = SEAS()[0], si = S && seasonInfo(S, now)
-    const open = S && v.sea_on ? SEAS().map((s) => s.k) : []
+    // the seasonal looks counted: the season's own (Spectral) by the switch; a Safari look (Mirage, game 0.77.0) whenever its window is open
+    const open = SEAS().filter((s) => (s.safari ? C.seasonAt(s, now).open : S && !S.safari && v.sea_on)).map((s) => s.k)
     // the parents
     const P = ['a', 'b'].map((p) => {
       const m = monByName(v[`${p}_mon`])
@@ -975,6 +979,7 @@
       why.shiny = `${baseTxt}${parTxt(has((p) => p.look.shiny), K.inherit.shiny * K.lookX.egg, 'Shiny')}`
       why.umbral = `Void = the base × ${K.umbralX} (${per0(base * K.umbralX)})${parTxt(has((p) => p.look.umbral), K.inherit.umbral * K.lookX.egg, 'Void')}`
       why.prismana = `Prismatic = the base × ${K.prismanaX} (${per0(base * K.prismanaX)})${parTxt(has((p) => p.look.prismana), K.inherit.prismana * K.lookX.egg, 'Prismatic')}`
+      for (const s of SEAS().filter((x) => x.safari)) why[`sea_${s.k}`] = `A ${s.name} parent passes it on at its ${s.event} rarity: your wild ${per0(wild)} × ${s.vsShiny} ÷ ${K.safariLooks} = ${per0((wild * s.vsShiny) / K.safariLooks)}, the same with one or two ${s.name} parents or parents from different islands. Odds events don't change it.`
       if (S) {
         const ns = has((p) => p.look.season === S.k), each = K.inherit.prismana * K.lookX.egg
         why.season = `${S.name} = Prismatic's base (${per0(base * K.prismanaX)})${ns ? ` + ${ns} ${S.name} parent${ns > 1 ? 's' : ''} × 1 in ${each.toLocaleString('en-US')}` : ''}, then ${S.vs}× rarer${ns ? '' : ` (a ${S.name} parent would add 1 in ${Math.round(each * S.vs).toLocaleString('en-US')})`}. ${S.event} only.`
@@ -1036,10 +1041,12 @@
     const L = C.looks(o, boost, open)
     // the tiles: each look's own chance
     const sNote = S ? (open.length ? `${S.event} only (until ${si.until})` : `${S.event} only: off`) : ''
-    const tile = (i2, label, p, tip, sub, cls = '') => `<div class="bc-tile${cls}" tabindex="0" data-tip="${esc(`${tip}${ev && !/Perfect|Alpha/.test(label) ? ev : ''}\n= ${exactIn(p)} per egg.`)}">${ic(i2)}<span>${label}</span><b>${pctR(p)}</b><small>${oneInR(p)}</small>${p > 0 && p < 1 ? `<em>50%: ${eggsR(p, 0.5)} · 90%: ${eggsR(p, 0.9)}</em>` : ''}${sub ? `<i class="bc-tag">${sub}</i>` : ''}</div>`
+    const tile = (i2, label, p, tip, sub, cls = '') => `<div class="bc-tile${cls}" tabindex="0" data-tip="${esc(`${tip}${ev && !/Perfect|Alpha/.test(label) && !/is-flat/.test(cls) ? ev : ''}\n= ${exactIn(p)} per egg.`)}">${ic(i2)}<span>${label}</span><b>${pctR(p)}</b><small>${oneInR(p)}</small>${p > 0 && p < 1 ? `<em>50%: ${eggsR(p, 0.5)} · 90%: ${eggsR(p, 0.9)}</em>` : ''}${sub ? `<i class="bc-tag">${sub}</i>` : ''}</div>`
     const seaTile = S ? (open.length
       ? tile(S.icon, S.name, L.season[S.k] || 0, why.season || '', sNote, ' is-g')
       : `<div class="bc-tile is-g is-off" tabindex="0" data-tip="${esc(`${why.season || ''} Off now: ${S.event} is ${si.state}, and eggs laid outside it are never ${S.name}. Turn on "${si.open ? 'Count' : 'Preview'} ${S.name}" above to see it.`)}">${ic(S.icon)}<span>${esc(S.name)}</span><b>–</b><small>${esc(S.event)} only</small><i class="bc-tag">${si.open ? 'switched off above' : si.state === 'over' ? `ended ${esc(si.until)}` : esc(si.state)}</i></div>`) : ''
+    // game 0.77.0: a bred Safari look (Mirage) gets its own tile when a parent has it
+    const safTiles = SEAS().filter((s) => s.safari && (o.season?.[s.k] || 0) > 0 && open.includes(s.k)).map((s) => tile(s.icon, s.name, L.season[s.k] || 0, why[`sea_${s.k}`] || '', `from a ${s.name} parent`, ' is-g is-flat')).join('')
     // every Shiny Charm level with this same setup (what the next Charm upgrade does; Raid Eggs ignore the charm)
     const charmOdds = (c) => (mode === 'pair' ? C.eggOdds(K, { rank, charm: c, islands: !!v.islands, parents: P.map((p) => ({ ...p.look, perfect: p.perfect, alpha: p.alpha, knot: p.knot, everstone: p.everstone })) }) : mode === 'cegg' ? C.costumeEggOdds(K, { rank, charm: c }) : C.giftEggOdds(K, { rank, charm: c }))
     const foldOpen = !!$('.bc-charm', out)?.open
@@ -1048,7 +1055,7 @@
       return `<tr${c === charm ? ' class="is-me"' : ''}><td>${c}${c === charm ? ' (you)' : ''}</td><td class="num">${oneInR(L2.shiny).replace('1 in ', '')}</td><td class="num">${oneInR(L2.umbral).replace('1 in ', '')}</td><td class="num">${oneInR(L2.prismana).replace('1 in ', '')}</td>${S && open.length ? `<td class="num">${oneInR(L2.season[S.k] || 0).replace('1 in ', '')}</td>` : ''}<td class="num">${oneInR(L2.any).replace('1 in ', '')}</td></tr>`
     }).join('')}</tbody></table></div></details>`
     const anyTip = `1 − the chance of no special look at all: each look rolls on its own die, so they multiply (${[pctR(1 - L.shiny), pctR(1 - L.umbral), pctR(1 - L.prismana), ...(open.length ? [pctR(L.none)] : [])].join(' × ')} = ${pctR(1 - L.any)} plain).`
-    out.innerHTML = `${head}<h4 class="w-h4">Chances per egg</h4><div class="bc-tiles">${tile('star', 'Shiny', L.shiny, why.shiny)}${tile('umbral', 'Void', L.umbral, why.umbral)}${tile('prismana', 'Prismatic', L.prismana, why.prismana)}${seaTile}${tile('perfect', 'Perfect IVs', Math.min(1, o.perfect || 0), why.perfect, o.knot ? '×3 Destiny Knot' : '')}${tile('alpha', 'Alpha', o.alpha, why.alpha, o.alpha ? '' : pair ? 'needs an Alpha parent' : 'never from this egg')}
+    out.innerHTML = `${head}<h4 class="w-h4">Chances per egg</h4><div class="bc-tiles">${tile('star', 'Shiny', L.shiny, why.shiny)}${tile('umbral', 'Void', L.umbral, why.umbral)}${tile('prismana', 'Prismatic', L.prismana, why.prismana)}${seaTile}${safTiles}${tile('perfect', 'Perfect IVs', Math.min(1, o.perfect || 0), why.perfect, o.knot ? '×3 Destiny Knot' : '')}${tile('alpha', 'Alpha', o.alpha, why.alpha, o.alpha ? '' : pair ? 'needs an Alpha parent' : 'never from this egg')}
       <div class="bc-tile any" tabindex="0" data-tip="${esc(anyTip)}">${ic('burst')}<span>Any special look</span><b>${pctR(L.any)}</b><small>${oneInR(L.any)}</small>${L.any > 0 && L.any < 1 ? `<em>50%: ${eggsR(L.any, 0.5)} · 90%: ${eggsR(L.any, 0.9)}</em>` : ''}</div></div>${charmFold}`
     // the combos: every look combination (Spectral too while it's counted), + Perfect / + Alpha, sorted most common first
     const exact = v.cmatch !== 'least'
