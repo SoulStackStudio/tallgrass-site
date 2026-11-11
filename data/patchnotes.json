@@ -1,5 +1,20 @@
 [
  {
+  "version": "0.77.1",
+  "date": "2026-11-11",
+  "title": "Smoother updates",
+  "notes": [
+   "The rarest looks have a fresh style: Void Prismatic, Shiny Void, Shiny Prismatic, Shiny Void Prismatic and Shiny Gilded each look brand new.",
+   "Updates are now hands-off: when the game restarts to update, every window steps aside and only the update card shows until it’s done.",
+   "Supporters with a Mythic trainer pick waiting get a one-time reminder, with a button straight to the picker."
+  ],
+  "changes": [],
+  "fixes": [
+   "Your money and Bag now reach the server on every sync, so a long idle session is never set back to an older amount, and Mythic Shop buys go through right away.",
+   "Big PCs sync with the server even faster."
+  ]
+ },
+ {
   "version": "0.77.0",
   "date": "2026-11-11",
   "title": "Golden Leaf and Mythic trainers",
@@ -38,26 +53,6 @@
   "changes": [],
   "fixes": [
    "Fixed: the animated Aurora wallpaper now ripples properly instead of sliding down like a waterfall."
-  ]
- },
- {
-  "version": "0.76.1",
-  "date": "2026-11-10",
-  "title": "Wallpapers and Mirage trades",
-  "notes": [
-   "19 new PC wallpapers in Events → Style, including 5 animated ones (Snowfall, Shooting Stars, Aurora, Rainy Window, Firefly Pond). Sakura has been redrawn with falling petals: if you own it, you have the new one.",
-   "Finding a Mirage now paints the island in a desert sunset."
-  ],
-  "changes": [
-   "The Impossible now needs a Shiny Void Prismatic with no looks from the Prism Altar. Where it was unlocked without one, it has been taken back (its rewards stay).",
-   "The Shiny, Void and Prismatic achievements and Born Lucky now count only the looks a Pokémon was found with, not looks from the Prism Altar. Ranks you already have are kept.",
-   "Auto-file: Spectral and Mirage are separate filters now. Rules you already have keep filing exactly as before.",
-   "Auto-favourite: Spectral and Mirage are separate ticks now. If the old one was on, both are on.",
-   "Mirage Pokémon can now be traded, offered, sent through Wonder Trade, sold at the Night Market and auctioned, just like Spectral (one Mirage listing a day). The Prism Altar still won’t take them."
-  ],
-  "fixes": [
-   "Costume Pokémon now have their own “1 of N in the world” count, separate from the same Pokémon without a costume.",
-   "Fixed: on some fresh installs the New Game name box ignored typing. An out-of-date download now shows Update required and updates itself."
   ]
  }
 ]
