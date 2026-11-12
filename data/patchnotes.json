@@ -1,5 +1,44 @@
 [
  {
+  "version": "0.77.3",
+  "date": "2026-11-12",
+  "title": "Full Art cards",
+  "notes": [
+   "Costume Full Art cards: a festival costume Pokémon may come with its own illustrated card, drawn in its look. When one turns up it spins in and lands on the Pokémon: look for the card icon by its marks and click it to see the card. Its scenery also becomes the Pokémon’s backdrop.",
+   "Golden Leaf: every 10 encore quests now gives another Autumn Shaymin, as many as you can farm (up to 5 a day). Each one is Shiny 1 in 10 and can also be Void or Prismatic.",
+   "Auction House: anything Spectral, Mirage or Gilded, and any Pokémon with two looks together (like Shiny Void), can now go up for auction."
+  ],
+  "changes": [
+   "Void Prismatic Pokémon have a new aurora look."
+  ],
+  "fixes": []
+ },
+ {
+  "version": "0.77.2",
+  "date": "2026-11-11",
+  "title": "Mirage pairs",
+  "notes": [
+   "New Tallgrass Terms to agree to once: play fair, no modding, no real-money trading, one account per person. New players see them right after picking their starter.",
+   "Mythic trainers: 10 new Prismatic trainers join the roster, for 30 in all. The pool you pick from now follows your Supporter tier: Shiny Supporters pick from 10, Void Supporters from 20 and Prismatic Supporters from all 30. Picks you already made are kept and stay yours to wear.",
+   "Guilds: Boss War is coming! See this week’s bosses, opt in and plan your team now. New Leaderboard tab. Guild shop opening soon.",
+   "Supporters can now get into new events early. Event costumes can be traded and sold once the event opens for everyone."
+  ],
+  "changes": [
+   "From the next update on, updates wait while you play another game in full screen (controllers count too), and a Tallgrass hidden in the tray stays hidden when it restarts to update.",
+   "Two Mirage parents in the Day Care now double the chance of a Mirage egg (one Mirage parent stays as rare as a Mirage in the Safari Zone).",
+   "Hatching a Mirage now says Mirage on its card, not Spectral.",
+   "Mythic trainers now walk with a real stride: one foot in front of the other, and robes sway with each step.",
+   "PC sorting: Rarest first now goes by the real odds (1 in X), so a Shiny Void comes before a lone Prismatic. Coolest look now puts Mirage, Gilded and Spectral ahead of Prismatic.",
+   "Battle Tower: a Mega Stone reward for a Pokémon with two Megas (like Charizard or Mewtwo) now lets you pick which one, X or Y.",
+   "The Guild now has its own button right after Friends, in the Poké Ball menu and on the Classic tab bar, wearing your guild’s emblem (on phones it’s under More).",
+   "Field Research only asks for what you can find right now: types that live on the islands you can reach, and no Rare or new-species tasks you can’t do yet.",
+   "Golden Leaf: 15 stamps on the Leaf Calendar now also give a second festival frame, the Harvest Moon frame: a big harvest moon at dusk, with fireflies."
+  ],
+  "fixes": [
+   "Stamp book: Void and Prismatic pages no longer lag. Their stamps sparkle a few at a time, and any stamp comes alive when you point at it."
+  ]
+ },
+ {
   "version": "0.77.1",
   "date": "2026-11-11",
   "title": "Smoother updates",
@@ -12,47 +51,6 @@
   "fixes": [
    "Your money and Bag now reach the server on every sync, so a long idle session is never set back to an older amount, and Mythic Shop buys go through right away.",
    "Big PCs sync with the server even faster."
-  ]
- },
- {
-  "version": "0.77.0",
-  "date": "2026-11-11",
-  "title": "Golden Leaf and Mythic trainers",
-  "notes": [
-   "Golden Leaf festival (14 to 28 Nov): a bingo board shuffled just for you, mystery blocks, acorn openings, encore quests once your board is full, a Leaf Calendar stamp for every festival day, the Autumn Album, Harvest Moon nights and costume spotlights.",
-   "Mythic trainers: supporters can pick an original Mythic trainer outfit, one more for each month of support (up to 3). They show on your card, the leaderboards and everywhere else your trainer appears.",
-   "A fresh new app icon.",
-   "Animated PC wallpapers now move smoothly at your chosen frame rate."
-  ],
-  "changes": [
-   "Mirage now passes on in the Day Care, but only from a Mirage parent: a Mirage egg is about as rare as finding a Mirage in the Safari Zone. A pair with a Mirage parent shows its chance on the Day Care’s Mirage chip.",
-   "Sound effects and Cries now have separate switches in Settings → Sound.",
-   "With a Poké Radar chain, the odds tooltip shows the chained Pokémon’s odds and everyone else’s separately.",
-   "You can unfavourite a Pokémon right in the Prism Altar, Night Market and auction pickers (it asks first).",
-   "The Battle Tower battle window stays where you dragged it, floor after floor.",
-   "Raid replays now end the moment the boss is beaten, instead of playing out the rest of the battle."
-  ],
-  "fixes": [
-   "The Prism Altar now fits on phones (and scrolls on small ones). The Calendar fits on a phone held sideways.",
-   "The egg card no longer runs off the top of the screen in Classic.",
-   "Battle Tower: a Master Ball never “breaks free” any more. If a Hard Mode throw doesn’t go through, you’re told why and you keep the ball.",
-   "Mythic Shop: if a buy can’t go through yet, it now says your wallet is still syncing instead of “The shop just changed”.",
-   "Browser (especially Safari): if the browser’s storage gets stuck at start, your save is never replaced by a cloud copy or a New Game, and the game tells you what’s wrong instead of a general error.",
-   "Browser: if the save on your account is more than 2 days old, it’s no longer loaded on its own. The game shows how old it is first (the Tallgrass app on your Dock or home screen and each browser keep their own save).",
-   "Cloud saves upload more reliably on slow connections and on older Safari versions.",
-   "If you also play Tallgrass Offline, the New Game screen reminds you that your Offline game is still saved. The two always keep separate saves.",
-   "Big PCs now sync with the server much faster.",
-   "Nothing gets cut off on small Mac windows, and a trackpad swipe turns one page."
-  ]
- },
- {
-  "version": "0.76.2",
-  "date": "2026-11-10",
-  "title": "Aurora wallpaper fix",
-  "notes": [],
-  "changes": [],
-  "fixes": [
-   "Fixed: the animated Aurora wallpaper now ripples properly instead of sliding down like a waterfall."
   ]
  }
 ]

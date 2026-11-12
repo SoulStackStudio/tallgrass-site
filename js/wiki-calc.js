@@ -162,7 +162,7 @@
    *  season (game 0.57.2): each seasonal look's chance, Prismatic's worked out the same way with that look's parents, then vs x rarer
    *  (it only rolls while its season is open: looks() below).
    *  Game 0.77.0 (care.ts safariLookEgg): a Safari look (Mirage) only when a parent has it, at its Safari rarity: K.safariLooks / (your wild
-   *  Shiny odds x vsShiny), the same with one or two such parents, island pair or not; odds events don't touch it (seasonFlat) */
+   *  Shiny odds x vsShiny), x2 with two such parents (game 0.77.2), island pair or not; odds events don't touch it (seasonFlat) */
   function eggOdds(K, o) {
     const pair = o.parents
     const r = K.ranks[o.rank]
@@ -179,7 +179,7 @@
       perfect: Math.min(1, perfect), alpha: has((c) => !!c.alpha) / K.inherit.alpha, knot, islands,
       everstone: pair.some((c) => !!c.everstone), // game 0.54.4: a parent's Everstone passes its nature (odds unchanged)
       season: Object.fromEntries((K.seasons || []).flatMap((s) => (s.safari
-        ? (has((c) => c.season === s.k) ? [[s.k, K.safariLooks / (wildOdds(K, o) * s.vsShiny)]] : [])
+        ? (has((c) => c.season === s.k) ? [[s.k, (K.safariLooks / (wildOdds(K, o) * s.vsShiny)) * Math.min(2, has((c) => c.season === s.k))]] : []) // game 0.77.2: two such parents = x2
         : [[s.k, (1 / (base * K.prismanaX) + (inh * has((c) => c.season === s.k)) / K.inherit.prismana) / s.vs]]))),
       seasonFlat: Object.fromEntries((K.seasons || []).filter((s) => s.safari).map((s) => [s.k, true])),
     }
