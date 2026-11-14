@@ -33,9 +33,13 @@
     const url = `${ART}dex-${o.shiny ? 's-' : ''}${sheet}.webp`
     const look = o.prismana && o.umbral ? ' spr--umbral spr--prismana' : o.prismana ? ' spr--prismana' : o.umbral ? ' spr--umbral' : ''
     // a seasonal look (Spectral): a see-through ghost of itself, drawn over whatever else it is (a plain one pale teal, a Shiny one gold)
-    const ghost = o.season && !o.umbral && !o.prismana ? (o.shiny ? ' spr--ghost-s' : ' spr--ghost') : ''
-    const el = `<i class="spr${look}${ghost}${o.cls ? ` ${o.cls}` : ''}" role="img" aria-label="${esc(o.alt || '')}" style="width:${size}px;height:${size}px;background-image:url('${url}');background-size:${S.cols * size}px auto;background-position:${-col * size}px ${-row * size}px"></i>`
-    return o.season ? `<span class="spr-sea spr-sea--${esc(o.season)}" style="width:${size}px;height:${size}px">${el}</span>` : el
+    // Gilded (game Sprite.tsx): a gold statue; with Void / Prismatic the crystal keeps its colour and the gold shows as its rim + sparkles,
+    // with a seasonal look the gold is the ghost's body
+    const gold = o.gilded && !o.umbral && !o.prismana ? ' spr--gilded' : ''
+    const ghost = o.season && !o.umbral && !o.prismana && !o.gilded ? (o.shiny ? ' spr--ghost-s' : ' spr--ghost') : ''
+    const el = `<i class="spr${look}${gold}${ghost}${o.cls ? ` ${o.cls}` : ''}" role="img" aria-label="${esc(o.alt || '')}" style="width:${size}px;height:${size}px;background-image:url('${url}');background-size:${S.cols * size}px auto;background-position:${-col * size}px ${-row * size}px"></i>`
+    const out = o.season ? `<span class="spr-sea spr-sea--${esc(o.season)}" style="width:${size}px;height:${size}px">${el}</span>` : el
+    return o.gilded ? `<span class="spr-gild" style="width:${size}px;height:${size}px">${out}</span>` : out
   }
   function ispr(key, size = 24) {
     const i = META.atlas[key]
@@ -794,7 +798,9 @@
   const lookOne = (key) => ({ shiny: key === 'shiny', umbral: key === 'umbral', prismana: key === 'prismana', season: SEAS().some((s) => s.k === key) ? key : undefined })
   /** the look <option>s of a look-bonus table (game.ts NANNY_LOOK / WARM_LOOK), each with what it adds (Spectral: T.spectral, other seasons: T.season) */
   const lookOpts = (T, f) => (T ? [...LOOKS3, ...SEAS().map((s) => [s.k, s.name])].map(([key, l]) => [key, l, T[key] ?? (SEAS().some((s) => s.k === key) ? T.season : 0)]).filter(([, , x]) => x > 0).map(([key, l, x]) => `<option value="${key}">${l} (${f(x)})</option>`).join('') : '')
-  const lookLabel = (l) => [l.shiny && 'Shiny', l.umbral && 'Void', l.prismana && 'Prismatic', l.season && seaName(l.season)].filter(Boolean).join(' ') || 'Normal'
+  // Gilded goes after Shiny, as the game names it (game.ts lookName: "Shiny Gilded", "Gilded Void", "Shiny Gilded Void Prismatic")
+  const lookLabel = (l) => [l.shiny && 'Shiny', l.gilded && 'Gilded', l.umbral && 'Void', l.prismana && 'Prismatic', l.season && seaName(l.season)].filter(Boolean).join(' ') || 'Normal'
+  const GX = () => META.breed.gildedX || 2 // game lib/supporter.ts GILDED_X: Gilded is this many times rarer than Prismatic from the same source
   // readable chances, never "1.56e-10": 98.8%, 0.89%, 0.0026%, 1 in 38,272, 1 in 2.63 million
   const BIGW = [[1e33, 'decillion'], [1e30, 'nonillion'], [1e27, 'octillion'], [1e24, 'septillion'], [1e21, 'sextillion'], [1e18, 'quintillion'], [1e15, 'quadrillion'], [1e12, 'trillion'], [1e9, 'billion'], [1e6, 'million']]
   function bigN(v) {
@@ -849,6 +855,8 @@
       ...SEAS().map((s) => [s.k, s.name, s.icon, s.safari
         ? `A ${s.name} parent passes ${s.name} on at its ${s.event} rarity: 1 in (your wild Shiny odds × ${+(s.vsShiny / K.safariLooks).toFixed(2)}) per egg (one or two ${s.name} parents work the same). Odds events don't change it. Without a ${s.name} parent, eggs are never ${s.name}.`
         : `A ${s.name} parent adds ${per(Math.round(inh('prismana') * s.vs))} to every egg's ${s.name} chance, but only while ${s.event} is on (eggs laid outside it are never ${s.name}).`]),
+      // game 0.58.0 (care.ts eggOdds): Gilded passes on only from a Gilded parent: Prismatic's egg chance with the Gilded parents instead, GILDED_X rarer
+      ['gilded', 'Gilded', 'gilded', `Eggs can only be Gilded with a Gilded parent: then it's worked out like Prismatic (your egg base × ${K.prismanaX}, plus 1 in ${inh('prismana').toLocaleString('en-US')} for each Gilded parent), and ${GX()}× rarer. It rolls on its own, so it stacks with every other look. Without a Gilded parent, eggs are never Gilded.`],
       ['perfect', 'Perfect', 'perfect', `A Perfect-IV parent adds ${per(K.inherit.perfect)} to the Perfect IV chance (×3 with a Destiny Knot).`],
       ['alpha', 'Alpha', 'alpha', `Each Alpha parent gives a ${per(K.inherit.alpha)} Alpha chance (two: ${per(K.inherit.alpha / 2)}). No Alpha parent, no Alpha babies.`],
     ]
@@ -857,7 +865,7 @@
         <legend>${title}</legend>
         <div class="bc-par__top"><span class="bc-par__spr" data-pspr="${p}"></span>
           <label class="bc-par__mon"><span>Species</span><input class="w-in" name="${p}_mon" list="dl-breed" value="${esc(BY.get(slug)?.nm || slug)}" placeholder="Search a Pokémon" autocomplete="off" aria-label="${title} species"></label></div>
-        <div class="bc-chips">${chips.map(([key, l, i2, tip]) => `<label class="bc-chip${on.includes(key) ? ' on' : ''}${SEAS().some((s) => s.k === key) ? ' bc-chip--sea' : ''}" data-tip="${esc(tip)}"><input type="checkbox" name="${p}_${key}"${on.includes(key) ? ' checked' : ''}>${ic(i2)}<span>${l}</span></label>`).join('')}</div>
+        <div class="bc-chips">${chips.map(([key, l, i2, tip]) => `<label class="bc-chip${on.includes(key) ? ' on' : ''}${SEAS().some((s) => s.k === key) ? ' bc-chip--sea' : ''}${key === 'gilded' ? ' bc-chip--gild' : ''}" data-tip="${esc(tip)}"><input type="checkbox" name="${p}_${key}"${on.includes(key) ? ' checked' : ''}>${ic(i2)}<span>${l}</span></label>`).join('')}</div>
         <div class="bc-par__row">
           <label class="bc-cos" data-cos="${p}" hidden><span>Costume</span><select class="w-in" name="${p}_cos"></select></label>
           <label class="bc-chip bc-chip--item" data-tip="Destiny Knot: the baby keeps the best of 3 IV rolls, and Perfect IVs are 3× as likely. Two Knots work the same as one."><input type="checkbox" name="${p}_knot">${ispr('destiny_knot', 20)}<span>Destiny Knot</span></label>
@@ -900,6 +908,7 @@
           </div>
           <label class="bc-chip" data-xperf data-tip="Count only eggs that also have Perfect IVs (its own roll, so its chance multiplies in)."><input type="checkbox" name="cperf">${ic('perfect')}<span>+ Perfect IVs</span></label>
           <label class="bc-chip" data-xalpha data-tip="Count only eggs that are also Alpha (its own roll: needs an Alpha parent)."><input type="checkbox" name="calpha">${ic('alpha')}<span>+ Alpha</span></label>
+          <label class="bc-chip bc-chip--gild" data-xgild data-tip="Show the Gilded eggs (its own roll, so its chance multiplies in)."><input type="checkbox" name="cgild">${ic('gilded')}<span>+ Gilded</span></label>
         </div>
         <div class="bc-combos"></div>
         <p class="muted small bc-combo-note"></p>
@@ -939,7 +948,7 @@
       box.hidden = !list.length
       const cos = list.length ? sel.value : ''
       const season = SEAS().map((s) => s.k).find((k) => v[`${p}_${k}`])
-      const look = { shiny: !!v[`${p}_shiny`], umbral: !!v[`${p}_umbral`], prismana: !!v[`${p}_prismana`], season }
+      const look = { shiny: !!v[`${p}_shiny`], umbral: !!v[`${p}_umbral`], prismana: !!v[`${p}_prismana`], season, gilded: !!v[`${p}_gilded`] }
       const art = cos ? BY.idx.get(cos) : m2 ? BY.idx.get(m2.s) : -1
       $(`[data-pspr="${p}"]`, el).innerHTML = spr(art, 64, { ...look, alt: m2?.nm || '' })
       return m2 && { m: m2, cos, look, perfect: !!v[`${p}_perfect`], alpha: !!v[`${p}_alpha`], knot: !!v[`${p}_knot`], everstone: !!v[`${p}_ever`] }
@@ -985,6 +994,12 @@
         why.season = `${S.name} = Prismatic's base (${per0(base * K.prismanaX)})${ns ? ` + ${ns} ${S.name} parent${ns > 1 ? 's' : ''} × 1 in ${each.toLocaleString('en-US')}` : ''}, then ${S.vs}× rarer${ns ? '' : ` (a ${S.name} parent would add 1 in ${Math.round(each * S.vs).toLocaleString('en-US')})`}. ${S.event} only.`
       }
       why.perfect = `Your rank's ${per0(r.perfect)}${has((p) => p.perfect) ? ` + ${has((p) => p.perfect)} Perfect parent${has((p) => p.perfect) > 1 ? 's' : ''} × 1 in ${K.inherit.perfect}` : ''}${o.knot ? ', ×3 for the Destiny Knot' : ''}. Charm and events don't change it.`
+      { // game 0.58.0 (care.ts eggOdds): only with a Gilded parent, Prismatic's way with the Gilded parents, then GILDED_X rarer
+        const ng = has((p) => p.look.gilded), each = K.inherit.prismana * K.lookX.egg
+        why.gilded = ng
+          ? `Gilded = Prismatic's base (${per0(base * K.prismanaX)}) + ${ng} Gilded parent${ng > 1 ? 's' : ''} × 1 in ${each.toLocaleString('en-US')}, then ${GX()}× rarer (${per0(1 / o.gilded)}). Its own roll: it stacks with every other look.`
+          : `No Gilded parent: these eggs are never Gilded. With one, Gilded is worked out like Prismatic (+ 1 in ${each.toLocaleString('en-US')} per Gilded parent), then ${GX()}× rarer.`
+      }
       why.alpha = o.alpha ? `${has((p) => p.alpha)} Alpha parent${has((p) => p.alpha) > 1 ? 's' : ''} × 1 in ${K.inherit.alpha}. Its own roll.` : 'No Alpha parent: an Alpha baby needs one (1 in 64 each).'
       // hatch time
       const sec = K.encSecs[+v.speed || 0]
@@ -1028,6 +1043,7 @@
       if (mode === 'regg') {
         for (const [k, l] of [['shiny', 'Shiny'], ['umbral', 'Void'], ['prismana', 'Prismatic'], ['perfect', 'Perfect IVs']]) why[k] = `Every Raid Egg: ${l} ${per0(K.raidEgg[k])}.`
         if (S) why.season = `${S.name} = Prismatic's ${per0(K.raidEgg.prismana)}, ${S.vs}× rarer.`
+        why.gilded = `Every Raid Egg: Prismatic's ${per0(K.raidEgg.prismana)}, ${GX()}× rarer (${per0(K.raidEgg.prismana * GX())}). Its own roll: it stacks with every other look.`
         why.alpha = 'Raid Eggs are never Alpha.'
       } else {
         why.shiny = `Your wild ${per0(wild)} × ${K.lookX.egg}/${K.lookX.wild} for eggs = ${per0(eggB)}${kx}.`
@@ -1035,6 +1051,7 @@
         why.prismana = `The egg base × ${K.prismanaX}${kx} (${per0(base * K.prismanaX)}).`
         if (S) why.season = `${S.name} = Prismatic's chance, ${S.vs}× rarer (${per0(base * K.prismanaX * S.vs)}).`
         why.perfect = mode === 'cegg' ? `Every Costume Egg: ${per0(K.costumeEgg.perfect)}.` : 'Gift Eggs never roll Perfect IVs.'
+        why.gilded = `${mode === 'cegg' ? 'Costume' : 'Gift'} Eggs are never Gilded. Gilded comes from Raid Eggs, the Battle Tower and Gilded parents.`
         why.alpha = `${mode === 'cegg' ? 'Costume' : 'Gift'} Eggs are never Alpha.`
       }
     }
@@ -1046,20 +1063,28 @@
       ? tile(S.icon, S.name, L.season[S.k] || 0, why.season || '', sNote, ' is-g')
       : `<div class="bc-tile is-g is-off" tabindex="0" data-tip="${esc(`${why.season || ''} Off now: ${S.event} is ${si.state}, and eggs laid outside it are never ${S.name}. Turn on "${si.open ? 'Count' : 'Preview'} ${S.name}" above to see it.`)}">${ic(S.icon)}<span>${esc(S.name)}</span><b>–</b><small>${esc(S.event)} only</small><i class="bc-tag">${si.open ? 'switched off above' : si.state === 'over' ? `ended ${esc(si.until)}` : esc(si.state)}</i></div>`) : ''
     // game 0.77.0: a bred Safari look (Mirage) gets its own tile when a parent has it
+    // game 0.58.0 / 0.59.0: Gilded (Raid Eggs, and Day Care eggs with a Gilded parent; never a Costume or Gift Egg)
+    const gildTile = L.gilded > 0
+      ? tile('gilded', 'Gilded', L.gilded, why.gilded || '', pair ? 'from a Gilded parent' : '', ' is-gd')
+      : `<div class="bc-tile is-gd is-off" tabindex="0" data-tip="${esc(why.gilded || '')}">${ic('gilded')}<span>Gilded</span><b>–</b><small>never</small><i class="bc-tag">${pair ? 'needs a Gilded parent' : 'never from this egg'}</i></div>`
     const safTiles = SEAS().filter((s) => s.safari && (o.season?.[s.k] || 0) > 0 && open.includes(s.k)).map((s) => tile(s.icon, s.name, L.season[s.k] || 0, why[`sea_${s.k}`] || '', `from a ${s.name} parent`, ' is-g is-flat')).join('')
     // every Shiny Charm level with this same setup (what the next Charm upgrade does; Raid Eggs ignore the charm)
     const charmOdds = (c) => (mode === 'pair' ? C.eggOdds(K, { rank, charm: c, islands: !!v.islands, parents: P.map((p) => ({ ...p.look, perfect: p.perfect, alpha: p.alpha, knot: p.knot, everstone: p.everstone })) }) : mode === 'cegg' ? C.costumeEggOdds(K, { rank, charm: c }) : C.giftEggOdds(K, { rank, charm: c }))
     const foldOpen = !!$('.bc-charm', out)?.open
-    const charmFold = mode === 'regg' ? '' : `<details class="w-fold bc-charm"${foldOpen ? ' open' : ''}><summary>Every Shiny Charm level <small class="muted">(1 in N per egg)</small></summary><div class="w-tablewrap"><table class="w-table bc-charm__t"><thead><tr><th>Charm</th><th class="num">Shiny</th><th class="num">Void</th><th class="num">Prismatic</th>${S && open.length ? `<th class="num">${esc(S.name)}</th>` : ''}<th class="num">Any look</th></tr></thead><tbody>${Array.from({ length: META.charmMax + 1 }, (_, c) => {
+    const charmFold = mode === 'regg' ? '' : `<details class="w-fold bc-charm"${foldOpen ? ' open' : ''}><summary>Every Shiny Charm level <small class="muted">(1 in N per egg)</small></summary><div class="w-tablewrap"><table class="w-table bc-charm__t"><thead><tr><th>Charm</th><th class="num">Shiny</th><th class="num">Void</th><th class="num">Prismatic</th>${S && open.length ? `<th class="num">${esc(S.name)}</th>` : ''}${L.gilded > 0 ? '<th class="num">Gilded</th>' : ''}<th class="num">Any look</th></tr></thead><tbody>${Array.from({ length: META.charmMax + 1 }, (_, c) => {
       const L2 = C.looks(charmOdds(c), boost, open)
-      return `<tr${c === charm ? ' class="is-me"' : ''}><td>${c}${c === charm ? ' (you)' : ''}</td><td class="num">${oneInR(L2.shiny).replace('1 in ', '')}</td><td class="num">${oneInR(L2.umbral).replace('1 in ', '')}</td><td class="num">${oneInR(L2.prismana).replace('1 in ', '')}</td>${S && open.length ? `<td class="num">${oneInR(L2.season[S.k] || 0).replace('1 in ', '')}</td>` : ''}<td class="num">${oneInR(L2.any).replace('1 in ', '')}</td></tr>`
+      return `<tr${c === charm ? ' class="is-me"' : ''}><td>${c}${c === charm ? ' (you)' : ''}</td><td class="num">${oneInR(L2.shiny).replace('1 in ', '')}</td><td class="num">${oneInR(L2.umbral).replace('1 in ', '')}</td><td class="num">${oneInR(L2.prismana).replace('1 in ', '')}</td>${S && open.length ? `<td class="num">${oneInR(L2.season[S.k] || 0).replace('1 in ', '')}</td>` : ''}${L.gilded > 0 ? `<td class="num">${oneInR(L2.gilded).replace('1 in ', '')}</td>` : ''}<td class="num">${oneInR(L2.any).replace('1 in ', '')}</td></tr>`
     }).join('')}</tbody></table></div></details>`
-    const anyTip = `1 − the chance of no special look at all: each look rolls on its own die, so they multiply (${[pctR(1 - L.shiny), pctR(1 - L.umbral), pctR(1 - L.prismana), ...(open.length ? [pctR(L.none)] : [])].join(' × ')} = ${pctR(1 - L.any)} plain).`
-    out.innerHTML = `${head}<h4 class="w-h4">Chances per egg</h4><div class="bc-tiles">${tile('star', 'Shiny', L.shiny, why.shiny)}${tile('umbral', 'Void', L.umbral, why.umbral)}${tile('prismana', 'Prismatic', L.prismana, why.prismana)}${seaTile}${safTiles}${tile('perfect', 'Perfect IVs', Math.min(1, o.perfect || 0), why.perfect, o.knot ? '×3 Destiny Knot' : '')}${tile('alpha', 'Alpha', o.alpha, why.alpha, o.alpha ? '' : pair ? 'needs an Alpha parent' : 'never from this egg')}
+    const anyTip = `1 − the chance of no special look at all: each look rolls on its own die, so they multiply (${[pctR(1 - L.shiny), pctR(1 - L.umbral), pctR(1 - L.prismana), ...(open.length ? [pctR(L.none)] : []), ...(L.gilded > 0 ? [pctR(1 - L.gilded)] : [])].join(' × ')} = ${pctR(1 - L.any)} plain).`
+    out.innerHTML = `${head}<h4 class="w-h4">Chances per egg</h4><div class="bc-tiles">${tile('star', 'Shiny', L.shiny, why.shiny)}${tile('umbral', 'Void', L.umbral, why.umbral)}${tile('prismana', 'Prismatic', L.prismana, why.prismana)}${seaTile}${safTiles}${gildTile}${tile('perfect', 'Perfect IVs', Math.min(1, o.perfect || 0), why.perfect, o.knot ? '×3 Destiny Knot' : '')}${tile('alpha', 'Alpha', o.alpha, why.alpha, o.alpha ? '' : pair ? 'needs an Alpha parent' : 'never from this egg')}
       <div class="bc-tile any" tabindex="0" data-tip="${esc(anyTip)}">${ic('burst')}<span>Any special look</span><b>${pctR(L.any)}</b><small>${oneInR(L.any)}</small>${L.any > 0 && L.any < 1 ? `<em>50%: ${eggsR(L.any, 0.5)} · 90%: ${eggsR(L.any, 0.9)}</em>` : ''}</div></div>${charmFold}`
     // the combos: every look combination (Spectral too while it's counted), + Perfect / + Alpha, sorted most common first
     const exact = v.cmatch !== 'least'
     const perf = !!v.cperf && o.perfect > 0, alpha = !!v.calpha && o.alpha > 0
+    const g = L.gilded || 0, gild = !!v.cgild && g > 0 // Gilded: its own die, so a card x g with it (exactly: x (1 - g) without)
+    const xg = $('[data-xgild]', wrap)
+    xg.classList.toggle('is-dis', !(g > 0)); $('input', xg).disabled = !(g > 0)
+    xg.dataset.tip = g > 0 ? `Show the Gilded eggs (${oneInR(g)}: its own roll, so its chance multiplies in).` : pair ? 'No Gilded parent: these eggs can\'t be Gilded.' : 'This egg is never Gilded.'
     const xp = $('[data-xperf]', wrap), xa = $('[data-xalpha]', wrap)
     xp.classList.toggle('is-dis', !(o.perfect > 0)); xa.classList.toggle('is-dis', !(o.alpha > 0))
     $('input', xp).disabled = !(o.perfect > 0); $('input', xa).disabled = !(o.alpha > 0)
@@ -1070,24 +1095,26 @@
     if (!exact) {
       for (const so of [null, ...open]) for (let m = 0; m < 8; m++) {
         const c = { shiny: !!(m & 1), umbral: !!(m & 2), prismana: !!(m & 4), season: so }
-        if (m || so) list.push({ ...c, p: C.atLeast(L, c) })
+        if (m || so || gild) list.push({ ...c, p: C.atLeast(L, c) })
       }
     }
-    list.forEach((x, i) => { x.i = i; x.p0 = x.p; x.p = x.p * (perf ? pPerf : 1) * (alpha ? o.alpha : 1) })
+    list.forEach((x, i) => { x.i = i; x.p0 = x.p; x.gilded = gild; x.p = x.p * (gild ? g : exact && g > 0 ? 1 - g : 1) * (perf ? pPerf : 1) * (alpha ? o.alpha : 1) })
     list.sort((a, b) => b.p - a.p || a.i - b.i)
     const part = (on, l, p) => (on ? `${l} ${oneInR(p)}` : `no ${l} (${pctR(1 - p)})`)
     const comboTip = (x) => {
       const bits = []
       for (const [k, l] of LOOKS3) if (exact || x[k]) bits.push(exact ? part(x[k], l, L[k]) : `${l} ${oneInR(L[k])}`)
       for (const s of SEAS()) if (open.includes(s.k) && (exact || x.season === s.k)) bits.push(exact ? (x.season === s.k ? `${s.name} ${oneInR(L.season[s.k])}` : `no ${s.name} (${pctR(1 - (L.season[s.k] || 0))})`) : `${s.name} ${oneInR(L.season[s.k])}`)
+      if (gild) bits.push(`Gilded ${oneInR(g)}`)
+      else if (exact && g > 0) bits.push(`no Gilded (${pctR(1 - g)})`)
       if (perf) bits.push(`Perfect IVs ${oneInR(pPerf)}`)
       if (alpha) bits.push(`Alpha ${oneInR(o.alpha)}`)
       return `${bits.join(' × ') || 'Any egg'}\n= ${exactIn(x.p)} per egg${exact ? '' : ' (other looks may come too)'}. Each one is its own roll, so the chances multiply.`
     }
     const badge = `${perf ? `<i class="bc-x">${ic('perfect')}Perfect</i>` : ''}${alpha ? `<i class="bc-x">${ic('alpha')}Alpha</i>` : ''}`
-    $('.bc-combos', wrap).innerHTML = list.map((x) => `<div class="bc-look${x.shiny ? ' is-s' : ''}${x.umbral ? ' is-u' : ''}${x.prismana ? ' is-p' : ''}${x.season ? ' is-g' : ''}" tabindex="0" data-tip="${esc(comboTip(x))}">${spr(art, 64, { shiny: x.shiny, umbral: x.umbral, prismana: x.prismana, season: x.season, alt: `${lookLabel(x)} ${nm}` })}<span>${exact ? lookLabel(x) : `${lookLabel(x)}+`}</span>${badge ? `<span class="bc-xs">${badge}</span>` : ''}<b>${pctR(x.p)}</b><small>${oneInR(x.p)}</small><em>${x.p >= 0.5 ? 'most eggs' : `90%: ${eggsR(x.p, 0.9)}`}</em></div>`).join('')
+    $('.bc-combos', wrap).innerHTML = list.map((x) => `<div class="bc-look${x.shiny ? ' is-s' : ''}${x.umbral ? ' is-u' : ''}${x.prismana ? ' is-p' : ''}${x.season ? ' is-g' : ''}${x.gilded ? ' is-gd' : ''}" tabindex="0" data-tip="${esc(comboTip(x))}">${spr(art, 64, { shiny: x.shiny, umbral: x.umbral, prismana: x.prismana, season: x.season, gilded: x.gilded, alt: `${lookLabel(x)} ${nm}` })}<span>${exact ? lookLabel(x) : `${lookLabel(x)}+`}</span>${badge ? `<span class="bc-xs">${badge}</span>` : ''}<b>${pctR(x.p)}</b><small>${oneInR(x.p)}</small><em>${x.p >= 0.5 ? 'most eggs' : `90%: ${eggsR(x.p, 0.9)}`}</em></div>`).join('')
     const twoBabies = pair && C.breedBabies(breedRec(P[0].m), breedRec(P[1].m)).length > 1
-    $('.bc-combo-note', wrap).innerHTML = `${exact ? 'Exactly these looks: all the cards add up to 100%.' : 'At least these looks: a card also counts eggs with more looks on top (the + on its name).'} Tap or hover a card for its maths.${twoBabies ? ` The looks don't depend on which baby hatches; for one particular baby (half the eggs), double the 1 in N.` : ''}${S && !open.length ? ` ${esc(S.name)} is off (${esc(S.event)} only).` : ''}`
+    $('.bc-combo-note', wrap).innerHTML = `${exact ? (g > 0 ? (gild ? `Exactly these looks, all Gilded: the cards add up to the Gilded chance (${pctR(g)}).` : 'Exactly these looks, none Gilded: with the Gilded cards (+ Gilded) everything adds up to 100%.') : 'Exactly these looks: all the cards add up to 100%.') : 'At least these looks: a card also counts eggs with more looks on top (the + on its name).'} Tap or hover a card for its maths.${twoBabies ? ` The looks don't depend on which baby hatches; for one particular baby (half the eggs), double the 1 in N.` : ''}${S && !open.length ? ` ${esc(S.name)} is off (${esc(S.event)} only).` : ''}`
   }
   const per0 = (x) => `1 in ${Number(x.toFixed(x < 100 ? 1 : 0)).toLocaleString('en-US')}`
   function runCalc(el, t0) {

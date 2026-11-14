@@ -158,11 +158,15 @@
   const wildOdds = (K, o) => K.ranks[o.rank].shiny / (1 + K.charmK * (o.charm || 0))
   /** the egg base (1 in N) before the island pair: your wild Shiny odds x LOOK_X.egg / LOOK_X.wild */
   const eggBase = (K, o) => (wildOdds(K, o) * K.lookX.egg) / K.lookX.wild
+  /** Gilded (game lib/supporter.ts GILDED_X): its own die (slot 30), K.gildedX x rarer than Prismatic from the same source; older data: 2 */
+  const gildX = (K) => K.gildedX || 2
   /** the chance (0..1) per egg of each look, Perfect IVs and Alpha. o = { rank, charm, islands (caught on different islands), parents }.
    *  season (game 0.57.2): each seasonal look's chance, Prismatic's worked out the same way with that look's parents, then vs x rarer
    *  (it only rolls while its season is open: looks() below).
    *  Game 0.77.0 (care.ts safariLookEgg): a Safari look (Mirage) only when a parent has it, at its Safari rarity: K.safariLooks / (your wild
-   *  Shiny odds x vsShiny), x2 with two such parents (game 0.77.2), island pair or not; odds events don't touch it (seasonFlat) */
+   *  Shiny odds x vsShiny), x2 with two such parents (game 0.77.2), island pair or not; odds events don't touch it (seasonFlat).
+   *  gilded (game 0.58.0, care.ts eggOdds): only when a parent is Gilded (a parent's `gilded: true`): Prismatic's egg chance worked out the
+   *  same way with the Gilded parents instead, then K.gildedX x rarer; no Gilded parent = 0 (never Gilded) */
   function eggOdds(K, o) {
     const pair = o.parents
     const r = K.ranks[o.rank]
@@ -182,23 +186,26 @@
         ? (has((c) => c.season === s.k) ? [[s.k, (K.safariLooks / (wildOdds(K, o) * s.vsShiny)) * Math.min(2, has((c) => c.season === s.k))]] : []) // game 0.77.2: two such parents = x2
         : [[s.k, (1 / (base * K.prismanaX) + (inh * has((c) => c.season === s.k)) / K.inherit.prismana) / s.vs]]))),
       seasonFlat: Object.fromEntries((K.seasons || []).filter((s) => s.safari).map((s) => [s.k, true])),
+      gilded: has((c) => !!c.gilded) ? (1 / (base * K.prismanaX) + (inh * has((c) => !!c.gilded)) / K.inherit.prismana) / gildX(K) : 0,
     }
   }
-  /** a Costume Egg's odds (events.ts costumeEgg): K.costumeEgg.k × the egg base, perfect 1 in K.costumeEgg.perfect, never Alpha */
+  /** a Costume Egg's odds (events.ts costumeEgg): K.costumeEgg.k × the egg base, perfect 1 in K.costumeEgg.perfect, never Alpha, never
+   *  Gilded (its source 'c' isn't one Gilded rolls on: supporter.ts GILDED_PUBLIC_SRC) */
   function costumeEggOdds(K, o) {
     const odds = eggBase(K, o)
     const k = K.costumeEgg.k
-    return { shiny: k / odds, umbral: k / (odds * K.umbralX), prismana: k / (odds * K.prismanaX), perfect: 1 / K.costumeEgg.perfect, alpha: 0, knot: false, islands: false, everstone: false, season: fromPrismatic(K, k / (odds * K.prismanaX)) }
+    return { shiny: k / odds, umbral: k / (odds * K.umbralX), prismana: k / (odds * K.prismanaX), perfect: 1 / K.costumeEgg.perfect, alpha: 0, knot: false, islands: false, everstone: false, season: fromPrismatic(K, k / (odds * K.prismanaX)), gilded: 0 }
   }
-  /** a Gift Egg's odds (events.ts openGift): the egg base, never Perfect (no perfect roll) or Alpha */
+  /** a Gift Egg's odds (events.ts openGift): the egg base, never Perfect (no perfect roll), Alpha or Gilded (source 'g') */
   function giftEggOdds(K, o) {
     const odds = eggBase(K, o)
-    return { shiny: 1 / odds, umbral: 1 / (odds * K.umbralX), prismana: 1 / (odds * K.prismanaX), perfect: 0, alpha: 0, knot: false, islands: false, everstone: false, season: fromPrismatic(K, 1 / (odds * K.prismanaX)) }
+    return { shiny: 1 / odds, umbral: 1 / (odds * K.umbralX), prismana: 1 / (odds * K.prismanaX), perfect: 0, alpha: 0, knot: false, islands: false, everstone: false, season: fromPrismatic(K, 1 / (odds * K.prismanaX)), gilded: 0 }
   }
-  /** a Raid Egg's odds (BALANCE.raid.eggOdds, 1 in N each; rank and Shiny Charm don't count), never Alpha */
+  /** a Raid Egg's odds (BALANCE.raid.eggOdds, 1 in N each; rank and Shiny Charm don't count), never Alpha. Gilded (game 0.59.0, public:
+   *  Raid Eggs roll it, dice.ts rollLooks): the Prismatic chance / K.gildedX */
   function raidEggOdds(K) {
     const r = K.raidEgg
-    return { shiny: 1 / r.shiny, umbral: 1 / r.umbral, prismana: 1 / r.prismana, perfect: 1 / r.perfect, alpha: 0, knot: false, islands: false, everstone: false, season: fromPrismatic(K, 1 / r.prismana) }
+    return { shiny: 1 / r.shiny, umbral: 1 / r.umbral, prismana: 1 / r.prismana, perfect: 1 / r.perfect, alpha: 0, knot: false, islands: false, everstone: false, season: fromPrismatic(K, 1 / r.prismana), gilded: 1 / (r.prismana * gildX(K)) }
   }
   /** do two Pokémon get along? m = { s (slug), fst (first form), t (types), bd (its line can breed) } */
   function breedCompat(a, b) {
@@ -231,7 +238,9 @@
    *  (perfect: rollLooks slot 3; Alpha: layEgg slot 7), so a combo with them is this x o.perfect x o.alpha.
    *  p = eggOdds() / costumeEggOdds() / giftEggOdds() / raidEggOdds(); boost = an odds event { shiny, crystal } (1 = none): Shiny x on
    *  every look, crystal x on Void, Prismatic and the seasonal looks on top (not on a look in p.seasonFlat: a bred Safari look, game 0.77.0).
-   *  list = all 8 x (1 + seasons) exact combinations (they add up to 1); season = { key: chance }; any = any special look at all */
+   *  list = all 8 x (1 + seasons) exact combinations (they add up to 1); season = { key: chance }; any = any special look at all.
+   *  gilded (game 0.64.10: stacks with every look): its own die (GILDED_SLOT 30) at p.gilded x the odds event like Prismatic (shiny x crystal),
+   *  so a combo with Gilded is the list's chance x gilded (without it: x (1 - gilded)); it's in `any` */
   function looks(p, boost, open) {
     const sx = (boost && boost.shiny) || 1, cx = sx * ((boost && boost.crystal) || 1)
     const s = Math.min(1, p.shiny * sx), u = Math.min(1, p.umbral * cx), q = Math.min(1, p.prismana * cx)
@@ -250,10 +259,11 @@
         list.push({ shiny: sh, umbral: um, prismana: pr, season: so.k, p: (sh ? s : 1 - s) * (um ? u : 1 - u) * (pr ? q : 1 - q) * so.p })
       }
     }
-    return { shiny: s, umbral: u, prismana: q, season: Object.fromEntries(sea.map((x) => [x.k, x.p])), none: miss, any: 1 - (1 - s) * (1 - u) * (1 - q) * miss, list }
+    const g = Math.min(1, (p.gilded || 0) * cx)
+    return { shiny: s, umbral: u, prismana: q, gilded: g, season: Object.fromEntries(sea.map((x) => [x.k, x.p])), none: miss, any: 1 - (1 - s) * (1 - u) * (1 - q) * miss * (1 - g), list }
   }
-  /** the chance of AT LEAST these looks (any others may come too): the asked looks' own chances multiplied. L = looks(), c = { shiny, umbral, prismana, season } */
-  function atLeast(L, c) { return (c.shiny ? L.shiny : 1) * (c.umbral ? L.umbral : 1) * (c.prismana ? L.prismana : 1) * (c.season ? L.season[c.season] || 0 : 1) }
+  /** the chance of AT LEAST these looks (any others may come too): the asked looks' own chances multiplied. L = looks(), c = { shiny, umbral, prismana, season, gilded } */
+  function atLeast(L, c) { return (c.shiny ? L.shiny : 1) * (c.umbral ? L.umbral : 1) * (c.prismana ? L.prismana : 1) * (c.season ? L.season[c.season] || 0 : 1) * (c.gilded ? L.gilded || 0 : 1) }
   /** eggs needed for a `target` (0..1) chance of at least one (log1p: exact even for 1-in-a-trillion combos) */
   function eggsFor(p, target) { return p >= 1 ? 1 : p <= 0 ? Infinity : Math.max(1, Math.ceil(Math.log1p(-target) / Math.log1p(-p))) }
   /** encounters of warmth an egg needs (it warms the encounter it's laid, then once per encounter; care.ts careTick) */

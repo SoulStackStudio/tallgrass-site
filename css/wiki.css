@@ -295,6 +295,21 @@ a.ty:hover { filter: brightness(1.15); }
 .bc-season:not(.is-open) .bc-season__state { background: #33384f; color: var(--muted); }
 .bc-season__txt small { color: var(--muted); font-size: 12px; }
 .bc-chip--sea.on { color: #b9fff3; border-color: #3fc9b5; background: rgba(127, 240, 220, .12); }
+/* Gilded (game 0.58.0): a gold statue, gold chips / tiles / cards */
+.spr--gilded { filter: grayscale(1) sepia(1) saturate(3.2) brightness(1.12) contrast(1.18) hue-rotate(-6deg); }
+.spr-gild { position: relative; display: inline-block; flex: none; vertical-align: middle; filter: drop-shadow(0 0 1px rgba(255, 230, 130, .95)) drop-shadow(0 0 6px rgba(232, 176, 0, .55)); }
+.spr-gild > .spr, .spr-gild > .spr-sea { display: block; }
+.spr-gild::before, .spr-gild::after { content: ''; position: absolute; width: 4px; height: 4px; background: #fff6c8; box-shadow: 0 0 0 1px rgba(255, 216, 74, .9); transform: rotate(45deg); pointer-events: none; animation: gildtw 1.8s steps(2, end) infinite; }
+.spr-gild::before { top: 14%; right: 16%; }
+.spr-gild::after { bottom: 22%; left: 14%; animation-delay: .9s; }
+@keyframes gildtw { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .spr-gild::before, .spr-gild::after { animation: none; opacity: .8; } }
+.bc-chip--gild.on { color: #ffe9a0; border-color: #e8b000; background: rgba(232, 176, 0, .16); }
+.bc-tile.is-gd { border-color: rgba(232, 176, 0, .55); background: linear-gradient(180deg, rgba(70, 52, 8, .55), #181b27 75%); }
+.bc-tile.is-gd .bc-tag { color: #ffd84a; }
+.bc-tile.is-gd.is-off { border-color: var(--line); background: #181b27; }
+.bc-tile.is-gd.is-off .bc-tag { color: var(--muted); }
+.bc-look.is-gd { border-color: rgba(255, 216, 74, .7); background: linear-gradient(180deg, rgba(70, 52, 8, .45), #11131c 70%); }
 /* tiles + combos */
 .bc-tile[data-tip], .bc-look[data-tip] { cursor: help; }
 .bc-tile:focus-visible, .bc-look:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
