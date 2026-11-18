@@ -1,56 +1,47 @@
 [
  {
-  "version": "0.77.3",
-  "date": "2026-11-12",
-  "title": "Full Art cards",
+  "version": "0.78.15",
+  "date": "2026-11-18",
+  "title": "Golden Leaf evolutions",
   "notes": [
-   "Costume Full Art cards: a festival costume Pokémon may come with its own illustrated card, drawn in its look. When one turns up it spins in and lands on the Pokémon: look for the card icon by its marks and click it to see the card. Its scenery also becomes the Pokémon’s backdrop.",
-   "Golden Leaf: every 10 encore quests now gives another Autumn Shaymin, as many as you can farm (up to 5 a day). Each one is Shiny 1 in 10 and can also be Void or Prismatic.",
-   "Auction House: anything Spectral, Mirage or Gilded, and any Pokémon with two looks together (like Shiny Void), can now go up for auction."
+   "Golden Leaf: 15 new costumed evolutions arrive on Friday. From then on, a Pokémon in a Golden Leaf costume keeps it when it evolves, and each evolution has its own Full Art card."
   ],
   "changes": [
-   "Void Prismatic Pokémon have a new aurora look."
+   "Day Care: when both parents wear any costume (even one from an old event, like Halloween), every baby now hatches in costume, even if the two costumes are from different lines. It wears the costume of the parent it takes after, if that costume can be passed on right now. One costumed parent: half the babies, as before.",
+   "Day Care: from Friday, a Pokémon in an evolved Golden Leaf costume passes the costume on too. Its babies hatch in their own form's costume."
+  ],
+  "fixes": [
+   "Spectral Gilded Pokémon now keep their ghostly Spectral colours with a gold trim (Shiny ones: a platinum trim).",
+   "Safari: the odds tooltip now includes Scout's Focus. A Legendary you found with Scout's Focus shows its own chance with the focus in.",
+   "Floating Pokémon like Pumpkaboo and Magnemite now float on the map instead of walking."
+  ]
+ },
+ {
+  "version": "0.78.14",
+  "date": "2026-11-17",
+  "title": "Smoother updates",
+  "notes": [],
+  "changes": [
+   "Updates install more gently: your PC stays smooth while the game updates.",
+   "Weekly events are now translated: the Calendar, the event tips and the event days read in your language."
   ],
   "fixes": []
  },
  {
-  "version": "0.77.2",
-  "date": "2026-11-11",
-  "title": "Mirage pairs",
+  "version": "0.78.13",
+  "date": "2026-11-17",
+  "title": "Weekly events, card odds and fixes",
   "notes": [
-   "New Tallgrass Terms to agree to once: play fair, no modding, no real-money trading, one account per person. New players see them right after picking their starter.",
-   "Mythic trainers: 10 new Prismatic trainers join the roster, for 30 in all. The pool you pick from now follows your Supporter tier: Shiny Supporters pick from 10, Void Supporters from 20 and Prismatic Supporters from all 30. Picks you already made are kept and stay yours to wear.",
-   "Guilds: Boss War is coming! See this week’s bosses, opt in and plan your team now. New Leaderboard tab. Guild shop opening soon.",
-   "Supporters can now get into new events early. Event costumes can be traded and sold once the event opens for everyone."
+   "Weekly events: from Monday 23 November every day has its own event, 12:00–24:00 UTC: Hatch Day, Radar Day, Raid Day, Trade Day, Safari Day and Shiny Day, plus Card Rush on Sunday. See them all on the Calendar.",
+   "Your odds: a Pokémon that came with its Full Art card now counts the card in its \"1 in N\" odds, Golden Leaf and encore Pokémon now show their odds too, and a Pokémon whose only rare part is its card shows the card’s chance.",
+   "Desktop app: new Safe mode in the tray menu (or press Ctrl+Shift+F10). It restarts the game on one monitor with graphics acceleration off, if the game ever covers your screens."
   ],
   "changes": [
-   "From the next update on, updates wait while you play another game in full screen (controllers count too), and a Tallgrass hidden in the tray stays hidden when it restarts to update.",
-   "Two Mirage parents in the Day Care now double the chance of a Mirage egg (one Mirage parent stays as rare as a Mirage in the Safari Zone).",
-   "Hatching a Mirage now says Mirage on its card, not Spectral.",
-   "Mythic trainers now walk with a real stride: one foot in front of the other, and robes sway with each step.",
-   "PC sorting: Rarest first now goes by the real odds (1 in X), so a Shiny Void comes before a lone Prismatic. Coolest look now puts Mirage, Gilded and Spectral ahead of Prismatic.",
-   "Battle Tower: a Mega Stone reward for a Pokémon with two Megas (like Charizard or Mewtwo) now lets you pick which one, X or Y.",
-   "The Guild now has its own button right after Friends, in the Poké Ball menu and on the Classic tab bar, wearing your guild’s emblem (on phones it’s under More).",
-   "Field Research only asks for what you can find right now: types that live on the islands you can reach, and no Rare or new-species tasks you can’t do yet.",
-   "Golden Leaf: 15 stamps on the Leaf Calendar now also give a second festival frame, the Harvest Moon frame: a big harvest moon at dusk, with fireflies."
+   "Desktop app: the first time the game spreads over all your monitors, it asks if you can still see your desktop. No answer in 10 seconds and it goes back to one monitor with graphics acceleration off."
   ],
   "fixes": [
-   "Stamp book: Void and Prismatic pages no longer lag. Their stamps sparkle a few at a time, and any stamp comes alive when you point at it."
-  ]
- },
- {
-  "version": "0.77.1",
-  "date": "2026-11-11",
-  "title": "Smoother updates",
-  "notes": [
-   "The rarest looks have a fresh style: Void Prismatic, Shiny Void, Shiny Prismatic, Shiny Void Prismatic and Shiny Gilded each look brand new.",
-   "Updates are now hands-off: when the game restarts to update, every window steps aside and only the update card shows until it’s done.",
-   "Supporters with a Mythic trainer pick waiting get a one-time reminder, with a button straight to the picker."
-  ],
-  "changes": [],
-  "fixes": [
-   "Your money and Bag now reach the server on every sync, so a long idle session is never set back to an older amount, and Mythic Shop buys go through right away.",
-   "Big PCs sync with the server even faster."
+   "Tower Hard Mode: when catching can’t work on a floor, the battle now tells you so (you can battle on) instead of asking you to try again and again.",
+   "Gyms: a Gym that couldn’t start no longer quietly goes back to Challenge. Its card now says why, and a brief connection hiccup tries once more by itself."
   ]
  }
 ]
