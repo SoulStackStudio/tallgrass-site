@@ -1,5 +1,15 @@
 [
  {
+  "version": "0.78.16",
+  "date": "2026-11-19",
+  "title": "Card Bloom",
+  "notes": [
+   "Card Bloom, from Friday: a new third tab at the Prism Altar. Spend Prism Dust to bloom a Full Art card into the next card of its line. The evolution cards come only from Card Bloom. Your Pokémon keeps both cards, and you choose which one it shows."
+  ],
+  "changes": [],
+  "fixes": []
+ },
+ {
   "version": "0.78.15",
   "date": "2026-11-18",
   "title": "Golden Leaf evolutions",
@@ -26,22 +36,5 @@
    "Weekly events are now translated: the Calendar, the event tips and the event days read in your language."
   ],
   "fixes": []
- },
- {
-  "version": "0.78.13",
-  "date": "2026-11-17",
-  "title": "Weekly events, card odds and fixes",
-  "notes": [
-   "Weekly events: from Monday 23 November every day has its own event, 12:00–24:00 UTC: Hatch Day, Radar Day, Raid Day, Trade Day, Safari Day and Shiny Day, plus Card Rush on Sunday. See them all on the Calendar.",
-   "Your odds: a Pokémon that came with its Full Art card now counts the card in its \"1 in N\" odds, Golden Leaf and encore Pokémon now show their odds too, and a Pokémon whose only rare part is its card shows the card’s chance.",
-   "Desktop app: new Safe mode in the tray menu (or press Ctrl+Shift+F10). It restarts the game on one monitor with graphics acceleration off, if the game ever covers your screens."
-  ],
-  "changes": [
-   "Desktop app: the first time the game spreads over all your monitors, it asks if you can still see your desktop. No answer in 10 seconds and it goes back to one monitor with graphics acceleration off."
-  ],
-  "fixes": [
-   "Tower Hard Mode: when catching can’t work on a floor, the battle now tells you so (you can battle on) instead of asking you to try again and again.",
-   "Gyms: a Gym that couldn’t start no longer quietly goes back to Challenge. Its card now says why, and a brief connection hiccup tries once more by itself."
-  ]
  }
 ]
