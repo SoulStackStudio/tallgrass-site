@@ -223,7 +223,7 @@
   function costumeFor(CO, costume, baby) {
     for (let c = costume, n = 0; c && n < 6; n++) {
       if (CO[c] && CO[c].base === baby) return c
-      c = Object.keys(CO).find((k) => CO[k].evolvesTo === c)
+      c = Object.keys(CO).find((k) => [].concat(CO[k].evolvesTo || []).includes(c)) // game 0.78.2: evolvesTo may be a list
     }
     return null
   }
