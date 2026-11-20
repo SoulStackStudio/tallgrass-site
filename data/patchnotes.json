@@ -1,40 +1,38 @@
 [
  {
-  "version": "0.78.16",
-  "date": "2026-11-19",
-  "title": "Card Bloom",
+  "version": "0.78.21",
+  "date": "2026-11-20",
+  "title": "Ranked is now Live 3v3",
   "notes": [
-   "Card Bloom, from Friday: a new third tab at the Prism Altar. Spend Prism Dust to bloom a Full Art card into the next card of its line. The evolution cards come only from Card Bloom. Your Pokémon keeps both cards, and you choose which one it shows."
+   "Classic auto Ranked has ended and its season rewards were sent. Ranked is now Live 3v3, with the Open League and the Lv 50 League."
   ],
   "changes": [],
   "fixes": []
  },
  {
-  "version": "0.78.15",
-  "date": "2026-11-18",
-  "title": "Golden Leaf evolutions",
+  "version": "0.78.20",
+  "date": "2026-11-20",
+  "title": "Live 3v3",
   "notes": [
-   "Golden Leaf: 15 new costumed evolutions arrive on Friday. From then on, a Pokémon in a Golden Leaf costume keeps it when it evolves, and each evolution has its own Full Art card."
+   "Live 3v3: real-time ranked battles against other trainers. Bring 3 Pokémon, both trainers pick a move each turn, then you watch it play out together.",
+   "Two leagues, each with its own rating, leaderboard and rewards: the Open League, where your Pokémon fight at their own level, and the Lv 50 League, where everyone fights at Lv 50.",
+   "Find it on the Friends tab: pick a league, choose your 3 and press Find a match. You can also challenge a friend.",
+   "Season 1 runs for 4 weeks and ends on a Sunday at 18:00 UTC. The Season rewards panel shows the countdown and your rank.",
+   "The top 3 of the Lv 50 League win an Event Glitched Victini: Prismatic for 1st, Void for 2nd, Shiny for 3rd. The top 3 of the Open League win an Event Glitched Charizard in the same looks. More rewards all the way down both ladders.",
+   "Battle Tower: damage that takes a share of max HP (poison, Toxic, burn, Leech Seed, Curse and similar) now gets weaker as the floor's stat boost grows, and a boss's Struggle recoil now counts against one HP bar instead of the whole boss. Climb runs started before this update can't post to the leaderboard."
   ],
-  "changes": [
-   "Day Care: when both parents wear any costume (even one from an old event, like Halloween), every baby now hatches in costume, even if the two costumes are from different lines. It wears the costume of the parent it takes after, if that costume can be passed on right now. One costumed parent: half the babies, as before.",
-   "Day Care: from Friday, a Pokémon in an evolved Golden Leaf costume passes the costume on too. Its babies hatch in their own form's costume."
-  ],
-  "fixes": [
-   "Spectral Gilded Pokémon now keep their ghostly Spectral colours with a gold trim (Shiny ones: a platinum trim).",
-   "Safari: the odds tooltip now includes Scout's Focus. A Legendary you found with Scout's Focus shows its own chance with the focus in.",
-   "Floating Pokémon like Pumpkaboo and Magnemite now float on the map instead of walking."
-  ]
+  "changes": [],
+  "fixes": []
  },
  {
-  "version": "0.78.14",
-  "date": "2026-11-17",
-  "title": "Smoother updates",
-  "notes": [],
-  "changes": [
-   "Updates install more gently: your PC stays smooth while the game updates.",
-   "Weekly events are now translated: the Calendar, the event tips and the event days read in your language."
+  "version": "0.78.18",
+  "date": "2026-11-19",
+  "title": "Glitched",
+  "notes": [
+   "Glitched: a new look, like a corrupted save, with green and magenta scanlines, an RGB-split edge and a glow. On a Shiny, Void, Prismatic, Spectral or Gilded Pokémon its own colours stay and Glitched adds the effect on top.",
+   "How to get it: see a species 10,000 times (the Pokédex shows your progress). Then its family can appear Glitched in the wild, rarer than Prismatic, and its eggs can hatch Glitched with better odds."
   ],
+  "changes": [],
   "fixes": []
  }
 ]
