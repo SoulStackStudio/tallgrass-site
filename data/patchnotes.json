@@ -1,35 +1,64 @@
 [
  {
+  "version": "0.78.25",
+  "date": "2026-11-21",
+  "title": "Blackjack, trade locks and Live 3v3 items",
+  "notes": [
+   "Blackjack at the Game Corner: a new Corner tab with its own table.",
+   "Trade lock: lock a Pokémon from its card or its PC slot and nobody can ask for it in a trade. Locked Pokémon also stay out of your own offers and Wonder Trade.",
+   "Rare-look finds now show if they were the first in the world, or their number for that species and look.",
+   "Live 3v3: one of each held item per team, and edit your 3's items, moves and level right from the team screen.",
+   "Live 3v3: giving up ranked battles again and again now pauses your ranked search for a while. The Give up prompt tells you before it happens.",
+   "Encore quests: each quest slot gets one free Swap a day, for a quest you can’t finish today.",
+   "Hover or tap a move to see its power, accuracy and type",
+   "PC search: type a Pokémon to see its whole evolution line, plus Pokémon GO style search words (!shiny, shiny,lucky, lv50-): press ? for the list",
+   "Stamp book: click a sticker to see it big",
+   "Boxes: drop a box on another box to swap them, or between two boxes to move it there."
+  ],
+  "changes": [
+   "New sort: Evolution line",
+   "Pokédex: new Most seen sort.",
+   "Full Art cards found while you were away now show as one summary card, and you can turn off the reveal for cards you already have. Skip all skips every reveal at once.",
+   "Catch rules: a new rule for every outbreak Pokémon. New Never send tick for Lucky Pokémon (on from the start), and the Mirage tick is back in view.",
+   "Auto-evolve can now leave card, costume, favourite or Lucky Pokémon for you to evolve yourself.",
+   "Prism Altar: hide favourites, sort by most copies, and smarter catalyst picks.",
+   "The PC is much faster with a very big collection."
+  ],
+  "fixes": [
+   "Complete Zygarde drops its Mega Stone again.",
+   "Fusions keep only the rarest look that really belongs to them, and fused Pokémon work in Live 3v3.",
+   "Battle Tower: a stone reward is only offered to a Pokémon that can use it.",
+   "Event and encore Catch quests no longer stop counting for busy hunters.",
+   "Evolving a Full Art card Pokémon no longer hides its card, and Auto-evolve leaves Alphas alone when specials wait.",
+   "Game Corner: stopping Auto right after a win now counts and shows that win.",
+   "The auction Glitched filter works.",
+   "Fewer “That Pokémon isn’t available any more” errors when you mint, sell at auction or battle with a new catch or a just-evolved Pokémon.",
+   "Hard Tower balls no longer vanish when you act fast.",
+   "Safari Dex Reveal all no longer gets stuck signing in.",
+   "Rare-find Glimmer: PCs that had stopped uploading (very big ones too) upload again, so their finds pay.",
+   "Phones: Full Art card pop-ups close and skip, the Night Market sell form scrolls to Confirm, the encore card shows all 3 quests, and event boost pop-ups no longer cover the Radar."
+  ]
+ },
+ {
+  "version": "0.78.24",
+  "date": "2026-11-20",
+  "title": "Live 3v3: no more stalling",
+  "notes": [
+   "Live 3v3 now has a chess clock: 15 seconds to pick each turn, then a 60-second time bank for the whole battle starts to run.",
+   "Out of time? The game picks for you and it counts as a timeout. A 3rd timeout in one battle loses it, so stalling no longer works.",
+   "The 3v3 window no longer locks the game: drag it anywhere, close the Friends tab and keep playing while you search or battle. It opens by itself when a match is found, and a pop-up tells you when it is your move."
+  ],
+  "changes": [
+   "The 3v3 menu and team picker are much smoother, even with a big PC."
+  ],
+  "fixes": []
+ },
+ {
   "version": "0.78.22",
   "date": "2026-11-20",
   "title": "Rare-find Glimmer",
   "notes": [
    "Night Market: the Glimmer history now shows today's rare-find Glimmer and the daily cap (now 10,000)."
-  ],
-  "changes": [],
-  "fixes": []
- },
- {
-  "version": "0.78.21",
-  "date": "2026-11-20",
-  "title": "Ranked is now Live 3v3",
-  "notes": [
-   "Classic auto Ranked has ended and its season rewards were sent. Ranked is now Live 3v3, with the Open League and the Lv 50 League."
-  ],
-  "changes": [],
-  "fixes": []
- },
- {
-  "version": "0.78.20",
-  "date": "2026-11-20",
-  "title": "Live 3v3",
-  "notes": [
-   "Live 3v3: real-time ranked battles against other trainers. Bring 3 Pokémon, both trainers pick a move each turn, then you watch it play out together.",
-   "Two leagues, each with its own rating, leaderboard and rewards: the Open League, where your Pokémon fight at their own level, and the Lv 50 League, where everyone fights at Lv 50.",
-   "Find it on the Friends tab: pick a league, choose your 3 and press Find a match. You can also challenge a friend.",
-   "Season 1 runs for 4 weeks and ends on a Sunday at 18:00 UTC. The Season rewards panel shows the countdown and your rank.",
-   "The top 3 of the Lv 50 League win an Event Glitched Victini: Prismatic for 1st, Void for 2nd, Shiny for 3rd. The top 3 of the Open League win an Event Glitched Charizard in the same looks. More rewards all the way down both ladders.",
-   "Battle Tower: damage that takes a share of max HP (poison, Toxic, burn, Leech Seed, Curse and similar) now gets weaker as the floor's stat boost grows, and a boss's Struggle recoil now counts against one HP bar instead of the whole boss. Climb runs started before this update can't post to the leaderboard."
   ],
   "changes": [],
   "fixes": []
