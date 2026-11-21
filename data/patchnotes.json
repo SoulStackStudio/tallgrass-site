@@ -1,5 +1,16 @@
 [
  {
+  "version": "0.78.28",
+  "date": "2026-11-21",
+  "title": "Small fixes",
+  "notes": [],
+  "changes": [],
+  "fixes": [
+   "Phones: Raid, the PC picker, Blackjack, the You and Friends pages and the Community bar now fit on the screen.",
+   "Community feed: cheer counts show correctly again."
+  ]
+ },
+ {
   "version": "0.78.27",
   "date": "2026-11-21",
   "title": "Community hub and guild chat",
@@ -24,46 +35,6 @@
   "fixes": [
    "Card Bloom: bloomed cards no longer show as ??? after a restart.",
    "Wonder Trade: the “left today” count now shows 0 when you have no Wonder Trades left."
-  ]
- },
- {
-  "version": "0.78.25",
-  "date": "2026-11-21",
-  "title": "Blackjack, trade locks and Live 3v3 items",
-  "notes": [
-   "Blackjack at the Game Corner: a new Corner tab with its own table.",
-   "Trade lock: lock a Pokémon from its card or its PC slot and nobody can ask for it in a trade. Locked Pokémon also stay out of your own offers and Wonder Trade.",
-   "Rare-look finds now show if they were the first in the world, or their number for that species and look.",
-   "Live 3v3: one of each held item per team, and edit your 3's items, moves and level right from the team screen.",
-   "Live 3v3: giving up ranked battles again and again now pauses your ranked search for a while. The Give up prompt tells you before it happens.",
-   "Encore quests: each quest slot gets one free Swap a day, for a quest you can’t finish today.",
-   "Hover or tap a move to see its power, accuracy and type",
-   "PC search: type a Pokémon to see its whole evolution line, plus Pokémon GO style search words (!shiny, shiny,lucky, lv50-): press ? for the list",
-   "Stamp book: click a sticker to see it big",
-   "Boxes: drop a box on another box to swap them, or between two boxes to move it there."
-  ],
-  "changes": [
-   "New sort: Evolution line",
-   "Pokédex: new Most seen sort.",
-   "Full Art cards found while you were away now show as one summary card, and you can turn off the reveal for cards you already have. Skip all skips every reveal at once.",
-   "Catch rules: a new rule for every outbreak Pokémon. New Never send tick for Lucky Pokémon (on from the start), and the Mirage tick is back in view.",
-   "Auto-evolve can now leave card, costume, favourite or Lucky Pokémon for you to evolve yourself.",
-   "Prism Altar: hide favourites, sort by most copies, and smarter catalyst picks.",
-   "The PC is much faster with a very big collection."
-  ],
-  "fixes": [
-   "Complete Zygarde drops its Mega Stone again.",
-   "Fusions keep only the rarest look that really belongs to them, and fused Pokémon work in Live 3v3.",
-   "Battle Tower: a stone reward is only offered to a Pokémon that can use it.",
-   "Event and encore Catch quests no longer stop counting for busy hunters.",
-   "Evolving a Full Art card Pokémon no longer hides its card, and Auto-evolve leaves Alphas alone when specials wait.",
-   "Game Corner: stopping Auto right after a win now counts and shows that win.",
-   "The auction Glitched filter works.",
-   "Fewer “That Pokémon isn’t available any more” errors when you mint, sell at auction or battle with a new catch or a just-evolved Pokémon.",
-   "Hard Tower balls no longer vanish when you act fast.",
-   "Safari Dex Reveal all no longer gets stuck signing in.",
-   "Rare-find Glimmer: PCs that had stopped uploading (very big ones too) upload again, so their finds pay.",
-   "Phones: Full Art card pop-ups close and skip, the Night Market sell form scrolls to Confirm, the encore card shows all 3 quests, and event boost pop-ups no longer cover the Radar."
   ]
  }
 ]
