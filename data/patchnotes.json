@@ -1,5 +1,21 @@
 [
  {
+  "version": "0.78.27",
+  "date": "2026-11-21",
+  "title": "Community hub and guild chat",
+  "notes": [
+   "New Community tab: Trainer, Friends and Guild are now one gold Community tab, next to the gear.",
+   "Live feed: everyone’s rare finds as they happen. Switch between Live, Top (the rarest finds of the last 24 hours, 7 days or 30 days) and Mine, for Everyone or just Friends. Every find shows its odds.",
+   "Cheer and react to your friends’ finds right in the feed, or cheer them all at once with Cheer all.",
+   "Raid, Night Market, Wonder Trade and PvP now open from Community. Research moved into Events.",
+   "Guild chat: a new Chat tab in your guild. You can report a message and delete your own, leaders and officers can mute, and a word filter keeps it friendly."
+  ],
+  "changes": [],
+  "fixes": [
+   "The world number next to “1 of N in the world” is gone: it could show the wrong number on Perfect Pokémon."
+  ]
+ },
+ {
   "version": "0.78.26",
   "date": "2026-11-21",
   "title": "Small fixes",
@@ -49,19 +65,5 @@
    "Rare-find Glimmer: PCs that had stopped uploading (very big ones too) upload again, so their finds pay.",
    "Phones: Full Art card pop-ups close and skip, the Night Market sell form scrolls to Confirm, the encore card shows all 3 quests, and event boost pop-ups no longer cover the Radar."
   ]
- },
- {
-  "version": "0.78.24",
-  "date": "2026-11-20",
-  "title": "Live 3v3: no more stalling",
-  "notes": [
-   "Live 3v3 now has a chess clock: 15 seconds to pick each turn, then a 60-second time bank for the whole battle starts to run.",
-   "Out of time? The game picks for you and it counts as a timeout. A 3rd timeout in one battle loses it, so stalling no longer works.",
-   "The 3v3 window no longer locks the game: drag it anywhere, close the Friends tab and keep playing while you search or battle. It opens by itself when a match is found, and a pop-up tells you when it is your move."
-  ],
-  "changes": [
-   "The 3v3 menu and team picker are much smoother, even with a big PC."
-  ],
-  "fixes": []
  }
 ]
