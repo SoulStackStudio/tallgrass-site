@@ -1,5 +1,16 @@
 [
  {
+  "version": "0.78.26",
+  "date": "2026-11-21",
+  "title": "Small fixes",
+  "notes": [],
+  "changes": [],
+  "fixes": [
+   "Card Bloom: bloomed cards no longer show as ??? after a restart.",
+   "Wonder Trade: the “left today” count now shows 0 when you have no Wonder Trades left."
+  ]
+ },
+ {
   "version": "0.78.25",
   "date": "2026-11-21",
   "title": "Blackjack, trade locks and Live 3v3 items",
@@ -51,16 +62,6 @@
   "changes": [
    "The 3v3 menu and team picker are much smoother, even with a big PC."
   ],
-  "fixes": []
- },
- {
-  "version": "0.78.22",
-  "date": "2026-11-20",
-  "title": "Rare-find Glimmer",
-  "notes": [
-   "Night Market: the Glimmer history now shows today's rare-find Glimmer and the daily cap (now 10,000)."
-  ],
-  "changes": [],
   "fixes": []
  }
 ]
