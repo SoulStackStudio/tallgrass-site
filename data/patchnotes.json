@@ -1,5 +1,32 @@
 [
  {
+  "version": "0.78.29",
+  "date": "2026-11-22",
+  "title": "Small fixes",
+  "notes": [
+   "The Wiki button is now the Guide button: it opens a “what to do next” page first.",
+   "Community: anyone can react to any shared find, and everyone sees the reactions.",
+   "Community: cheers are for your friends’ finds, on the Friends filter.",
+   "Friends’ pop-ups now stack in one corner, and a burst of them folds into one card.",
+   "PvP is now Live 3v3 only: the PvP page shows the Open League and the Lv 50 League. Classic Ranked, which has ended, is no longer shown.",
+   "Friend battles are Live 3v3 challenges now (no rating): the Battle and Rematch buttons open Live 3v3.",
+   "PvP page: the gold Season 2 ribbon keeps the final Top 100 of classic Ranked.",
+   "Night Market: the Record board has a new Top 100 Glimmer board. See who holds the most Glimmer, and your own place.",
+   "Pokémon cards in your PC now show an estimated Glimmer price, from recent Night Market sales."
+  ],
+  "changes": [],
+  "fixes": [
+   "Raid Eggs: new eggs show up again for players who raid a lot (the “No rolls left for now” pill).",
+   "Ranked 3v3: a Focus Sash no longer brings a Pokémon back after a two-hit move like Dragon Darts knocks it out.",
+   "Catch rules: a rare Pokémon your rules don’t catch now says so, instead of saying you were out of balls.",
+   "Full Art cards found while you were away: the summary can always be closed, on phones and in the browser too.",
+   "Full Art Pokémon in your party show their card’s scenery behind them again.",
+   "Pumpkaboo’s Full Art card: the stray pixels by its stem are gone.",
+   "Night Market History: costume Pokémon show in their costume in Going prices, priced apart from the plain ones.",
+   "Glimmer from rare finds no longer stops for some players with a big PC."
+  ]
+ },
+ {
   "version": "0.78.28",
   "date": "2026-11-21",
   "title": "Small fixes",
@@ -24,17 +51,6 @@
   "changes": [],
   "fixes": [
    "The world number next to “1 of N in the world” is gone: it could show the wrong number on Perfect Pokémon."
-  ]
- },
- {
-  "version": "0.78.26",
-  "date": "2026-11-21",
-  "title": "Small fixes",
-  "notes": [],
-  "changes": [],
-  "fixes": [
-   "Card Bloom: bloomed cards no longer show as ??? after a restart.",
-   "Wonder Trade: the “left today” count now shows 0 when you have no Wonder Trades left."
   ]
  }
 ]
