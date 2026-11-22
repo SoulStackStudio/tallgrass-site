@@ -390,7 +390,7 @@
   // ---------------------------------------------------------------- home
   async function home() {
     await ensureDex()
-    const tiles = [['pokedex', 'pokedex'], ['guide', 'grass'], ['looks', 'star'], ['catching', 'caught'], ['islands', 'grass'], ['raids', 'raid_pass'], ['daycare', 'egg'], ['items', 'held'], ['tower', 'boss'], ['squads', 'friends'], ['market', 'lantern'], ['faq', 'exclaim']]
+    const tiles = [['progression', 'check'], ['pokedex', 'pokedex'], ['guide', 'grass'], ['looks', 'star'], ['catching', 'caught'], ['islands', 'grass'], ['raids', 'raid_pass'], ['daycare', 'egg'], ['tower', 'boss'], ['squads', 'friends'], ['market', 'lantern'], ['faq', 'exclaim']]
     const all = [...META.special, ...META.pages]
     const c = META.counts
     main.innerHTML = `
