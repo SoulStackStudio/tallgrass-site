@@ -1,5 +1,31 @@
 [
  {
+  "version": "0.78.31",
+  "date": "2026-11-23",
+  "title": "Fixes for stuck screens and more",
+  "notes": [
+   "Top finds: a new All time list shows the 100 rarest finds ever.",
+   "Live now shows your friends’ newest rare finds and refreshes by itself while it’s open.",
+   "Festival: the Events and Festival tabs now show a dot when an Encore quest is ready to claim."
+  ],
+  "changes": [],
+  "fixes": [
+   "Very rare finds now show their real odds instead of stopping at 1 in 1B.",
+   "Windows: after you Alt-Tab back to Tallgrass, the keyboard works again straight away.",
+   "The away cards summary no longer blocks every button when it shows up together with Welcome back.",
+   "Fixed the away cards summary sometimes closing with an error while eggs were waiting to hatch.",
+   "Guild Boss War: the Plan window always closes now, even when your plan can’t be saved yet.",
+   "Encore quests: the board no longer fills up with daily-limited quests (bounties, gifts, Wonder Trades, raids) that you can’t finish today.",
+   "Buy & use on an evolution item now evolves the Pokémon you picked, even with auto item evolutions on.",
+   "Night Market and Auctions: some Pokémon caught a few days ago no longer say they aren’t yours to sell.",
+   "Hard Mode Tower: throws no longer fail with “not in this run’s bag” while you still have Poké Balls.",
+   "Gyms: fixed a Gym fight that kept asking you to try again in a minute.",
+   "Night Market: the page no longer keeps zooming in and out when you change tag or page.",
+   "A hatch card cut short by a battle no longer hides the new Pokémon from your PC and Pokédex.",
+   "Smoother saving for very big collections: big PC uploads no longer start over from scratch after a slow moment."
+  ]
+ },
+ {
   "version": "0.78.30",
   "date": "2026-11-22",
   "title": "Smoother play and lots of fixes",
@@ -75,17 +101,6 @@
    "Pumpkaboo’s Full Art card: the stray pixels by its stem are gone.",
    "Night Market History: costume Pokémon show in their costume in Going prices, priced apart from the plain ones.",
    "Glimmer from rare finds no longer stops for some players with a big PC."
-  ]
- },
- {
-  "version": "0.78.28",
-  "date": "2026-11-21",
-  "title": "Small fixes",
-  "notes": [],
-  "changes": [],
-  "fixes": [
-   "Phones: Raid, the PC picker, Blackjack, the You and Friends pages and the Community bar now fit on the screen.",
-   "Community feed: cheer counts show correctly again."
   ]
  }
 ]
