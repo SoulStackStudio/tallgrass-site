@@ -1,5 +1,20 @@
 [
  {
+  "version": "0.78.34",
+  "date": "2026-11-24",
+  "title": "Wear any ribbon you have earned",
+  "notes": [
+   "Trainer card: a new Titles button lists every ribbon you have earned, with filters, two orders and pages, so any of them can be your title again (phones too)."
+  ],
+  "changes": [],
+  "fixes": [
+   "Two saves: rare finds from the save you didn’t keep now still come back by mail when that device only caught up later.",
+   "Phones: wearing a ribbon’s title, or closing the Titles list, takes you back to your trainer card.",
+   "Move Tutor: Low Key Toxtricity, Rotom’s appliance forms and female Meowstic can now learn every move their species can.",
+   "Card Bloom cards no longer vanish once a Pokémon has many bloomed. Any that went missing come back by themselves."
+  ]
+ },
+ {
   "version": "0.78.33",
   "date": "2026-11-24",
   "title": "Your Showcase on the Share card",
@@ -42,57 +57,6 @@
    "Night Market: the page no longer keeps zooming in and out when you change tag or page.",
    "A hatch card cut short by a battle no longer hides the new Pokémon from your PC and Pokédex.",
    "Smoother saving for very big collections: big PC uploads no longer start over from scratch after a slow moment."
-  ]
- },
- {
-  "version": "0.78.30",
-  "date": "2026-11-22",
-  "title": "Smoother play and lots of fixes",
-  "notes": [
-   "Tallgrass is much lighter on your PC while it hunts in the background, most of all with a big PC.",
-   "Toucannon can now learn Beak Blast: pick it in its Moves. It heats up first and strikes last, and a Pokémon that touches Toucannon while it heats up is burned.",
-   "Auctions > My bids: Running and Ended groups with counts, the ones ending soonest first. Finished ones leave after a day, unless you still have one to bring in.",
-   "Auctions: a big or full-screen window shows as many rows of auctions as fit."
-  ],
-  "changes": [],
-  "fixes": [
-   "U-turn, Volt Switch and Flip Turn now switch you out even when they knock the foe out, as long as the foe has another Pokémon to send.",
-   "Baneful Bunker, Spiky Shield, King’s Shield, Silk Trap, Obstruct and Burning Bulwark now punish the contact moves they block, like in the main games.",
-   "Corrosion now lets its Pokémon poison Poison and Steel types.",
-   "Silvally now keeps Type: Null’s Legendary power in battle.",
-   "Poison Puppeteer: a Pokémon that Pecharunt poisons is now confused too.",
-   "Live 3v3 and raids keep their current battle rules for now: these battle changes reach them in a later update.",
-   "Card Rush: cards now drop from the very start of a rush.",
-   "Fixed a short freeze every few seconds while hunting with a very large collection.",
-   "The Live 3v3 team screen no longer stutters on every catch for players with lots of friends.",
-   "Night Market on phones: the Buy, Put it up and Glimmer Shop buttons are always on screen again.",
-   "Phones: event banners fit the screen with their X always in reach, and no longer cover the buttons under them.",
-   "Phones: the Level-up moves list in Party & PC shows every move name and fits the screen.",
-   "Tower on phones: the Scanner button no longer hides your squad’s held items.",
-   "Stamp book: with lots of prize balls, Open all fits the screen, so Skip and Nice! can always be pressed.",
-   "Stamp book: a prize ball is only marked as opened once everything inside it has reached you.",
-   "Discharge’s move text reads correctly again.",
-   "Candy for alternate forms (Super Size Pumpkaboo, Rotom forms, Unown and more) now shows its icon.",
-   "The Wonder Card Purple card is actually purple now.",
-   "Style: the -30% daily deal tags show in front of the item again.",
-   "Hard Mode Tower: Poké Balls you just got no longer disappear when you open the Tower tab or switch devices mid-climb.",
-   "Windows: minimising another app no longer brings the Tallgrass window up.",
-   "PC filter “Evolving fills a stamp” now also shows Pokémon that need an item or a few more levels first.",
-   "Gilded, Glitched and costume Buddies now show their look on the You page, your trainer card and to friends.",
-   "Guild Boss War: the tab and the counter planner stay smooth with a big PC.",
-   "A costumed Pokémon whose outfit got mixed up after restoring a save shows the right outfit again, offers the right evolutions and keeps its costume when it evolves.",
-   "Safari Ladder: the points tip says exactly what counts, and the trip summary no longer shows points for finds the Ladder doesn’t count.",
-   "Auto-file: switching devices no longer resets your rules, and the starting rule “Every species into its own box” now begins switched off.",
-   "Thunder God Mythic Ball: the lightning no longer stays on screen when you change island or the encounter ends while the ball is in the air.",
-   "Switching devices: Pokémon you caught or hatched and gifts you opened on your other device since its last cloud save now come back.",
-   "PC: the Pokémon detail card no longer slows the PC down while it is open.",
-   "Night Market: smoother on phones and slower PCs, and its lanterns, stars and rare-stall shine hold still with Animations off.",
-   "Friends: searching a long friend list no longer stutters while you type.",
-   "Live 3v3 on phones: the team screen fits, the 3 slots and the whole PC picker use the full width, and Challenge a friend opens its own list.",
-   "Live 3v3 on phones: the Looking for a trainer card no longer covers your money bar or hides its own clock.",
-   "Night Market on phones: the stalls are full size again (the text was tiny).",
-   "Community Live finds on phones: the Everyone and Mine filters are always in reach, and Pokémon names are no longer cut off.",
-   "Friends on phones: every button is bigger and easier to tap."
   ]
  }
 ]
