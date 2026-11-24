@@ -1,5 +1,24 @@
 [
  {
+  "version": "0.78.33",
+  "date": "2026-11-24",
+  "title": "Your Showcase on the Share card",
+  "notes": [
+   "Share card: it now shows your Showcase picks, in your order (your rarest and your party only fill empty spots).",
+   "Classic window: the Community tab now sits right after Mart with the other tabs.",
+   "Small extras: a Not favourites choice in the PC’s Show menu, a Not in my Stamp book filter on the Night Market, and the encounter chime on its own switch in Settings. Blackjack’s table now says a Same-type 21 needs 3+ cards."
+  ],
+  "changes": [],
+  "fixes": [
+   "PC: clicking a Pokémon now always opens that Pokémon’s own card, and the card’s buttons act on it (in a few PCs, two Pokémon opened the same card).",
+   "Boss War: the counter planner now closes straight away and saves in the background, so it can no longer leave the game unclickable.",
+   "Auto-battle: a Legendary or Mythical now always gets your best ball, even when it is only being caught as new to your Pokédex.",
+   "Golden Leaf encores: a Wonder Trade, gift or bounty quest you can’t do any more today is swapped for another quest by itself, and a board never keeps two of them.",
+   "Bounty board: the new-species bounty never asks for more species than you can still find in the wild on your islands.",
+   "Tower: catch and egg pop-ups wait while the Tower is on screen, so they no longer push it up and down or cover the path map."
+  ]
+ },
+ {
   "version": "0.78.31",
   "date": "2026-11-23",
   "title": "Fixes for stuck screens and more",
@@ -74,33 +93,6 @@
    "Night Market on phones: the stalls are full size again (the text was tiny).",
    "Community Live finds on phones: the Everyone and Mine filters are always in reach, and Pokémon names are no longer cut off.",
    "Friends on phones: every button is bigger and easier to tap."
-  ]
- },
- {
-  "version": "0.78.29",
-  "date": "2026-11-22",
-  "title": "Small fixes",
-  "notes": [
-   "The Wiki button is now the Guide button: it opens a “what to do next” page first.",
-   "Community: anyone can react to any shared find, and everyone sees the reactions.",
-   "Community: cheers are for your friends’ finds, on the Friends filter.",
-   "Friends’ pop-ups now stack in one corner, and a burst of them folds into one card.",
-   "PvP is now Live 3v3 only: the PvP page shows the Open League and the Lv 50 League. Classic Ranked, which has ended, is no longer shown.",
-   "Friend battles are Live 3v3 challenges now (no rating): the Battle and Rematch buttons open Live 3v3.",
-   "PvP page: the gold Season 2 ribbon keeps the final Top 100 of classic Ranked.",
-   "Night Market: the Record board has a new Top 100 Glimmer board. See who holds the most Glimmer, and your own place.",
-   "Pokémon cards in your PC now show an estimated Glimmer price, from recent Night Market sales."
-  ],
-  "changes": [],
-  "fixes": [
-   "Raid Eggs: new eggs show up again for players who raid a lot (the “No rolls left for now” pill).",
-   "Ranked 3v3: a Focus Sash no longer brings a Pokémon back after a two-hit move like Dragon Darts knocks it out.",
-   "Catch rules: a rare Pokémon your rules don’t catch now says so, instead of saying you were out of balls.",
-   "Full Art cards found while you were away: the summary can always be closed, on phones and in the browser too.",
-   "Full Art Pokémon in your party show their card’s scenery behind them again.",
-   "Pumpkaboo’s Full Art card: the stray pixels by its stem are gone.",
-   "Night Market History: costume Pokémon show in their costume in Going prices, priced apart from the plain ones.",
-   "Glimmer from rare finds no longer stops for some players with a big PC."
   ]
  }
 ]
