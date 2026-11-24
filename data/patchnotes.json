@@ -1,5 +1,27 @@
 [
  {
+  "version": "0.78.35",
+  "date": "2026-11-24",
+  "title": "Gender Swap, Ability Capsule and a new tutorial",
+  "notes": [
+   "Glimmer Shop: Gender Swap (50,000 Glimmer) and Ability Capsule (75,000 Glimmer) are on the Training shelf, one of each a week. Pick a Pokémon in your PC, then Use.",
+   "New players get a new tutorial: a hello from your partner and a short tip the first time each place opens. Settings > Help turns tips off or plays it again.",
+   "Trades: offer cards and requests now show every rare look, like Gilded, Glitched and Mirage. If an asked-for Pokémon’s look changes before the trade, the offer is cancelled.",
+   "Day Care: Mirage and Glitched helpers now count like Spectral ones.",
+   "Breeding with a Full Art card: a baby that can carry the same card now gets it 1 in 10 (was 1 in 20). Two carded parents are still 1 in 10.",
+   "Auctions and Market history: new Mirage and Spectral filters.",
+   "Web: the game keeps hunting while its tab is in the background.",
+   "The Bottle Cap mark now also shows in Auctions, trade offers, online tiles and friends’ PCs."
+  ],
+  "changes": [],
+  "fixes": [
+   "Windows: the game no longer jumps in front of Snipping Tool.",
+   "Full Art cards opened inside a trade can be closed again.",
+   "The Night Market and the Friends list are faster.",
+   "Small display fixes: your Buddy on Friends cards opens when clicked, tap-to-move works on iPhone and iPad, and Mythic card previews fit small windows."
+  ]
+ },
+ {
   "version": "0.78.34",
   "date": "2026-11-24",
   "title": "Wear any ribbon you have earned",
@@ -31,32 +53,6 @@
    "Golden Leaf encores: a Wonder Trade, gift or bounty quest you can’t do any more today is swapped for another quest by itself, and a board never keeps two of them.",
    "Bounty board: the new-species bounty never asks for more species than you can still find in the wild on your islands.",
    "Tower: catch and egg pop-ups wait while the Tower is on screen, so they no longer push it up and down or cover the path map."
-  ]
- },
- {
-  "version": "0.78.31",
-  "date": "2026-11-23",
-  "title": "Fixes for stuck screens and more",
-  "notes": [
-   "Top finds: a new All time list shows the 100 rarest finds ever.",
-   "Live now shows your friends’ newest rare finds and refreshes by itself while it’s open.",
-   "Festival: the Events and Festival tabs now show a dot when an Encore quest is ready to claim."
-  ],
-  "changes": [],
-  "fixes": [
-   "Very rare finds now show their real odds instead of stopping at 1 in 1B.",
-   "Windows: after you Alt-Tab back to Tallgrass, the keyboard works again straight away.",
-   "The away cards summary no longer blocks every button when it shows up together with Welcome back.",
-   "Fixed the away cards summary sometimes closing with an error while eggs were waiting to hatch.",
-   "Guild Boss War: the Plan window always closes now, even when your plan can’t be saved yet.",
-   "Encore quests: the board no longer fills up with daily-limited quests (bounties, gifts, Wonder Trades, raids) that you can’t finish today.",
-   "Buy & use on an evolution item now evolves the Pokémon you picked, even with auto item evolutions on.",
-   "Night Market and Auctions: some Pokémon caught a few days ago no longer say they aren’t yours to sell.",
-   "Hard Mode Tower: throws no longer fail with “not in this run’s bag” while you still have Poké Balls.",
-   "Gyms: fixed a Gym fight that kept asking you to try again in a minute.",
-   "Night Market: the page no longer keeps zooming in and out when you change tag or page.",
-   "A hatch card cut short by a battle no longer hides the new Pokémon from your PC and Pokédex.",
-   "Smoother saving for very big collections: big PC uploads no longer start over from scratch after a slow moment."
   ]
  }
 ]
