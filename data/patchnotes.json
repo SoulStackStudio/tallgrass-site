@@ -1,5 +1,42 @@
 [
  {
+  "version": "0.79.1",
+  "date": "2026-11-26",
+  "title": "Day Care balls, Market alerts and Guild ranking",
+  "notes": [
+   "Day Care: pick which ball your baby hatches in.",
+   "PC: sort by Rarest in the world, and show only Pokémon with under 100 in the world.",
+   "Market alerts: tap the bell on a Night Market listing to save it. You get a message when a matching one is listed.",
+   "Guild ranking: a new Ranking tab shows every guild by War Power.",
+   "Stacks: send one or all but the best to the Professor from the stack card, a Stacks filter in the PC, each one's nature in the list, and a Show stacks switch in Settings."
+  ],
+  "changes": [],
+  "fixes": [
+   "Releasing from a stack now shows what you were paid.",
+   "Fixes: Flatter, Encore quests, the phone Encore layout, auto-file rules, gifts after switching device, Full Art world counts and odd evolutions."
+  ]
+ },
+ {
+  "version": "0.79.0",
+  "date": "2026-11-26",
+  "title": "Stacks and Co-op Tower",
+  "notes": [
+   "Stacks: matching Pokémon in your PC now share one tile with a number. Tap a stack to open it, or hold to lift one to move.",
+   "Co-op Tower: climb the Tower with a friend in a two-on-two battle. Invite a friend from the Tower screen and take catches home. Opens with your 3rd Gym badge.",
+   "Night Market History now shows the forge marks.",
+   "Spare Full Art card Pokémon can now be sent together in one go.",
+   "New looks: Gilded Prismatic now turns through every colour, Mirage Gilded is Golden Hour and Mirage Prismatic is Rainbow Haze. Safari catches now stack too."
+  ],
+  "changes": [],
+  "fixes": [
+   "Everstone now stops the evolve offer in manual battles.",
+   "Phone: the hearts on Friends rows work for friends with a guild tag.",
+   "The share card now shows Gilded and Glitched looks.",
+   "Some back sprites were drawn at the wrong size; they are fixed.",
+   "The Boss War planner no longer blocks clicks, and Altar pages keep their place."
+  ]
+ },
+ {
   "version": "0.78.35",
   "date": "2026-11-24",
   "title": "Gender Swap, Ability Capsule and a new tutorial",
@@ -19,40 +56,6 @@
    "Full Art cards opened inside a trade can be closed again.",
    "The Night Market and the Friends list are faster.",
    "Small display fixes: your Buddy on Friends cards opens when clicked, tap-to-move works on iPhone and iPad, and Mythic card previews fit small windows."
-  ]
- },
- {
-  "version": "0.78.34",
-  "date": "2026-11-24",
-  "title": "Wear any ribbon you have earned",
-  "notes": [
-   "Trainer card: a new Titles button lists every ribbon you have earned, with filters, two orders and pages, so any of them can be your title again (phones too)."
-  ],
-  "changes": [],
-  "fixes": [
-   "Two saves: rare finds from the save you didn’t keep now still come back by mail when that device only caught up later.",
-   "Phones: wearing a ribbon’s title, or closing the Titles list, takes you back to your trainer card.",
-   "Move Tutor: Low Key Toxtricity, Rotom’s appliance forms and female Meowstic can now learn every move their species can.",
-   "Card Bloom cards no longer vanish once a Pokémon has many bloomed. Any that went missing come back by themselves."
-  ]
- },
- {
-  "version": "0.78.33",
-  "date": "2026-11-24",
-  "title": "Your Showcase on the Share card",
-  "notes": [
-   "Share card: it now shows your Showcase picks, in your order (your rarest and your party only fill empty spots).",
-   "Classic window: the Community tab now sits right after Mart with the other tabs.",
-   "Small extras: a Not favourites choice in the PC’s Show menu, a Not in my Stamp book filter on the Night Market, and the encounter chime on its own switch in Settings. Blackjack’s table now says a Same-type 21 needs 3+ cards."
-  ],
-  "changes": [],
-  "fixes": [
-   "PC: clicking a Pokémon now always opens that Pokémon’s own card, and the card’s buttons act on it (in a few PCs, two Pokémon opened the same card).",
-   "Boss War: the counter planner now closes straight away and saves in the background, so it can no longer leave the game unclickable.",
-   "Auto-battle: a Legendary or Mythical now always gets your best ball, even when it is only being caught as new to your Pokédex.",
-   "Golden Leaf encores: a Wonder Trade, gift or bounty quest you can’t do any more today is swapped for another quest by itself, and a board never keeps two of them.",
-   "Bounty board: the new-species bounty never asks for more species than you can still find in the wild on your islands.",
-   "Tower: catch and egg pop-ups wait while the Tower is on screen, so they no longer push it up and down or cover the path map."
   ]
  }
 ]
